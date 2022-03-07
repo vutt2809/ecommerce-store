@@ -16,7 +16,6 @@ use Illuminate\Support\Facades\Route;
 require __DIR__.'/auth.php';
 
 // 
-
 /* ==========================Admin Auth Route============================*/
 Route::prefix('admin')->group(function (){
     Route::get('/login', [AdminController::class, 'login'])->name('admin.login');
@@ -142,3 +141,11 @@ Route::get('/product/details/{id}/{slug}', [HomeController::class, 'productDetai
 /*========================= Product Tags========================*/
 Route::get('/product/tag/{tag}', [HomeController::class, 'tagWiseProduct']);
 /*========================= Product Tags========================*/
+
+/*========================= Frontend Subcategory Data ========================*/
+Route::get('/subcategory/product/{id}/{slug}', [HomeController::class, 'subCategoryWiseProduct']);
+/*========================= End Frontend Subcategory Data ========================*/
+
+/*========================= Frontend SubSubcategory Data ========================*/
+Route::get('/subsubcategory/product/{id}/{slug}', [HomeController::class, 'subSubCategoryWiseProduct']);
+/*========================= End Frontend SubSubcategory Data ========================*/

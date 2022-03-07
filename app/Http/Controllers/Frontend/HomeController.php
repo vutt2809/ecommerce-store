@@ -104,8 +104,17 @@ class HomeController extends Controller
 
     public function productDetail($id, $slug){
         $product = Product::findOrFail($id);
+        $colorEN = $product->product_color_en;
+        $productColorEN = explode(',', $colorEN);
+        $colorVN = $product->product_color_vn;
+        $productColorVN = explode(',', $colorVN);
+        $sizeEN = $product->product_size_en;
+        $productSizeEN = explode(',', $sizeEN);
+        $sizeVN = $product->product_size_vn;
+        $productSizeVN = explode(',', $sizeVN);
         $multiImages = MultiImg::where('product_id', $id)->get();
-        return view('frontend.product.product_detail', compact('product', 'multiImages')); 
+        $relatedProduct = Product::where('category_id', $product->category_id)->where('id', '!=', $id)->orderBy('id', 'DESC')->get();
+        return view('frontend.product.product_detail', compact('product', 'multiImages', 'productColorEN', 'productColorVN', 'productSizeEN', 'productSizeVN', 'relatedProduct')); 
     }
 
     public function tagWiseProduct($tag){
@@ -113,4 +122,20 @@ class HomeController extends Controller
         $categories = Category::orderBy('category_name_en', 'ASC')->get();
         return view('frontend.tags.tags_view', compact('products', 'categories')); 
     }
+
+    public function subCategoryWiseProduct($id, $sulg){
+        $products = Product::where('status', 1)->where('subcategory_id', $id)->orderBy('id', 'DESC')->paginate(3);
+        $categories = Category::orderBy('category_name_en', 'ASC')->get();
+        return view('frontend.product.list_by_subcategory', compact('products', 'categories'));
+    }
+
+    public function subSubCategoryWiseProduct($id, $sulg){
+        $products = Product::where('status', 1)->where('subsubcategory_id', $id)->orderBy('id', 'DESC')->paginate(3);
+        $categories = Category::orderBy('category_name_en', 'ASC')->get();
+        $subcategories = SubCategory::orderBy('subcategory_name_en', 'ASC')->get();
+        return view('frontend.product.list_by_subsubcategory', compact('products', 'categories', 'subcategories'));
+    }
+
+
+
 }
