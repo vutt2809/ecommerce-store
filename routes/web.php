@@ -149,3 +149,7 @@ Route::get('/subcategory/product/{id}/{slug}', [HomeController::class, 'subCateg
 /*========================= Frontend SubSubcategory Data ========================*/
 Route::get('/subsubcategory/product/{id}/{slug}', [HomeController::class, 'subSubCategoryWiseProduct']);
 /*========================= End Frontend SubSubcategory Data ========================*/
+
+/*========================= Product View Modal With Ajax ========================*/
+Route::get('/product/view/modal/{id}', [HomeController::class, 'previewProductAjax']);
+/*========================= End Product View Modal With Ajax ========================*/

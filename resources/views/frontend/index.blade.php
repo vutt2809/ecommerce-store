@@ -243,7 +243,7 @@
                                         <div class="action">
                                             <ul class="list-unstyled">
                                             <li class="add-cart-button btn-group">
-                                                <button data-toggle="tooltip" class="btn btn-primary icon" type="button" title="Add Cart"> <i class="fa fa-shopping-cart"></i> </button>
+                                                <button class="btn btn-primary icon" type="button" id="{{$product->id}}" title="Add Cart" data-toggle="modal" data-target="#add-to-cart" onclick="preview(this.id)"> <i class="fa fa-shopping-cart"></i> </button>
                                                 <button class="btn btn-primary cart-btn" type="button">Add to cart</button>
                                             </li>
                                             <li class="lnk wishlist"> <a data-toggle="tooltip" class="add-to-cart" href="detail.html" title="Wishlist"> <i class="icon fa fa-heart"></i> </a> </li>
