@@ -136,6 +136,23 @@ class HomeController extends Controller
         return view('frontend.product.list_by_subsubcategory', compact('products', 'categories', 'subcategories'));
     }
 
+    public function previewProductAjax($id) {
+        $product = Product::with('category', 'brand')->findOrFail($id);
+
+        $color = $product->product_color_en;
+        $productColor = explode(',', $color);
+
+        $size = $product->product_size_en;
+        $productSize = explode(',', $size);
+
+        return response()->json([
+            'color' => $productColor, 
+            'size' => $productSize,
+            'product' => $product
+        ]);
+
+    }
+
 
 
 }
