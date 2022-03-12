@@ -106,7 +106,7 @@
                         </div><!-- /.gallery-holder -->        			
                     <div class='col-sm-6 col-md-7 product-info-block'>
                         <div class="product-info">
-                            <h1 class="name">{{ $product->product_name_en }}</h1>
+                            <h1 class="name" id="p_name">{{ $product->product_name_en }}</h1>
                             
                             <div class="rating-reviews m-t-20">
                                 <div class="row">
@@ -175,7 +175,7 @@
                                     <div class="form-group">
                                         <label class="info-title control-label">Choose Color <span>*</span></label>
                                         <select class="form-control unicase-form-control selectpicker" style="display: none;">
-                                            <option selected="" disabled="">--Select colors--</option>
+                                            <option selected="" disabled="" id="color">--Select colors--</option>
                                             @foreach ($productColorEN as $color)
                                                 <option class="{{ $color }}">{{ ucwords($color) }}</option>
                                             @endforeach
@@ -183,15 +183,18 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
+                                    @if ($product->product_size_en == NULL)
+                                    @else 
                                     <div class="form-group">
                                         <label class="info-title control-label">Choose Size <span>*</span></label>
                                         <select class="form-control unicase-form-control selectpicker" style="display: none;">
-                                            <option selected="" disabled="">--Select size--</option>
+                                            <option selected="" disabled="" id="size">--Select size--</option>
                                             @foreach ($productSizeEN as $size)
                                                 <option class="{{ $size }}">{{ ucwords($size) }}</option>
                                             @endforeach
                                         </select>
                                     </div>
+                                    @endif
                                 </div>
                             </div>
                             <!-- ==================== End Product Color And Product Price ==================== -->
@@ -210,13 +213,14 @@
                                                     <div class="arrow plus gradient"><span class="ir"><i class="icon fa fa-sort-asc"></i></span></div>
                                                     <div class="arrow minus gradient"><span class="ir"><i class="icon fa fa-sort-desc"></i></span></div>
                                                 </div>
-                                                <input type="text" value="1">
+                                                <input type="text" id="quantity" value="1" min="1">
                                             </div>
                                         </div>
                                     </div>
 
+                                    <input type="hidden" id="product_id" value="{{ $product->id }}" min="1">
                                     <div class="col-sm-7">
-                                        <a href="#" class="btn btn-primary"><i class="fa fa-shopping-cart inner-right-vs"></i> ADD TO CART</a>
+                                        <button type="submit" onclick="addToCart()" class="btn btn-primary"><i class="fa fa-shopping-cart inner-right-vs"></i> ADD TO CART</button>
                                     </div>
 
                                     
@@ -440,27 +444,6 @@
 </div><!-- /.row -->
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 		<!-- ==== ================== BRANDS CAROUSEL ============================================== -->
 <div id="brands-carousel" class="logo-slider wow fadeInUp">
 
@@ -534,3 +517,6 @@
 
 
 @endsection
+
+
+
