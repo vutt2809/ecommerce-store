@@ -7,7 +7,7 @@
                 <div class="cnt-account">
                 <ul class="list-unstyled">
                     <li><a href="#"><i class="icon fa fa-user"></i>@if (session()->get('language') == 'vietnam') Tài khoản của tôi @else My Account @endif</a></li>
-                    <li><a href="#"><i class="icon fa fa-heart"></i>@if (session()->get('language') == 'vietnam') Yêu thích @else Wishlist @endif</a></li>
+                    <li><a href="{{ route('wishlist')}}"><i class="icon fa fa-heart"></i>@if (session()->get('language') == 'vietnam') Yêu thích @else Wishlist @endif</a></li>
                     <li><a href="#"><i class="icon fa fa-shopping-cart"></i>@if (session()->get('language') == 'vietnam') Giỏ hàng  @else Shopping Cart @endif</a></li>
                     <li><a href="#"><i class="icon fa fa-check"></i>@if (session()->get('language') == 'vietnam') Thanh toán  @else Checkout @endif</a></li>
                     <li>

@@ -34,6 +34,7 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css">
 </head>
+
 <body class="cnt-home">
 
     @include('frontend.body.header')
@@ -96,10 +97,12 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="card">
+                            <h4><strong>Product Thumbnail</strong></h4>
                             <img class="card-img-top" src="" id="p_image" width="100%" style="margin-top: 20px;">
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-5">
+                        <h4><strong>Information</strong></h4>
                         <ul class="list-group">
                             <li class="list-group-item">Product Price: <strong class="text-danger">$<span id="p_price"></span></strong> <del id="p_old_price">$</del></li>
                             <li class="list-group-item">Product Code: <strong id="p_code"></strong></li>
@@ -111,7 +114,8 @@
                             </li>
                         </ul>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
+                        <h4><strong>Information</strong></h4>
                         <div class="form-group color-area">
                             <label for="color">Choose Color</label>
                             <select class="form-control" id="color" name="color">
@@ -204,7 +208,7 @@
                 }
             })
         }
-
+        
         // Add To Cart
         function addToCart(){
             var product_name = $('#p_name').text()
@@ -307,12 +311,118 @@
                         })
                     }
                 }
-
             })
         }
 
+        function addToWishlist(product_id) {
+            $.ajax({
+                type: 'POST',
+                url: '/user/add-to-wishlist/' + product_id,
+                dataType: 'json',
+                success: (data) => {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 2000
+                    })
 
+                    if ($.isEmptyObject(data.error)){
+                        Toast.fire({
+                            icon: 'success',
+                            title: data.success
+                        })
+                    }else{
+                        Toast.fire({
+                            icon: 'error',
+                            title: data.error
+                        })
+                    }
+                }
+            })
+            
+            
+
+        }
+
+        function wishlist() {
+            $.ajax({
+                type: 'GET',
+                url: '/user/get-wishlist-product',
+                dataType: 'json',
+                success : (res) => {
+                    var rows = "";
+                    $.each(res, (key, val) => {
+                        rows += 
+                        `<tr>
+                            <td class="col-md-2"><img src="/${val.product.product_thumbnail}" alt="imga"></td>
+                            <td class="col-md-7">
+                                <div class="product-name"><a href="#">${val.product.product_name_en}</a></div>
+                                <div class="rating">
+                                    <i class="fa fa-star rate"></i>
+                                    <i class="fa fa-star rate"></i>
+                                    <i class="fa fa-star rate"></i>
+                                    <i class="fa fa-star rate"></i>
+                                    <i class="fa fa-star non-rate"></i>
+                                    <span class="review">( 06 Reviews )</span>
+                                </div>
+                                
+                                <div class="price">
+                                ${val.product.discount_price == null
+                                    ? `${val.product.selling_price}` 
+                                    : 
+                                    `${val.product.discount_price} <span>${val.product.selling_price}</span>`  
+                                }
+                                </div>
+                            </td>
+                            <td class="col-md-2">
+                                <button class="btn btn-uper btn-primary icon" type="button" id="${val.product.id}" title="Add Cart" data-toggle="modal" data-target="#add-to-cart" onclick="preview(this.id)"> <i class="fa fa-shopping-cart"></i>  Add to cart </button>
+                            </td>
+                            <td class="col-md-1 close-btn">
+                                <a href="#" class=""></a>
+                                <button type="submit" class="" id="${val.product.id}" onclick="removeWishlist(this.id)"><i class="fa fa-times"></i></button>
+                            </td>
+                        </tr>
+                        `;
+                    })
+                    console.log(rows);
+                    $('#wishlist').html(rows);
+                }
+            })
+        }
+
+        function removeWishlist(id){
+            $.ajax({
+                type: 'GET',
+                url: '/user/wishlist-remove/' + id,
+                dataType: 'json',
+                success: (data) => {
+                    wishlist()
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                       
+                        showConfirmButton: false,
+                        timer: 2000
+                    })
+                    if ($.isEmptyObject(data.error)){
+                        Toast.fire({
+                            icon: 'success',
+                            title: data.success
+                        })
+                    }else{
+                        Toast.fire({
+                            icon: 'error',
+                            title: data.error
+                        })
+                    }
+                }
+            })
+        }
+
+        // Run Function
         miniCart();
+        wishlist();
 
     </script>
 </body>

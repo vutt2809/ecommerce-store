@@ -32,23 +32,16 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-3">
-                <div class="card">
-                    <img id="profile_image" class="text-center" style= "border-radius: 50%; width: 80%; margin: 24px 0;" src="{{ (!empty(Auth::user()->profile_photo_path)) ? url('upload/user_images/'.Auth::user()->profile_photo_path ) : url('upload/no_image.jpg') }}">
-                    <div class="card-body">
-                        <h2 class="card-title text-center">{{ Auth::user()->name }}</h2>
-                    </div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-item"><i class="fa fa-home"></i><a href="{{ route('dashboard') }}">Home</a></li>
-                        <li class="list-item"><i class="fa fa-edit"></i><a href="{{ route('user.profile') }}">Profile Update</a></li>
-                        <li class="list-item"><i class="fa fa-key"></i><a href="{{ route('change.password') }}">Change Password</a></li>
-                    </ul>
-                    <div class="card-body">
-                        <a href="#" class="card-link"><a href="{{ route('user.logout') }}" class="btn btn-danger btn-sm btn-block">Logout</a></a>
-                    </div>
-                </div>
+            <div class="col-md-2">
+                <img id="profile_image" style= "border-radius: 50%; width: 100%; margin: 24px 0;" src="{{ (!empty(Auth::user()->profile_photo_path)) ? url('upload/user_images/'.Auth::user()->profile_photo_path ) : url('upload/no_image.jpg') }}">
+                <ul class="list-group list-group-flush">
+                    <a href="{{ route('user.profile') }}" class="btn btn-primary btn-sm btn-block">Home</a>
+                    <a href="{{ route('user.profile') }}" class="btn btn-primary btn-sm btn-block">Profile Update</a>
+                    <a href="{{ route('change.password') }}" class="btn btn-primary btn-sm btn-block">Change Password</a>
+                    <a href="{{ route('user.logout') }}" class="btn btn-danger btn-sm btn-block">Logout</a>
+                </ul>
             </div> 
-            <div class="col-md-1"></div>
+            <div class="col-md-2"></div>
             <div class="col-md-6">
                 <div class="card">
                     <h3 class="text-center"><span class="text-danger">Hi...</span><strong> {{ Auth::user()->name }}</strong> Welcome To <strong>Vutt</strong> Learning</h3>

@@ -10,11 +10,14 @@ use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\LanguageController;
 use App\Http\Controllers\SellerController;
+use App\Http\Controllers\User\WishlistController;
+use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Route;
 
 
 
 require __DIR__.'/auth.php';
+
 
 // 
 /* ==========================Admin Auth Route============================*/
@@ -116,8 +119,6 @@ Route::prefix('slider')->group(function() {
 /*======================= End Admin Slider Route =======================*/
 
 
-
-
 /*========================= FRONTEND ROUTE ========================*/
 
 /*========================= User Route ========================*/
@@ -155,9 +156,6 @@ Route::get('/subsubcategory/product/{id}/{slug}', [HomeController::class, 'subSu
 Route::get('/product/view/modal/{id}', [HomeController::class, 'previewProductAjax']);
 /*========================= End Product View Modal With Ajax ========================*/
 
-
-
-
 /*========================= Shopping Cart ========================*/
 Route::post('/cart/data/store/{id}', [CartController::class, 'addToCart']);
 /*========================= End Shopping Cart ========================*/
@@ -166,3 +164,13 @@ Route::post('/cart/data/store/{id}', [CartController::class, 'addToCart']);
 Route::get('/product/mini/cart', [CartController::class, 'addMiniCart']);
 Route::get('/minicart/product-remove/{id}', [CartController::class, 'removeMiniCart']);
 /*========================= End Mini Cart ========================*/
+
+/*========================= Wishlist ========================*/
+Route::prefix('user')->group(function() {
+    Route::post('/add-to-wishlist/{product_id}', [CartController::class, 'addToWishlist']);
+    Route::get('/wishlist', [WishlistController::class, 'allWishlist'])->name('wishlist');
+    Route::get('/get-wishlist-product', [WishlistController::class, 'getWishList']);
+    Route::get('/wishlist-remove/{id}', [WishlistController::class, 'removeWishlist']);
+});
+
+/*========================= End Wishlist ========================*/
