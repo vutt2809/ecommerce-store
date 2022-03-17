@@ -33,6 +33,19 @@
     <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css">
+
+    <style>
+        .btn-circle {
+            width: 30px;
+            height: 30px;
+            text-align: center;
+            padding: 6px 0;
+            font-size: 12px;
+            line-height: 1.428571429;
+            border-radius: 15px;
+            box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+        }
+    </style>
 </head>
 
 <body class="cnt-home">
@@ -380,12 +393,11 @@
                             </td>
                             <td class="col-md-1 close-btn">
                                 <a href="#" class=""></a>
-                                <button type="submit" class="" id="${val.product.id}" onclick="removeWishlist(this.id)"><i class="fa fa-times"></i></button>
+                                <button type="submit" class="btn btn-danger btn-sm btn-circle" id="${val.product.id}" onclick="removeWishlist(this.id)"><i class="fa fa-times"></i></button>
                             </td>
                         </tr>
                         `;
                     })
-                    console.log(rows);
                     $('#wishlist').html(rows);
                 }
             })
@@ -420,7 +432,107 @@
             })
         }
 
+        function cart() {
+            $.ajax({
+                type: 'GET',
+                url: '/user/get-cart-product',
+                dataType: 'json',
+                success : (res) => {
+                    var rows = "";
+                    $.each(res.carts, (key, val) => {
+                        rows += 
+                        `<tr>
+                            <td class="col-md-2"><img src="/${val.options.image}" alt="imga" style="width: 100%"></td>
+                            <td class="col-md-4">
+                                <div class="product-name"><a href="#">${val.name}</a></div>
+                                <div class="price">${val.price}</div>
+                            </td>
+                            <td class="col-md-1"> 
+                                ${val.options.color == null ? `<span> ... </span>` : `<strong>${val.options.color}</strong>`}
+                            </td>
+                            <td class="col-md-1"> 
+                                ${val.options.size == null ? `<span> ... </span>` : `<strong>${val.options.size}</strong>`}
+                            </td>
+                            <td class="col-md-2"> 
+                                ${val.qty > 1
+                                ? `<button type="submit" class="btn btn-danger btn-sm btn-circle" id="${val.rowId}" onclick="decreaseQuantity(this.id)">-</button>`
+                                : `<button type="submit" class="btn btn-danger btn-sm btn-circle" disabled>-</button>`
+                                }
+                                
+                                <input type="text" value="${val.qty}" class="text-center" min="1" max="100" disabled="" style="width: 26px;">
+                                <button type="submit" class="btn btn-success btn-sm btn-circle" id="${val.rowId}" onclick="increaseQuantity(this.id)">+</button>
+                            </td>
+                            <td class="col-md-1"> 
+                                <strong>$${val.subtotal}</strong>
+                            </td>
+                            <td class="col-md-1 close-btn">
+                                <a href="#" class=""></a>
+                                <button type="submit" class="btn btn-danger btn-sm btn-circle" id="${val.rowId}" onclick="removeProductFromCart(this.id)"><i class="fa fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        `;
+                    })
+                    $('#my-cart').html(rows);
+                }
+            })
+        }
+
+        function removeProductFromCart(id){
+            $.ajax({
+                type: 'GET',
+                url: '/user/cart-remove/' + id,
+                dataType: 'json',
+                success: (data) => {
+                    cart()
+                    miniCart()
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                       
+                        showConfirmButton: false,
+                        timer: 2000
+                    })
+                    if ($.isEmptyObject(data.error)){
+                        Toast.fire({
+                            icon: 'success',
+                            title: data.success
+                        })
+                    }else{
+                        Toast.fire({
+                            icon: 'error',
+                            title: data.error
+                        })
+                    }
+                }
+            })
+        }
+
+        function increaseQuantity(id) {
+            $.ajax({
+                type: 'GET',
+                url: '/cart-increment/' + id,
+                dataType: 'json',
+                success: (data) => {
+                    cart()
+                    miniCart()
+                    
+                }
+            })
+        }
+
+        function decreaseQuantity(id) {
+            $.ajax({
+                type: 'GET',
+                url: '/cart-decrement/'+id,
+                dataType: 'json',
+                success: (data) => {
+                    cart()
+                    miniCart()
+                }
+            })
+        }
         // Run Function
+        cart();
         miniCart();
         wishlist();
 

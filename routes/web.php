@@ -11,6 +11,7 @@ use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\LanguageController;
 use App\Http\Controllers\SellerController;
 use App\Http\Controllers\User\WishlistController;
+use App\Http\Controllers\User\CartPageController;
 use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Route;
 
@@ -29,11 +30,11 @@ Route::prefix('admin')->group(function (){
     Route::get('/register', [AdminController::class, 'register'])->name('admin.register');
     Route::post('/register/create', [AdminController::class, 'registerCreate'])->name('admin.register.create');
 
-    Route::get('/admin/profile', [AdminController::class, 'profile'])->name('admin.profile');
-    Route::get('/admin/profile/edit', [AdminController::class, 'editProfile'])->name('admin.profile.edit');
-    Route::post('/admin/profile/store', [AdminController::class, 'updateProfile'])->name('admin.profile.store');
-    Route::get('/admin/changepassword', [AdminController::class, 'changePassword'])->name('admin.change.password');
-    Route::post('/admin/update/password', [AdminController::class, 'updatePassword'])->name('admin.update.password');
+    Route::get('/profile', [AdminController::class, 'profile'])->name('admin.profile')->middleware('admin');;
+    Route::get('/profile/edit', [AdminController::class, 'editProfile'])->name('admin.profile.edit')->middleware('admin');;
+    Route::post('/profile/store', [AdminController::class, 'updateProfile'])->name('admin.profile.store')->middleware('admin');;
+    Route::get('/changepassword', [AdminController::class, 'changePassword'])->name('admin.change.password')->middleware('admin');;
+    Route::post('/update/password', [AdminController::class, 'updatePassword'])->name('admin.update.password')->middleware('admin');;
 });
 /* ========================End Admin Auth Route==========================*/
 
@@ -166,11 +167,20 @@ Route::get('/minicart/product-remove/{id}', [CartController::class, 'removeMiniC
 /*========================= End Mini Cart ========================*/
 
 /*========================= Wishlist ========================*/
-Route::prefix('user')->group(function() {
+Route::prefix('user')->group(function(){
     Route::post('/add-to-wishlist/{product_id}', [CartController::class, 'addToWishlist']);
     Route::get('/wishlist', [WishlistController::class, 'allWishlist'])->name('wishlist');
     Route::get('/get-wishlist-product', [WishlistController::class, 'getWishList']);
     Route::get('/wishlist-remove/{id}', [WishlistController::class, 'removeWishlist']);
 });
+
+
+Route::get('/mycart', [CartPageController::class, 'myCart'])->name('mycart');
+Route::get('/user/get-cart-product', [CartPageController::class, 'getCartProduct']);
+Route::get('/user/cart-remove/{id}', [CartPageController::class, 'removeProductFromCart']);
+Route::get('/cart-increment/{id}', [CartPageController::class, 'increaseQuantity']);
+Route::get('/cart-decrement/{id}', [CartPageController::class, 'decreaseQuantity']);
+
+
 
 /*========================= End Wishlist ========================*/

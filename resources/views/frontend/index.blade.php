@@ -209,7 +209,6 @@
                                         <div class="product-image">
                                             <div class="image"> <a href="{{ url('product/details/'.$product->id.'/'.$product->product_slug_en) }}"><img  src="{{ asset($product->product_thumbnail) }}" alt=""></a> 
                                         </div>
-                                        <!-- /.image -->
                                         @php 
                                         $amount = $product->selling_price - $product->discount_price;
                                         $discount_percent = ($amount / $product->selling_price) * 100;
@@ -272,7 +271,7 @@
                                 <div class="products">
                                     <div class="product">
                                         <div class="product-image">
-                                        <div class="image"> <a href="detail.html"><img  src="{{ asset($product->product_thumbnail) }}" alt=""></a> </div>
+                                        <div class="image"> <a href="{{ url('product/details/'.$product->id.'/'.$product->product_slug_en) }}"><img  src="{{ asset($product->product_thumbnail) }}" alt=""></a> </div>
                                         <!-- /.image -->
                                         @php 
                                         $amount = $product->selling_price - $product->discount_price;
@@ -359,7 +358,7 @@
                         <div class="products">
                             <div class="product">
                                 <div class="product-image">
-                                <div class="image"> <a href="detail.html"><img  src="{{ asset($product->product_thumbnail) }}" alt=""></a> </div>
+                                <div class="image"> <a href="{{ url('product/details/'.$product->id.'/'.$product->product_slug_en) }}"><img  src="{{ asset($product->product_thumbnail) }}" alt=""></a> </div>
                                 <!-- /.image -->
                                 @php 
                                 $amount = $product->selling_price - $product->discount_price;

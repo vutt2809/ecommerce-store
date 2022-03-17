@@ -1,5 +1,5 @@
 @section('title')
-VNShop
+My Shopping Cart
 @endsection
 @extends('frontend.main_master')
 
@@ -10,25 +10,33 @@ VNShop
         <div class="breadcrumb-inner">
             <ul class="list-inline list-unstyled">
                 <li><a href="home.html">Home</a></li>
-                <li class='active'>Wishlist</li>
+                <li class='active'>My Cart</li>
             </ul>
         </div><!-- /.breadcrumb-inner -->
     </div><!-- /.container -->
 </div><!-- /.breadcrumb -->
 
-<div class="body-content">
-    <div class="container">
-        <div class="my-wishlist-page">
-            <div class="row">
-                <div class="col-md-12 my-wishlist">
+<div class="body-content outer-top-xs">
+	<div class="container">
+		<div class="row ">
+			<div class="shopping-cart">
+                <h2><strong>My Shopping Cart</strong></h2>
+				<div class="shopping-cart-table ">
                     <div class="table-responsive">
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th colspan="4" class="heading-title">My Wishlist</th>
+                                    <th class="item">Image</th>
+                                    <th class="item">Product Name</th>
+                                    <th class="item">Color</th>
+                                    <th class="item">Size</th>
+                                    <th class="item">Quantity</th>
+                                    <th class="item">Subtotal</th>
+                                    <th class="last-item">Grandtotal</th>
                                 </tr>
                             </thead>
-                            <tbody id="wishlist">
+                            <tbody id="my-cart">
+                                
                                 
                             </tbody>
                         </table>
