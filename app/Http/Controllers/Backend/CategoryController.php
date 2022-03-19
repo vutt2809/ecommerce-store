@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -29,7 +30,8 @@ class CategoryController extends Controller
             'category_name_vn' => $request->category_name_vn,
             'category_slug_en' => strtolower(str_replace(' ', '-', $request->category_name_en)),
             'category_slug_vn' => strtolower(str_replace(' ', '-', $request->category_name_vn)),
-            'category_icon' => $request->category_icon
+            'category_icon' => $request->category_icon,
+            'created_at' => Carbon::now()
         ]);
 
         $notofication = [

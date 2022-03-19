@@ -3,6 +3,7 @@
 use App\Http\Controllers\Backend\AdminController;
 use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Backend\CategoryController;
+use App\Http\Controllers\Backend\CouponController;
 use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\Backend\SubCategoryController;
@@ -120,6 +121,18 @@ Route::prefix('slider')->group(function() {
 /*======================= End Admin Slider Route =======================*/
 
 
+/*======================= Admin Coupons Route =======================*/
+Route::prefix('coupons')->group(function() {
+    Route::get('/view', [CouponController::class, 'couponView'])->name('manage.coupon');
+    Route::post('/store', [CouponController::class, 'store'])->name('coupon.store');
+    Route::get('/edit/{id}', [CouponController::class, 'edit'])->name('coupon.edit');
+    Route::post('/update/{id}', [CouponController::class, 'update'])->name('coupon.update');
+    Route::get('/delete/{id}', [CouponController::class, 'delete'])->name('coupon.delete');
+
+});
+/*======================= End Admin Coupons Route =======================*/
+
+
 /*========================= FRONTEND ROUTE ========================*/
 
 /*========================= User Route ========================*/
@@ -180,7 +193,6 @@ Route::get('/user/get-cart-product', [CartPageController::class, 'getCartProduct
 Route::get('/user/cart-remove/{id}', [CartPageController::class, 'removeProductFromCart']);
 Route::get('/cart-increment/{id}', [CartPageController::class, 'increaseQuantity']);
 Route::get('/cart-decrement/{id}', [CartPageController::class, 'decreaseQuantity']);
-
 
 
 /*========================= End Wishlist ========================*/

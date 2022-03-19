@@ -40,8 +40,6 @@
             height: 30px;
             text-align: center;
             padding: 6px 0;
-            font-size: 12px;
-            line-height: 1.428571429;
             border-radius: 15px;
             box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
         }
@@ -164,7 +162,6 @@
             }
         })
 
-        // Start Product View Modal
         function preview(id) {
             $.ajax({
                 type: 'GET',
@@ -222,7 +219,6 @@
             })
         }
         
-        // Add To Cart
         function addToCart(){
             var product_name = $('#p_name').text()
             var id = $('#product_id').val()
