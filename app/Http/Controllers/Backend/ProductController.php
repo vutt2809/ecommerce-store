@@ -119,7 +119,6 @@ class ProductController extends Controller
     }
 
     public function edit($id) {
-
         $multiImgs = MultiImg::where('product_id', $id)->get();
 
         $categories = Category::latest()->get();
@@ -246,7 +245,6 @@ class ProductController extends Controller
     }
 
     public function deleteMultiImage($id) {
-
         $oldImg = MultiImg::findOrFail($id);
         unlink($oldImg->photo_name);
 
@@ -298,3 +296,4 @@ class ProductController extends Controller
         return redirect()->back()->with($notification);
     }
 }
+
