@@ -218,6 +218,14 @@ Route::get('/user/get-cart-product', [CartPageController::class, 'getCartProduct
 Route::get('/user/cart-remove/{id}', [CartPageController::class, 'removeProductFromCart']);
 Route::get('/cart-increment/{id}', [CartPageController::class, 'increaseQuantity']);
 Route::get('/cart-decrement/{id}', [CartPageController::class, 'decreaseQuantity']);
-
-
 /*========================= End Wishlist ========================*/
+
+/*========================= Coupon Apply ========================*/
+Route::post('/coupon-apply', [CartController::class, 'applyCoupon']);
+Route::get('/coupon-calculation', [CartController::class, 'calculationCoupon']);
+/*========================= End Coupon Apply ========================*/
+
+/*========================= Coupon Remove ========================*/
+Route::get('/coupon-remove', [CartController::class, 'removeCoupon']);
+/*========================= End Coupon Remove ========================*/
+
