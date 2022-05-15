@@ -14,17 +14,9 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-2">
-                <img id="profile_image" style= "border-radius: 50%; width: 100%; margin: 24px 0;" src="{{ (!empty(Auth::user()->profile_photo_path)) ? url('upload/user_images/'.Auth::user()->profile_photo_path ) : url('upload/no_image.jpg') }}">
-                <ul class="list-group list-group-flush">
-                    <a href="{{ route('user.profile') }}" class="btn btn-primary btn-sm btn-block">Home</a>
-                    <a href="{{ route('user.profile') }}" class="btn btn-primary btn-sm btn-block">Profile Update</a>
-                    <a href="{{ route('change.password') }}" class="btn btn-primary btn-sm btn-block">Change Password</a>
-                    <a href="{{ route('user.logout') }}" class="btn btn-danger btn-sm btn-block">Logout</a>
-                </ul>
-            </div> 
-            <div class="col-md-2"></div>
-            <div class="col-md-6">
+            @include('frontend.user.sidebar')
+            <div class="col-md-1"></div>
+            <div class="col-md-8">
                 <div class="card">
                  </div>
                 <div class="card-body">

@@ -106,35 +106,8 @@
 
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
 
-    <script>
-        $(function(){
-            $(document).on('click', '#delete', function(e){
-                e.preventDefault();
-                var link = $(this).attr("href");
-                Swal.fire({
-                    title: 'Are you sure?',
-                    text: "You won't be able to revert this!",
-                    icon: 'warning',
-                    background: 'black',
-                    showCancelButton: true,
-                    confirmButtonColor: '#4837f7',
-                    cancelButtonColor: '#ef3737',
-                    confirmButtonText: 'Yes, delete it!'
-                })
-                    .then((result) => {
-                        if (result.isConfirmed) {
-                            window.location.href = link;
-                            Swal.fire(
-                            'Deleted!',
-                            'Your brand has been deleted.',
-                            'success'
-                            )
-                        
-                    }
-                })
-            })
-        })
-    </script>
+    <script src="{{ asset('backend/js/code.js') }}"></script>
+
 
 </body>
 </html>

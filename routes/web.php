@@ -4,7 +4,9 @@ use App\Http\Controllers\Backend\AdminController;
 use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\CouponController;
+use App\Http\Controllers\Backend\OrderController;
 use App\Http\Controllers\Backend\ProductController;
+use App\Http\Controllers\Backend\ReportController;
 use App\Http\Controllers\Backend\ShippingAreaController;
 use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\Backend\SubCategoryController;
@@ -14,8 +16,12 @@ use App\Http\Controllers\Frontend\LanguageController;
 use App\Http\Controllers\SellerController;
 use App\Http\Controllers\User\WishlistController;
 use App\Http\Controllers\User\CartPageController;
-use GuzzleHttp\Middleware;
+use App\Http\Controllers\User\CashController;
+use App\Http\Controllers\User\CheckoutController;
+use App\Http\Controllers\User\StripeController;
+use App\Http\Controllers\User\UserController;
 use Illuminate\Support\Facades\Route;
+
 
 
 
@@ -157,11 +163,41 @@ Route::prefix('shipping')->group(function() {
 });
 /*======================= End Admin Coupons Route =======================*/
 
+/*========================= Admin Orders Route ==========================*/
+Route::prefix('orders')->group(function() {
+    Route::get('/pending', [OrderController::class, 'pendingOrders'])->name('pending.orders');
+    Route::get('/confirmed', [OrderController::class, 'confirmedOrders'])->name('confirmed.orders');
+    Route::get('/processing', [OrderController::class, 'processingOrders'])->name('processing.orders');
+    Route::get('/picked', [OrderController::class, 'pickedOrders'])->name('picked.orders');
+    Route::get('/shipped', [OrderController::class, 'shippedOrders'])->name('shipped.orders');
+    Route::get('/delivered', [OrderController::class, 'deliveredOrders'])->name('delivered.orders');
+    Route::get('/cancel', [OrderController::class, 'cancelOrders'])->name('cancel.orders');
+    Route::get('/pending/confirm/{order_id}', [OrderController::class, 'pendingToConfirm'])->name('pending-confirm');
+    Route::get('/confirm/processing/{order_id}', [OrderController::class, 'confirmToProcessing'])->name('confirm-processing');
+    Route::get('/processing/picked/{order_id}', [OrderController::class, 'processingToPicked'])->name('processing-picked');
+    Route::get('/picked/shipped/{order_id}', [OrderController::class, 'pickedToShipped'])->name('picked-shipped');
+    Route::get('/shipped/delivered/{order_id}', [OrderController::class, 'shippedToDelivered'])->name('shipped-delivered');
+    Route::get('/invoice/download/{order_id}', [OrderController::class, 'downloadInvoice'])->name('invoice.download');
+
+    Route::get('/pending/order/details/{order_id}', [OrderController::class, 'pendingOrderDetails'])->name('pending.order.details');
+});
+/*====================== End Admin Orders Route ==========================*/
+
+
+/*========================= Admin Report Route ==========================*/
+Route::prefix('reports')->group(function() {
+    Route::get('/view', [ReportController::class, 'allReport'])->name('manage.reports');
+    Route::post('/search-by-date', [ReportController::class, 'reportByDate'])->name('search-by-date');
+    Route::post('/search-by-month', [ReportController::class, 'reportByMonth'])->name('search-by-month');
+});
+/*====================== End Admin Report Route ==========================*/
+
 
 /*========================= FRONTEND ROUTE ========================*/
 
 /*========================= User Route ========================*/
 Route::get('/', [HomeController::class, 'index']);
+Route::get('/dashboard', [HomeController::class, 'index'])->name('user.dashboard');
 Route::get('/user/logout', [HomeController::class, 'logout'])->name('user.logout');
 Route::get('/user/profile', [HomeController::class, 'profile'])->name('user.profile');
 Route::post('/user/profile/store', [HomeController::class, 'profileStore'])->name('user.profile.store');
@@ -191,6 +227,8 @@ Route::get('/subcategory/product/{id}/{slug}', [HomeController::class, 'subCateg
 Route::get('/subsubcategory/product/{id}/{slug}', [HomeController::class, 'subSubCategoryWiseProduct']);
 /*========================= End Frontend SubSubcategory Data ========================*/
 
+
+
 /*========================= Product View Modal With Ajax ========================*/
 Route::get('/product/view/modal/{id}', [HomeController::class, 'previewProductAjax']);
 /*========================= End Product View Modal With Ajax ========================*/
@@ -210,8 +248,18 @@ Route::prefix('user')->group(function(){
     Route::get('/wishlist', [WishlistController::class, 'allWishlist'])->name('wishlist');
     Route::get('/get-wishlist-product', [WishlistController::class, 'getWishList']);
     Route::get('/wishlist-remove/{id}', [WishlistController::class, 'removeWishlist']);
-});
+    Route::post('/stripe/order', [StripeController::class, 'stripeOrder'])->name('stripe.order');
+    Route::post('/cash/order', [CashController::class, 'cashOrder'])->name('cash.order');
 
+    Route::get('/my-orders', [UserController::class, 'myOrder'])->name('my.orders');
+    Route::get('/order-details/{order_id}', [UserController::class, 'orderDetails']);
+    Route::get('/invoice-download/{order_id}', [UserController::class, 'downloadInvoice']);
+
+    Route::post('/return/order/{order_id}', [OrderController::class, 'returnOrder'])->name('return.order');
+    Route::get('/my-orders/return', [OrderController::class, 'myOrderReturn'])->name('my.orders.return');
+    Route::get('/my-orders/cancel', [OrderController::class, 'myOrderCancel'])->name('my.orders.cancel');
+});
+ 
 
 Route::get('/mycart', [CartPageController::class, 'myCart'])->name('mycart');
 Route::get('/user/get-cart-product', [CartPageController::class, 'getCartProduct']);
@@ -229,3 +277,11 @@ Route::get('/coupon-calculation', [CartController::class, 'calculationCoupon']);
 Route::get('/coupon-remove', [CartController::class, 'removeCoupon']);
 /*========================= End Coupon Remove ========================*/
 
+/*============================ Checkout ============================*/
+Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout');
+Route::get('/shipping/get-district/{division_id}', [CheckoutController::class, 'getDistrict']);
+Route::get('/shipping/get-state/{district_id}', [CheckoutController::class, 'getState']);
+Route::post('/checkout/store', [CheckoutController::class, 'storeCheckout'])->name('checkout.store');
+
+
+/*========================= End Checkout ========================*/

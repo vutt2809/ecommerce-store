@@ -9,7 +9,7 @@
                     <li><a href="#"><i class="icon fa fa-user"></i>@if (session()->get('language') == 'vietnam') Tài khoản của tôi @else My Account @endif</a></li>
                     <li><a href="{{ route('wishlist')}}"><i class="icon fa fa-heart"></i>@if (session()->get('language') == 'vietnam') Yêu thích @else Wishlist @endif</a></li>
                     <li><a href="{{ route('mycart')}}"><i class="icon fa fa-shopping-cart"></i>@if (session()->get('language') == 'vietnam') Giỏ hàng  @else Shopping Cart @endif</a></li>
-                    <li><a href="#"><i class="icon fa fa-check"></i>@if (session()->get('language') == 'vietnam') Thanh toán  @else Checkout @endif</a></li>
+                    <li><a href="{{ route('checkout') }}"><i class="icon fa fa-check"></i>@if (session()->get('language') == 'vietnam') Thanh toán  @else Checkout @endif</a></li>
                     <li>
                         @auth <a href="{{ route('user.profile')}}"><i class="icon fa fa-user"></i> {{ Auth::user()->name }}</a>
                         @else <a href="{{ route('login')}}"><i class="icon fa fa-lock"></i>@if (session()->get('language') == 'vietnam') Đăng nhập / Đăng kí  @else Login / Register @endif</a>
@@ -61,7 +61,7 @@
                 <form>
                 <div class="control-group">
                     <ul class="categories-filter animate-dropdown">
-                    <li class="dropdown"> <a class="dropdown-toggle"  data-toggle="dropdown" href="category.html">Categories <b class="caret"></b></a>
+                    <li class="dropdown"> <a class="dropdown-toggle"  data-toggle="dropdown" href="category.html">@if (session()->get('language') == 'vietnam') Thể loại @else Categories @endif<b class="caret"></b></a>
                         <ul class="dropdown-menu" role="menu" >
                         <li class="menu-header">Computer</li>
                         <li role="presentation"><a role="menuitem" tabindex="-1" href="category.html">- Clothing</a></li>
@@ -87,7 +87,7 @@
                     <div class="basket"> <i class="glyphicon glyphicon-shopping-cart"></i> </div>
                     <div class="basket-item-count"><span class="count" id="cart-quantity"></span></div>
                     <div class="total-price-basket"> 
-                        <span class="lbl">cart -</span> 
+                        <span class="lbl">@if (session()->get('language') == 'vietnam') Giỏ @else Cart @endif-</span> 
                         <span class="total-price"> 
                             <span class="sign">$</span>
                             <span class="value" id="cart-subtotal">0</span> 
@@ -106,7 +106,7 @@
                         <div class="clearfix cart-total">
                         <div class="pull-right"> <span class="text">Sub Total :</span><span id='cart-total'></span> </div>
                         <div class="clearfix"></div>
-                        <a href="checkout.html" class="btn btn-upper btn-primary btn-block m-t-20">Checkout</a> </div>
+                        <a href="{{ route('checkout') }}" class="btn btn-upper btn-primary btn-block m-t-20">Checkout</a> </div>
                     </li>
                 </ul>
             </div>
@@ -169,7 +169,7 @@
                         </ul>
                     </li>
                     @endforeach
-                    <li class="dropdown  navbar-right special-menu"> <a href="#">Todays offer</a> </li>
+                    <li class="dropdown  navbar-right special-menu"> <a href="#">@if (session()->get('language') == 'vietnam') Hot Deals hôm nay @else Todays offer @endif</a> </li>
                 </ul>
                 <div class="clearfix"></div>
                 </div>

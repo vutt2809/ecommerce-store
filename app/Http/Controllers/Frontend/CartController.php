@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\Coupon;
 use App\Models\Product;
+use App\Models\ShipDistrict;
+use App\Models\ShipDivision;
 use App\Models\Wishlist;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -23,39 +25,41 @@ class CartController extends Controller
 
         if ($product->discount_price == NULL){
             Cart::add([
-                'id' => $id,
+                'id' => hexdec(uniqid()),
                 'name' => $request->product_name,
-                'qty' => (int)$request->quantity,
-                'price' => Money::USD($product->selling_price),
+                'quantity' => $request->quantity,
+                'price' => $product->selling_price,
                 'weight' => 1,
-                'options' => [
+                'attributes' => [
                     'image' => $product->product_thumbnail, 
                     'size' => $request->size, 
                     'color' => $request->color
                 ],
+                'associatedModel' => $product
             ]);
             return response()->json(['success' => 'Successfully added your cart']);
         }else{
             Cart::add([
-                'id' => $id,
+                'id' => hexdec(uniqid()),
                 'name' => $request->product_name,
-                'qty' => (int)$request->quantity,
-                'price' => Money::USD($product->discount_price),
+                'quantity' => $request->quantity,
+                'price' => $product->selling_price,
                 'weight' => 1,
-                'options' => [
+                'attributes' => [
                     'image' => $product->product_thumbnail, 
                     'size' => $request->size, 
                     'color' => $request->color
                 ],
+                'associatedModel' => $product
             ]);
             return response()->json(['success' => 'Successfully added your cart']);
         }
     }
 
     public function addMiniCart(){
-        $carts = Cart::content();
-        $cartQuantity = Cart::count();
-        $cartTotal = Cart::total();
+        $carts = Cart::getContent();
+        $cartQuantity = Cart::getTotalQuantity();
+        $cartTotal = Cart::getTotal();
 
         return response()->json([
             'carts' => $carts,
@@ -92,13 +96,11 @@ class CartController extends Controller
     public function applyCoupon(Request $request) {
         $coupon = Coupon::where('coupon_name', $request->coupon_name)->where('status', 1)->where('coupon_validity' ,'>=', Carbon::now()->format('Y-m-d'))->first();
         if ($coupon){
-            $total = Cart::total();
             Session::put('coupon', [
                 'coupon_name' => $coupon->coupon_name,
                 'coupon_discount' => $coupon->coupon_discount,
-                'discount_amount' => $total->multiply($coupon->coupon_discount)->divide(100),
-                'total_amount' => $total->subtract($total->multiply($coupon->coupon_discount)->divide(100)),
-                
+                'discount_amount' => Cart::getTotal() * ($coupon->coupon_discount) / (100),
+                'total_amount' => Cart::getTotal() - (Cart::getTotal() * (($coupon->coupon_discount) / 100)),
             ]);
             return response()->json(['success' => 'Coupon applied successfully']);
         }else{
@@ -109,15 +111,15 @@ class CartController extends Controller
     public function calculationCoupon() {
         if (Session::has('coupon')){
             return response()->json([
-                'subtotal' => Cart::total(),
+                'subtotal' => Cart::getTotal(),
                 'coupon_name' => session()->get('coupon')['coupon_name'],
                 'coupon_discount' => session()->get('coupon')['coupon_discount'],
-                'discount_amount' => Cart::total()->multiply(session()->get('coupon')['coupon_discount'])->divide(100),
-                'total_amount' => Cart::total()->subtract(Cart::total()->multiply(session()->get('coupon')['coupon_discount'])->divide(100)),
+                'discount_amount' => Cart::getTotal() - (session()->get('coupon')['coupon_discount']) / 100,
+                'total_amount' => Cart::getTotal() - (Cart::getTotal() * (session()->get('coupon')['coupon_discount']) / 100),
             ]);
         }else{
             return response()->json([
-                'total' => Cart::total(),
+                'total' => Cart::getTotal(),
             ]);
         }
     }
@@ -126,6 +128,38 @@ class CartController extends Controller
         Session::forget('coupon');
         return response()->json(['success' => 'Coupon removed successfully']);
     }
+
+    public function checkout() {
+        if (Auth::check()){
+            if (Cart::getTotal() > 0){
+                $carts = Cart::getContent();
+                $cartQuantity = Cart::getTotalQuantity();
+                $cartTotal = Cart::getTotal();
+
+                $divisions = ShipDivision::orderBy('division_name', 'ASC')->get();
+                $districts = ShipDistrict::orderBy('district_name', 'ASC')->get();
+
+                return view('frontend.checkout.checkout_view', compact('carts', 'cartQuantity', 'cartTotal', 'divisions', 'districts'));
+            }else{
+                $notification = [
+                    'message' => 'Shoppping at least one product',
+                    'alert-type' => 'warning'
+                ];
+                return redirect()->to('/')->with($notification);
+            }
+        }else{
+            $notification = [
+                'message' => 'You need to login first',
+                'alert-type' => 'warning'
+            ];
+            return redirect()->route('login')->with($notification);
+        }
+    }
+
+
+
+
+
 
 
 

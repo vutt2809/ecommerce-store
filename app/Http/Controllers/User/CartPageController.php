@@ -15,9 +15,9 @@ class CartPageController extends Controller
     }
 
     public function getCartProduct() {
-        $carts = Cart::content();
-        $cartQuantity = Cart::count();
-        $cartTotal = Cart::total();
+        $carts = Cart::getContent();
+        $cartQuantity = Cart::getTotalQuantity();
+        $cartTotal = Cart::getTotal();
 
         return response()->json([
             'carts' => $carts,
@@ -36,43 +36,12 @@ class CartPageController extends Controller
     }
 
     public function increaseQuantity($rowId) {
-        $product = Cart::get($rowId);
-        Cart::update($rowId, $product->qty + 1);
-
-        // if (Session::has('coupon')){
-        //     $couponName = Session::get('coupon')['coupon_name'];
-        //     $coupon = Coupon::where('coupon_name', $couponName)->first();
-
-
-        //     Session::put('coupon',[
-        //         'coupon_name' => $couponName,
-        //         'coupon_discount' => $coupon->coupon_discount,
-        //         'discount_amount' => Cart::total()->multiply($coupon->coupon_discount)->divide(100),
-        //         'total_amount' => Cart::total() - Cart::total()->multiply($coupon->coupon_discount)->divide(100),
-        //     ]);
-
-        // }
-
+        Cart::update($rowId, ['quantity' => 1]);
         return response()->json(['increment']);
     }
 
     public function decreaseQuantity($rowId) {
-        $product = Cart::get($rowId);
-        Cart::update($rowId, $product->qty - 1);
-
-        // if (Session::has('coupon')){
-        //     $couponName = Session::get('coupon')['coupon_name'];
-        //     $coupon = Coupon::where('coupon_name', $couponName)->first();
-
-
-        //     Session::put('coupon',[
-        //         'coupon_name' => $couponName,
-        //         'coupon_discount' => $coupon->coupon_discount,
-        //         'discount_amount' => Cart::total()->multiply($coupon->coupon_discount)->divide(100),
-        //         'total_amount' => Cart::total()->subtract(Cart::total()->multiply($coupon->coupon_discount)->divide(100)),
-        //     ]);
-            
-        // }
+        Cart::update($rowId, ['quantity' => -1]);
         return response()->json(['decrement']);
     }
 

@@ -13,6 +13,7 @@
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/bootstrap.min.css') }}">
+    
 
     <!-- Customizable CSS -->
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/main.css') }}">
@@ -34,6 +35,7 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css">
 
+    <script src="https://js.stripe.com/v3/"></script>
     <style>
         .btn-circle {
             width: 30px;
@@ -274,11 +276,11 @@
                         `<div class="cart-item product-summary">
                             <div class="row">
                                 <div class="col-xs-4">
-                                    <div class="image"> <a href="{{ url('product/details/'.'${val.id}'.'/'.'${val.product_slug_en}') }}"><img src="/${val.options.image}" alt=""></a> </div>
+                                    <div class="image"> <a href="{{ url('product/details/'.'${val.id}'.'/'.'${val.product_slug_en}') }}"><img src="/${val.attributes.image}" alt=""></a> </div>
                                 </div>
                                 <div class="col-xs-7">
                                     <h4 class="name"><a href="{{ url('product/details/'.'${val.id}'.'/'.'${val.product_slug_en}') }}"">${val.name}</a></h4>
-                                    <div class="price">${val.price} * ${val.qty} $</div>
+                                    <div class="price">${val.price} * ${val.quantity} $</div>
                                 </div>
                                 <div class="col-xs-1 action"> 
                                     <button type="submit" id="${val.rowId}" onclick="miniCartRemove(this.id)"><i class="fa fa-trash"></i></button> 
@@ -436,44 +438,47 @@
                 success : (res) => {
                     var rows = "";
                     $.each(res.carts, (key, val) => {
+                        console.log(val)
                         rows += 
                         `<tr>
-                            <td class="col-md-2"><img src="/${val.options.image}" alt="imga" style="width: 100%"></td>
+                            <td class="col-md-2"><img src="/${val.attributes.image}" alt="imga" style="width: 100%"></td>
                             <td class="col-md-4">
                                 <div class="product-name"><a href="#">${val.name}</a></div>
                                 <div class="price">${val.price}</div>
                             </td>
                             <td class="col-md-1"> 
-                                ${val.options.color == null ? `<span> ... </span>` : `<strong>${val.options.color}</strong>`}
+                                ${val.attributes.color == null ? `<span> ... </span>` : `<strong>${val.attributes.color}</strong>`}
                             </td>
                             <td class="col-md-1"> 
-                                ${val.options.size == null ? `<span> ... </span>` : `<strong>${val.options.size}</strong>`}
+                                ${val.attributes.size == null ? `<span> ... </span>` : `<strong>${val.attributes.size}</strong>`}
                             </td>
                             <td class="col-md-2"> 
-                                ${val.qty > 1
-                                ? `<button type="submit" class="btn btn-danger btn-sm btn-circle" id="${val.rowId}" onclick="decreaseQuantity(this.id)">-</button>`
+                                ${val.quantity > 1
+                                ? `<button type="submit" class="btn btn-danger btn-sm btn-circle" id="${val.id}" onclick="decreaseQuantity(this.id)">-</button>`
                                 : `<button type="submit" class="btn btn-danger btn-sm btn-circle" disabled>-</button>`
                                 }
                                 
-                                <input type="text" value="${val.qty}" class="text-center" min="1" max="100" disabled="" style="width: 26px;">
-                                <button type="submit" class="btn btn-success btn-sm btn-circle" id="${val.rowId}" onclick="increaseQuantity(this.id)">+</button>
+                                <input type="text" value="${val.quantity}" class="text-center" min="1" max="100" disabled="" style="width: 26px;">
+                                <button type="submit" class="btn btn-success btn-sm btn-circle" id="${val.id}" onclick="increaseQuantity(this.id)">+</button>
                             </td>
                             <td class="col-md-1"> 
-                                <strong>$${val.subtotal}</strong>
+                                <strong>$${val.price * val.quantity}</strong>
                             </td>
                             <td class="col-md-1 close-btn">
                                 <a href="#" class=""></a>
-                                <button type="submit" class="btn btn-danger btn-sm btn-circle" id="${val.rowId}" onclick="removeProductFromCart(this.id)"><i class="fa fa-trash"></i></button>
+                                <button type="submit" class="btn btn-danger btn-sm btn-circle" id="${val.id}" onclick="removeProductFromCart(${val.id})"><i class="fa fa-trash"></i></button>
                             </td>
                         </tr>
                         `;
                     })
+                    
                     $('#my-cart').html(rows);
                 }
             })
         }
 
         function removeProductFromCart(id){
+            console.log(id);
             $.ajax({
                 type: 'GET',
                 url: '/user/cart-remove/' + id,
@@ -550,7 +555,7 @@
             url:"{{ url('/coupon-apply') }}",
             success: (data) => {
                 couponCalculation() 
-                $('#couponField').hide();                     
+                                    
                 const Toast = Swal.mixin({
                     toast: true,
                     position: 'top-end',
@@ -561,7 +566,8 @@
                     Toast.fire({
                         icon: 'success',
                         title: data.success
-                    })                                           
+                    })           
+                    $('#couponField').hide();                                 
                 }else{
                     Toast.fire({
                         icon: 'error',
@@ -583,10 +589,10 @@
                         <tr>
                             <th>
                                 <div class="cart-sub-total">
-                                    Subtotal<span class="inner-left-md">$ ${data.total.amount}</span>
+                                    Subtotal<span class="inner-left-md">$ ${data.total}</span>
                                 </div>
                                 <div class="cart-grand-total">
-                                    Grand Total<span class="inner-left-md">$ ${data.total.amount}</span>
+                                    Grand Total<span class="inner-left-md">$ ${data.total}</span>
                                 </div>
                             </th>
                         </tr>
@@ -596,17 +602,17 @@
                         <tr>
                             <th>
                                 <div class="cart-sub-total">
-                                    Subtotal<span class="inner-left-md">$ ${data.subtotal.amount}</span>
+                                    Subtotal<span class="inner-left-md">$ ${data.subtotal}</span>
                                 </div>
                                 <div class="cart-sub-total">
                                     Coupon Name<span class="inner-left-md">${data.coupon_name}</span>
                                     <button class="btn btn-warning btn-circle" onclick="removeCoupon()"><i class="fas fa-times"></i> </button>
                                 </div>
                                 <div class="cart-sub-total">
-                                    Discount Amount<span class="inner-left-md">$ ${data.discount_amount.amount}</span>
+                                    Discount Amount<span class="inner-left-md">$ ${data.discount_amount}</span>
                                 </div>
                                 <div class="cart-grand-total">
-                                    Grand Total<span class="inner-left-md">$ ${data.total_amount.amount}</span>
+                                    Grand Total<span class="inner-left-md">$ ${data.total_amount}</span>
                                 </div>
                             </th>
                         </tr>
@@ -616,7 +622,6 @@
         })
     }
 
-    couponCalculation()
 
     function removeCoupon() {
         $.ajax({

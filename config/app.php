@@ -168,6 +168,8 @@ return [
          * Package Service Providers...
          */
         Intervention\Image\ImageServiceProvider::class,
+        Darryldecode\Cart\CartServiceProvider::class,
+        Barryvdh\DomPDF\ServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -193,7 +195,11 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // ...
-        'Image' => Intervention\Image\Facades\Image::class
+        'PDF' => Barryvdh\DomPDF\Facade::class,
+        'Image' => Intervention\Image\Facades\Image::class,
+        'Cart' => Darryldecode\Cart\Facades\CartFacade::class,
+        
+        
     ])->toArray(),
 
 ];

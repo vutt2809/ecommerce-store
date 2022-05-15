@@ -10,7 +10,7 @@
                 <a href="{{ url('admin/dashboard') }}">
                     <div class="d-flex align-items-center justify-content-center">					 	
                         <img src="{{ asset('backend/images/logo-dark.png') }}" alt="">
-                        <h2><b>nowRain</b></h2>
+                        <h2><b>SnowRain</b></h2>
                     </div>
                 </a>
             </div>
@@ -107,42 +107,39 @@
                 </ul>
             </li>
 
-            <li class="header nav-small-cap">User Interface</li>
-
-            <li class="treeview">
+            <li class="treeview {{ $prefix == '/orders' ? 'active' : '' }}">
                 <a href="#">
-                    <i data-feather="grid"></i>
-                    <span>Components</span>
+                    <i data-feather="shopping-bag"></i>
+                    <span>Orders</span>
                     <span class="pull-right-container">
                     <i class="fa fa-angle-right pull-right"></i>
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="components_alerts.html"><i class="ti-more"></i>Alerts</a></li>
-                    <li><a href="components_badges.html"><i class="ti-more"></i>Badge</a></li>
-                    <li><a href="components_buttons.html"><i class="ti-more"></i>Buttons</a></li>
-                    <li><a href="components_sliders.html"><i class="ti-more"></i>Sliders</a></li>
-                    <li><a href="components_dropdown.html"><i class="ti-more"></i>Dropdown</a></li>
-                    <li><a href="components_modals.html"><i class="ti-more"></i>Modal</a></li>
-                    <li><a href="components_nestable.html"><i class="ti-more"></i>Nestable</a></li>
-                    <li><a href="components_progress_bars.html"><i class="ti-more"></i>Progress Bars</a></li>
+                    <li class="{{ $route == 'pending.orders' ? 'active' : ''}}"><a href="{{ route('pending.orders') }}"><i class="ti-more"></i>Pending Orders</a></li> 
+                    <li class="{{ $route == 'confirmed.orders' ? 'active' : ''}}"><a href="{{ route('confirmed.orders') }}"><i class="ti-more"></i>Confirmed Orders</a></li> 
+                    <li class="{{ $route == 'processing.orders' ? 'active' : ''}}"><a href="{{ route('processing.orders') }}"><i class="ti-more"></i>Processing Orders</a></li> 
+                    <li class="{{ $route == 'picked.orders' ? 'active' : ''}}"><a href="{{ route('picked.orders') }}"><i class="ti-more"></i>Picked Orders</a></li> 
+                    <li class="{{ $route == 'shipped.orders' ? 'active' : ''}}"><a href="{{ route('shipped.orders') }}"><i class="ti-more"></i>Shipped Orders</a></li> 
+                    <li class="{{ $route == 'delivered.orders' ? 'active' : ''}}"><a href="{{ route('delivered.orders') }}"><i class="ti-more"></i>Delivered Orders</a></li> 
+                    <li class="{{ $route == 'cancel.orders' ? 'active' : ''}}"><a href="{{ route('cancel.orders') }}"><i class="ti-more"></i>Cancel Orders</a></li> 
                 </ul>
             </li>
-            
-            <li class="treeview">
+
+            <li class="treeview {{ $prefix == '/reports' ? 'active' : '' }}">
                 <a href="#">
-                    <i data-feather="credit-card"></i>
-                    <span>Cards</span>
+                    <i data-feather="bar-chart-2"></i>
+                    <span>Report</span>
                     <span class="pull-right-container">
                     <i class="fa fa-angle-right pull-right"></i>
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="card_advanced.html"><i class="ti-more"></i>Advanced Cards</a></li>
-                    <li><a href="card_basic.html"><i class="ti-more"></i>Basic Cards</a></li>
-                    <li><a href="card_color.html"><i class="ti-more"></i>Cards Color</a></li>
+                    <li class="{{ $route == 'manage.reports' ? 'active' : ''}}"><a href="{{ route('manage.reports') }}"><i class="ti-more"></i>Manage Report</a></li>
                 </ul>
-            </li>  
+            </li>
+
+           
         </ul>
 
     </section>

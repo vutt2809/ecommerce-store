@@ -9,7 +9,7 @@ My Shopping Cart
     <div class="container">
         <div class="breadcrumb-inner">
             <ul class="list-inline list-unstyled">
-                <li><a href="home.html">Home</a></li>
+            <li><a href="{{ url('/')}}">Home</a></li>
                 <li class='active'>My Cart</li>
             </ul>
         </div><!-- /.breadcrumb-inner -->
@@ -82,7 +82,7 @@ My Shopping Cart
                                 <tr>
                                     <td>
                                         <div class="cart-checkout-btn pull-right">
-                                            <button type="submit" class="btn btn-primary checkout-btn">PROCCED TO CHEKOUT</button>
+                                            <a href="{{ route('checkout') }}" type="submit" class="btn btn-primary checkout-btn">PROCCED TO CHEKOUT</a href="{{ route('checkout') }}">
                                             <span class="">Checkout with multiples address!</span>
                                         </div>
                                     </td>

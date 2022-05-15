@@ -47,7 +47,7 @@ class HomeController extends Controller
 
     public function profile() {
         $user = User::find(Auth::user()->id);
-        return view('frontend.profile.user_profile', compact('user'));
+        return view('frontend.user.profile.user_profile', compact('user'));
     }
 
     public function profileStore (Request $request){
@@ -76,7 +76,7 @@ class HomeController extends Controller
 
     public function changePassword (){
         $user = User::find(Auth::user()->id);
-        return view('frontend.profile.change_password', compact('user'));
+        return view('frontend.user.profile.change_password', compact('user'));
     }
 
     public function updatePassword(Request $request) {
