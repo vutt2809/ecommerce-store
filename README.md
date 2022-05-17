@@ -2,10 +2,10 @@
 
 
 ## About Project
-•	Create Complete Three Project with Laravel 8
-•	Full Site Multiple Language Option
-•	Advance Order Tracking System
-•	Stock Management System
+- Create Complete Three Project with Laravel 8
+- Full Site Multiple Language Option
+- Advance Order Tracking System
+- Stock Management System
 •	User Role Management
 •	Product Return Order
 •	Advance Product Apply Coupon
