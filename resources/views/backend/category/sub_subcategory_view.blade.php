@@ -10,7 +10,7 @@
             <div class="col-6 offset-3">
                 <div class="box">
                     <div class="box-header with-border">
-                        <h3 class="box-title">Add SubSubCategory</h3>
+                        <h3 class="box-title">Add SubSubCategory -  <span class="badge badge-pill badge-info">{{ count($subcategories) }}</span></h3>
                     </div>
                     <div class="box-body">
                         <form method="post" action="{{ route('subsubcategory.store') }}" enctype="multipart/form-data">

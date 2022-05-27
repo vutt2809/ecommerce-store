@@ -108,7 +108,7 @@
                         <h3 class="box-title">Search By Year</h3>
                     </div>
                     <div class="box-body">
-                        <form method="post" action="{{ route('brand.store') }}" enctype="multipart/form-data">
+                        <form method="post" action="{{ route('search-by-year') }}" enctype="multipart/form-data">
                             @csrf
                             <div class="form-group">
                                 <h5>Select Year<span class="text-danger">*</span></h5>

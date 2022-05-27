@@ -189,8 +189,16 @@ Route::prefix('reports')->group(function() {
     Route::get('/view', [ReportController::class, 'allReport'])->name('manage.reports');
     Route::post('/search-by-date', [ReportController::class, 'reportByDate'])->name('search-by-date');
     Route::post('/search-by-month', [ReportController::class, 'reportByMonth'])->name('search-by-month');
+    Route::post('/search-by-year', [ReportController::class, 'reportByYear'])->name('search-by-year');
 });
 /*====================== End Admin Report Route ==========================*/
+
+
+/*========================= Admin Manage User Route ==========================*/
+Route::prefix('alluser')->group(function() {
+    Route::get('/view', [AdminController::class, 'allUser'])->name('manage.user');
+});
+/*====================== End Admin Manage User Route ==========================*/
 
 
 /*========================= FRONTEND ROUTE ========================*/
@@ -282,6 +290,6 @@ Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout');
 Route::get('/shipping/get-district/{division_id}', [CheckoutController::class, 'getDistrict']);
 Route::get('/shipping/get-state/{district_id}', [CheckoutController::class, 'getState']);
 Route::post('/checkout/store', [CheckoutController::class, 'storeCheckout'])->name('checkout.store');
-
-
 /*========================= End Checkout ========================*/
+
+

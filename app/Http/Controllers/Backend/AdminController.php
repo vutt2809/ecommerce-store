@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -121,6 +122,12 @@ class AdminController extends Controller
             );
             return redirect()->back()->with($notification);
         }
+    }
+
+
+    public function allUser(){
+        $users = User::latest()->get();
+        return view('backend.user.all_user', compact('users'));
     }
 
 

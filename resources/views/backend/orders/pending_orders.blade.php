@@ -35,7 +35,7 @@
                                         <td><span class="badge badge-pill badge-primary">{{ $order->status }}</span></td>
                                         <td>
                                             <a href="{{ route('pending.order.details', $order->id )}}" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>
-                                            <a href="{{ route('pending.order.delete', $order->id )}}" class="btn btn-sm btn-danger" id="delete"><i class="fa fa-trash"></i></a>
+                                            <a href="" class="btn btn-sm btn-success" id="delete"><i class="fa fa-download"></i></a>
                                         </td>
                                     </tr>
                                 @endforeach
