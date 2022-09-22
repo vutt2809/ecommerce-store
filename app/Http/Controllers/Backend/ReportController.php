@@ -4,8 +4,11 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Models\OrderItem;
+use App\Models\Product;
 use DateTime;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use SebastianBergmann\CodeCoverage\Report\Xml\Report;
 
 class ReportController extends Controller
@@ -34,6 +37,25 @@ class ReportController extends Controller
         
         $orders = Order::where('order_year', $year)->where('order_year', $year)->latest()->get();
         return view('backend.report.report_by_year', compact('orders', 'year'));
+    }
+
+    public function productReportView() {
+        return view('backend.report.product.product_report_view');
+    }
+
+    public function bestSellerProduct(Request $request) {
+        $number = $request->number;
+
+        $ids = OrderItem::select('product_id', DB::raw('count(qty) as total'))
+            ->groupBy('product_id')
+            ->orderByRaw('count(qty) DESC')
+            ->limit($number)
+            ->pluck('product_id', 'total');
+
+        $products = Product::whereIn('id', $ids)->get();
+
+
+        return view('backend.report.product.product_report_result', compact('products', 'ids'));
     }
 
     

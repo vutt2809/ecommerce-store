@@ -135,13 +135,15 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li class="{{ $route == 'manage.reports' ? 'active' : ''}}"><a href="{{ route('manage.reports') }}"><i class="ti-more"></i>Manage Report</a></li>
+                    <li class="{{ $route == 'manage.reports' ? 'active' : ''}}"><a href="{{ route('manage.reports') }}"><i class="ti-more"></i>Order By DMY</a></li>
+                    <li class="{{ $route == 'manage.reports' ? 'active' : ''}}"><a href="{{ route('manage.reports') }}"><i class="ti-more"></i>Potental Customer</a></li>
+                    <li class="{{ $route == 'manage-product-report' ? 'active' : ''}}"><a href="{{ route('manage-product-report') }}"><i class="ti-more"></i>Best Seller Product</a></li>
                 </ul>
             </li>
 
             <li class="treeview {{ $prefix == '/alluser' ? 'active' : '' }}">
                 <a href="#">
-                    <i data-feather="bar-chart-2"></i>
+                    <i data-feather="user"></i>
                     <span>User</span>
                     <span class="pull-right-container">
                     <i class="fa fa-angle-right pull-right"></i>
@@ -149,6 +151,20 @@
                 </a>
                 <ul class="treeview-menu">
                     <li class="{{ $route == 'manage.user' ? 'active' : ''}}"><a href="{{ route('manage.user') }}"><i class="ti-more"></i>Manage User</a></li>
+                </ul>
+            </li>
+
+            <li class="treeview {{ $prefix == '/blog' ? 'active' : '' }}">
+                <a href="#">
+                    <i data-feather="book-open"></i>
+                    <span>Blog</span>
+                    <span class="pull-right-container">
+                    <i class="fa fa-angle-right pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="{{ $route == 'blog.category' ? 'active' : ''}}"><a href="{{ route('blog.category') }}"><i class="ti-more"></i>Blog Category</a></li>
+                    <li class="{{ $route == 'blog.post' ? 'active' : ''}}"><a href="{{ route('blog.post') }}"><i class="ti-more"></i>View Blog Post</a></li>
                 </ul>
             </li>
 

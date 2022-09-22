@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Backend\AdminController;
+use App\Http\Controllers\Backend\BlogController;
 use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\CouponController;
@@ -186,12 +187,27 @@ Route::prefix('orders')->group(function() {
 
 /*========================= Admin Report Route ==========================*/
 Route::prefix('reports')->group(function() {
-    Route::get('/view', [ReportController::class, 'allReport'])->name('manage.reports');
+    Route::get('/report-', [ReportController::class, 'allReport'])->name('manage.reports');
     Route::post('/search-by-date', [ReportController::class, 'reportByDate'])->name('search-by-date');
     Route::post('/search-by-month', [ReportController::class, 'reportByMonth'])->name('search-by-month');
     Route::post('/search-by-year', [ReportController::class, 'reportByYear'])->name('search-by-year');
+
+    Route::get('/report-product', [ReportController::class, 'productReportView'])->name('manage-product-report');
+    Route::post('/best-seller-product', [ReportController::class, 'bestSellerProduct'])->name('top-n-bestseller');
+    
 });
 /*====================== End Admin Report Route ==========================*/
+
+/*======================== Admin Blog Route ============================*/
+Route::prefix('blog')->group(function () {
+    Route::get('/category', [BlogController::class, 'blogCategory'])->name('blog.category');
+    Route::post('/store', [BlogController::class, 'store'])->name('blogcategory.store');
+
+    Route::get('/view/post', [BlogController::class, 'allBlogPost'])->name('blog.post');
+
+
+});
+/*====================== End Admin Blog Route ==========================*/
 
 
 /*========================= Admin Manage User Route ==========================*/
