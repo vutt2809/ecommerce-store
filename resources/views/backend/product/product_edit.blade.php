@@ -40,7 +40,7 @@
                                                 <div class="controls">
                                                     <select name="subcategory_id" id="subcategory_id" required="" class="form-control">
                                                         <option value="" selected="" disabled="">Select SubCategory</option>
-                                                        @foreach ($subcategories as $item)
+                                                        @foreach ($subCategories as $item)
                                                         <option value="{{ $item->id }}" {{ $item->id == $product->subcategory_id ? 'selected' : ' ' }}>{{ $item->subcategory_name_en }}</option>
                                                         @endforeach
                                                     </select>
@@ -56,7 +56,7 @@
                                                 <div class="controls">
                                                     <select name="subsubcategory_id" id="subsubcategory_id" required="" class="form-control">
                                                         <option value="" selected="" disabled="">Select Sub-SubCategory</option>
-                                                        @foreach ($subsubcategories as $item)
+                                                        @foreach ($subSubCategories as $item)
                                                         <option value="{{ $item->id }}" {{ $item->id == $product->subsubcategory_id ? 'selected' : ' ' }}>{{ $item->subsubcategory_name_en }}</option>
                                                         @endforeach
                                                     </select>

@@ -7,55 +7,46 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" href="{{ asset('backend/images/favicon.ico') }}">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css">
     <link href="//cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
     <link rel="stylesheet" href="@sweetalert2/themes/dark/dark.css">
     <script src="sweetalert2/dist/sweetalert2.min.js"></script>
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
-    
     <title>Ecommerce Admin - Dashboard</title>
-    
 	<!-- Vendors Style-->
 	<link rel="stylesheet" href="{{ asset('backend/css/vendors_css.css') }}">
-	  
 	<!-- Style-->  
 	<link rel="stylesheet" href="{{ asset('backend/css/style.css') }}">
 	<link rel="stylesheet" href="{{ asset('backend/css/skin_color.css') }}">
-     
-  </head>
+</head>
 
 <body class="hold-transition dark-skin sidebar-mini theme-primary fixed">
 	
-<div class="wrapper">
+    <div class="wrapper">
 
-    @include('admin.body.header')
-    
-    <!-- Left side column. contains the logo and sidebar -->
-    @include('admin.body.sidebar')
-
-    <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
+        @include('admin.body.header')
         
-        @yield('admin')
+        <!-- Left side column. contains the logo and sidebar -->
+        @include('admin.body.sidebar')
 
-    </div>
-    <!-- /.content-wrapper -->
-    @include('admin.body.footer')
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            
+            @yield('admin')
 
-    <!-- Control Sidebar -->
+        </div>
+        <!-- /.content-wrapper -->
+        @include('admin.body.footer')
 
-    <!-- /.control-sidebar -->
+        <!-- Control Sidebar -->
+
+        <!-- /.control-sidebar -->
+        
+        <!-- Add the sidebar's background. This div must be placed immediately after the control sidebar -->
+        <div class="control-sidebar-bg"></div>
     
-    <!-- Add the sidebar's background. This div must be placed immediately after the control sidebar -->
-    <div class="control-sidebar-bg"></div>
-  
-</div>
+    </div>
 <!-- ./wrapper -->
-  	
-	 
 	<!-- Vendor JS -->
 	<script src="{{ asset('backend/js/vendors.min.js') }}"></script>
     <script src="{{ asset('../assets/icons/feather-icons/feather.min.js') }}"></script>	
@@ -65,7 +56,6 @@
 	
     <script src="{{ asset('../assets/vendor_components/datatable/datatables.min.js') }}"></script>
 	<script src="{{ asset('backend/js/pages/data-table.js') }}"></script>
-
 
     <!-- Tags Input -->
     <script src="{{ asset('../assets/vendor_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.js') }}"></script>
@@ -103,11 +93,7 @@
             }
         @endif
     </script>
-
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
-
     <script src="{{ asset('backend/js/code.js') }}"></script>
-
-
 </body>
 </html>

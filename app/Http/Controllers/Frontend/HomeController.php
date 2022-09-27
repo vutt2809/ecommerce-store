@@ -35,18 +35,19 @@ class HomeController extends Controller
         $skipBrand1 = Brand::skip(1)->first();
         $skipBrandProduct1 = Product::where('status', 1)->where('brand_id', $skipBrand1->id)->orderBy('id', 'DESC')->get();
     
-
         return view('frontend.index', compact('categories', 'sliders', 'products', 'featured', 'hotdeals', 'specialOffer', 'specialDeals'
                     , 'skipCategory0', 'skipProduct0', 'skipCategory1', 'skipProduct1', 'skipBrand1', 'skipBrandProduct1'));
     }
 
     public function logout() {
         Auth::logout();
+
         return Redirect()->route('login');
     }
 
     public function profile() {
         $user = User::find(Auth::user()->id);
+
         return view('frontend.user.profile.user_profile', compact('user'));
     }
 
@@ -56,9 +57,8 @@ class HomeController extends Controller
         $user->email = $request->email;
         $user->phone = $request->phone;
 
-        if ($request->file('profile_photo_path')){
+        if ($request->file('profile_photo_path')) {
             $file = $request->file('profile_photo_path');
-            //unlink(public_path('upload/user_images/'.$user->profile_photo_path));
             $filename = date('YmdHi').$file->getClientOriginalName();
             $file->move(public_path('upload/user_images'), $filename);
             $user['profile_photo_path'] = $filename;
@@ -66,16 +66,17 @@ class HomeController extends Controller
 
         $user->save();
 
-        $noti = [
+        $notification = [
             'message' => 'User Profile Updated Successfully',
             'alert-type' => 'success'
         ];
 
-        return redirect()->route('user.profile')->with($noti); 
+        return redirect()->route('user.profile')->with($notification); 
     }
 
     public function changePassword (){
         $user = User::find(Auth::user()->id);
+
         return view('frontend.user.profile.change_password', compact('user'));
     }
 
@@ -88,11 +89,13 @@ class HomeController extends Controller
         ]);
 
         $hashedPassword = User::find($id)->password;
+
         if (Hash::check($request->oldpassword, $hashedPassword)){
             $user = User::find($id);
             $user->password = Hash::make($request->password);  
             $user->save();
             Auth::logout();
+
             return redirect()->route('user.logout');
         }
         $noti = [
@@ -114,26 +117,29 @@ class HomeController extends Controller
         $productSizeVN = explode(',', $sizeVN);
         $multiImages = MultiImg::where('product_id', $id)->get();
         $relatedProduct = Product::where('category_id', $product->category_id)->where('id', '!=', $id)->orderBy('id', 'DESC')->get();
+        
         return view('frontend.product.product_detail', compact('product', 'multiImages', 'productColorEN', 'productColorVN', 'productSizeEN', 'productSizeVN', 'relatedProduct')); 
     }
 
     public function tagWiseProduct($tag){
         $products = Product::where('status', 1)->where('product_tags_en', $tag)->where('product_tags_vn', $tag)->orderBy('id', 'DESC')->paginate(2);
         $categories = Category::orderBy('category_name_en', 'ASC')->get();
+        
         return view('frontend.tags.tags_view', compact('products', 'categories')); 
     }
 
     public function subCategoryWiseProduct($id, $sulg){
         $products = Product::where('status', 1)->where('subcategory_id', $id)->orderBy('id', 'DESC')->paginate(3);
         $categories = Category::orderBy('category_name_en', 'ASC')->get();
+        
         return view('frontend.product.list_by_subcategory', compact('products', 'categories'));
     }
 
     public function subSubCategoryWiseProduct($id, $sulg){
         $products = Product::where('status', 1)->where('subsubcategory_id', $id)->orderBy('id', 'DESC')->paginate(3);
         $categories = Category::orderBy('category_name_en', 'ASC')->get();
-        $subcategories = SubCategory::orderBy('subcategory_name_en', 'ASC')->get();
-        return view('frontend.product.list_by_subsubcategory', compact('products', 'categories', 'subcategories'));
+        $subCategories = SubCategory::orderBy('subcategory_name_en', 'ASC')->get();
+        return view('frontend.product.list_by_subsubcategory', compact('products', 'categories', 'subCategories'));
     }
 
     public function previewProductAjax($id) {

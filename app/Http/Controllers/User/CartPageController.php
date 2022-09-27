@@ -32,16 +32,19 @@ class CartPageController extends Controller
         if (Session::has('coupon')){
             Session::forget('coupon');
         }
+
         return response()->json(['success' => 'Product have been removed from shopping cart']);
     }
 
     public function increaseQuantity($rowId) {
         Cart::update($rowId, ['quantity' => 1]);
+
         return response()->json(['increment']);
     }
 
     public function decreaseQuantity($rowId) {
         Cart::update($rowId, ['quantity' => -1]);
+        
         return response()->json(['decrement']);
     }
 

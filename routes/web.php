@@ -23,13 +23,8 @@ use App\Http\Controllers\User\StripeController;
 use App\Http\Controllers\User\UserController;
 use Illuminate\Support\Facades\Route;
 
-
-
-
 require __DIR__.'/auth.php';
 
-
-// 
 /* ==========================Admin Auth Route============================*/
 Route::prefix('admin')->group(function (){
     Route::get('/login', [AdminController::class, 'login'])->name('admin.login');
@@ -46,8 +41,6 @@ Route::prefix('admin')->group(function (){
     Route::post('/update/password', [AdminController::class, 'updatePassword'])->name('admin.update.password')->middleware('admin');;
 });
 /* ========================End Admin Auth Route==========================*/
-
-
 
 /* ==========================Seller Auth Route============================*/
 Route::prefix('seller')->group(function (){
@@ -218,7 +211,6 @@ Route::prefix('alluser')->group(function() {
 
 
 /*========================= FRONTEND ROUTE ========================*/
-
 /*========================= User Route ========================*/
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/dashboard', [HomeController::class, 'index'])->name('user.dashboard');
@@ -228,7 +220,6 @@ Route::post('/user/profile/store', [HomeController::class, 'profileStore'])->nam
 Route::get('user/change/password', [HomeController::class, 'changePassword'])->name('change.password');
 Route::post('user/password/update', [HomeController::class, 'updatePassword'])->name('user.password.update');
 /*======================= End User Route =======================*/
-
 
 /*========================= Language Route ========================*/
 Route::get('/language/english', [LanguageController::class, 'english'])->name('english.language');
@@ -250,8 +241,6 @@ Route::get('/subcategory/product/{id}/{slug}', [HomeController::class, 'subCateg
 /*========================= Frontend SubSubcategory Data ========================*/
 Route::get('/subsubcategory/product/{id}/{slug}', [HomeController::class, 'subSubCategoryWiseProduct']);
 /*========================= End Frontend SubSubcategory Data ========================*/
-
-
 
 /*========================= Product View Modal With Ajax ========================*/
 Route::get('/product/view/modal/{id}', [HomeController::class, 'previewProductAjax']);

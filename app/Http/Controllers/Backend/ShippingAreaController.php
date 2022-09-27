@@ -13,6 +13,7 @@ class ShippingAreaController extends Controller
 {
     public function viewDivision() {
         $divisions = ShipDivision::orderBy('id', 'DESC')->get();
+
         return view('backend.ship.division.view_division', compact('divisions'));
     }
 
@@ -37,6 +38,7 @@ class ShippingAreaController extends Controller
 
     public function editDivision($id) {
         $division = ShipDivision::findOrFail($id);
+
         return view('backend.ship.division.edit_division', compact('division'));
     }
 
@@ -49,15 +51,18 @@ class ShippingAreaController extends Controller
             'message' => 'Shipping division updated successfully',
             'alert-type' => 'success'
         ];
+
         return redirect()->route('manage.division')->with($notification);
     }
 
     public function deleteDivision ($id){
         ShipDivision::findOrFail($id)->delete();
+        
         $notification = [
             'message' => 'Shipping division deleted successfully',
             'alert-type' => 'success'
         ];
+
         return redirect()->back()->with($notification);
     }
 
@@ -83,16 +88,19 @@ class ShippingAreaController extends Controller
             'district_name' => $request->district_name,
             'created_at' => Carbon::now()
         ]);
+
         $notification = [
             'message' => 'Shipping district deleted successfully',
             'alert-type' => 'success'
         ];
+
         return redirect()->back()->with($notification);
     }
 
     public function editDistrict($id) {
         $divisions = ShipDivision::orderBy('division_name', 'ASC')->get();
         $district = ShipDistrict::findOrFail($id);
+
         return view('backend.ship.district.edit_district', compact('district', 'divisions'));
     }
 
@@ -107,6 +115,7 @@ class ShippingAreaController extends Controller
             'message' => 'Shipping district updated successfully',
             'alert-type' => 'success'
         ];
+
         return redirect()->route('manage.district')->with($notification);
     }
 
@@ -117,19 +126,22 @@ class ShippingAreaController extends Controller
             'message' => 'Shipping district deleted successfully',
             'alert-type' => 'success'
         ];
+
         return redirect()->back()->with($notification);
     }
 
-    // ================Ship State================
+    // Ship State Section
     public function viewState() {
         $divisions = ShipDivision::orderBy('division_name', 'ASC')->get();
         $districts = ShipDistrict::orderBy('district_name', 'ASC')->get();
         $states = ShipState::with('district', 'division')->orderBy('id', 'DESC')->get();
+
         return view('backend.ship.state.view_state', compact('districts', 'divisions', 'states'));
     }
 
     public function getDistrict ($division_id) {
         $districts = ShipDistrict::where('division_id', $division_id)->orderBy('district_name', 'DESC')->get();
+
         return json_encode($districts);
     }
 
@@ -154,6 +166,7 @@ class ShippingAreaController extends Controller
             'message' => 'Shipping state inserted successfully',
             'alert-type' => 'success'
         ];
+
         return redirect()->back()->with($notification);
     }
 
@@ -175,15 +188,18 @@ class ShippingAreaController extends Controller
             'message' => 'Shipping state updated successfully',
             'alert-type' => 'success'
         ];
+
         return redirect()->route('manage.state')->with($notification);
     }
 
     public function deleteState($id) {
         ShipState::findOrFail($id)->delete();
+
         $notification = [
             'message' => 'Shipping state deleted successfully',
             'alert-type' => 'success'
         ];
+        
         return redirect()->route('manage.state')->with($notification);
     }
 

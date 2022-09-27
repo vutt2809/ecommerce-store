@@ -34,12 +34,12 @@ class CategoryController extends Controller
             'created_at' => Carbon::now()
         ]);
 
-        $notofication = [
+        $notification = [
             'message' => 'Category inserted successfully',
             'alert-type' => 'success'
         ];
 
-        return redirect()->back()->with($notofication);
+        return redirect()->back()->with($notification);
     }
 
     public function edit($id) {
@@ -48,8 +48,8 @@ class CategoryController extends Controller
     }
 
     public function update(Request $request) {
-        $category_id = $request->id;
-        Category::findOrFail($category_id)->update([
+        $categoryId = $request->id;
+        Category::findOrFail($categoryId)->update([
             'category_name_en' => $request->category_name_en,
             'category_name_vn' => $request->category_name_vn,
             'category_slug_en' => strtolower(str_replace(' ', '-', $request->category_name_en)),
@@ -57,22 +57,22 @@ class CategoryController extends Controller
             'category_icon' => $request->category_icon
         ]);
 
-        $notofication = [
+        $notification = [
             'message' => 'Category updated successfully',
             'alert-type' => 'success'
         ];
 
-        return redirect()->route('all.category')->with($notofication);
+        return redirect()->route('all.category')->with($notification);
     }
 
     public function delete($id){
         Category::findOrFail($id)->delete();
 
-        $notofication = [
+        $notification = [
             'message' => 'Category deleted successfully',
             'alert-type' => 'success'
         ];
 
-        return redirect()->back()->with($notofication);
+        return redirect()->back()->with($notification);
     }
 }

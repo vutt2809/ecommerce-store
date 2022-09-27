@@ -1,8 +1,5 @@
 @php 
-
 $categories = App\Models\Category::orderBy('category_name_en', 'ASC')->get();
-
-
 @endphp
 
 <div class="side-menu animate-dropdown outer-bottom-xs">
@@ -18,20 +15,20 @@ $categories = App\Models\Category::orderBy('category_name_en', 'ASC')->get();
                     <li class="yamm-content">
                         <div class="row">
                             @php
-                                $subcategories = App\Models\SubCategory::where('category_id', $category->id)->orderBy('subcategory_name_en', 'ASC')->get();
+                                $subCategories = App\Models\SubCategory::where('category_id', $category->id)->orderBy('subcategory_name_en', 'ASC')->get();
                             @endphp 
 
-                            @foreach($subcategories as $subcategory)
+                            @foreach($subCategories as $subCategory)
                             <div class="col-sm-12 col-md-3">
-                                <a href="{{url('subcategory/product/'.$subcategory->id.'/'.$subcategory->subcategory_slug_en )}}">
-                                <h2 class="title">@if (session()->get('language') == 'vietnam') {{$subcategory->subcategory_name_vn}} @else {{$subcategory->subcategory_name_en}} @endif</h2>                                    
+                                <a href="{{url('subcategory/product/'.$subCategory->id.'/'.$subCategory->subcategory_slug_en )}}">
+                                <h2 class="title">@if (session()->get('language') == 'vietnam') {{$subCategory->subcategory_name_vn}} @else {{$subCategory->subcategory_name_en}} @endif</h2>                                    
                                 </a>
                                 @php
-                                    $subsubcategories = App\Models\SubSubCategory::where('subcategory_id', $subcategory->id)->orderBy('subsubcategory_name_en', 'ASC')->get();
+                                    $subSubCategories = App\Models\SubSubCategory::where('subcategory_id', $subCategory->id)->orderBy('subsubcategory_name_en', 'ASC')->get();
                                 @endphp 
-                                @foreach($subsubcategories as $subsubcategory)
+                                @foreach($subSubCategories as $subSubCategory)
                                 <ul class="links list-unstyled">
-                                    <li><a href="{{url('subsubcategory/product/'.$subsubcategory->id.'/'.$subsubcategory->subsubcategory_slug_en )}}">@if (session()->get('language') == 'vietnam') {{$subsubcategory->subsubcategory_name_vn}} @else {{$subsubcategory->subsubcategory_name_en}} @endif</a></li>    
+                                    <li><a href="{{url('subsubcategory/product/'.$subSubCategory->id.'/'.$subSubCategory->subsubcategory_slug_en )}}">@if (session()->get('language') == 'vietnam') {{$subSubCategory->subsubcategory_name_vn}} @else {{$subSubCategory->subsubcategory_name_en}} @endif</a></li>    
                                 </ul>
                                 @endforeach
                             </div>

@@ -19,6 +19,7 @@ class ProductController extends Controller
     public function add() {
         $categories = Category::latest()->get();
         $brands = Brand::latest()->get();
+
         return view('backend.product.product_add', compact('categories' ,'brands'));
     }
 
@@ -51,12 +52,13 @@ class ProductController extends Controller
         if ($image_size == '792x1056'){
             $w = 792; $h = 1056;
         }
-        $image = $request->file('product_thumbnail');
-        $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
-        Image::make($image)->resize($w, $h)->save('upload/product/thumbnail/'.$name_gen);
-        $save_url = 'upload/product/thumbnail/'.$name_gen;
 
-        $product_id = Product::insertGetId([
+        $image = $request->file('product_thumbnail');
+        $nameGeneration = hexdec(uniqid()). '.' .$image->getClientOriginalExtension();
+        Image::make($image)->resize($w, $h)->save('upload/product/thumbnail/'.$nameGeneration);
+        $saveURL = 'upload/product/thumbnail/'.$nameGeneration;
+
+        $productId = Product::insertGetId([
             'brand_id' => $request->brand_id,
             'category_id' => $request->category_id,
             'subcategory_id' => $request->subcategory_id,
@@ -87,34 +89,36 @@ class ProductController extends Controller
             'special_offer' => $request->special_offer,
             'special_deals' => $request->special_deals,
 
-            'product_thumbnail' => $save_url,
+            'product_thumbnail' => $saveURL,
             'status' => 1,
             'created_at' => Carbon::now(),
         ]);
 
         $images = $request->file('multi_img');
-        foreach($images as $image){
-            $make_name = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
-            Image::make($image)->resize($w, $h)->save('upload/product/multi-image/'.$make_name);
-            $uploadPath = 'upload/product/multi-image/'.$make_name;
+
+        foreach ($images as $image) {
+            $makeName = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
+            Image::make($image)->resize($w, $h)->save('upload/product/multi-image/'.$makeName);
+            $uploadPath = 'upload/product/multi-image/'.$makeName;
 
             MultiImg::insert([
-                'product_id' => $product_id,
+                'product_id' => $productId,
                 'photo_name' => $uploadPath,
                 'created_at' => Carbon::now()
             ]);
         }
 
-        $notofication = [
+        $notification = [
             'message' => 'Product inserted successfully',
             'alert-type' => 'success'
         ];
 
-        return redirect()->route('manage.product')->with($notofication);
+        return redirect()->route('manage.product')->with($notification);
     }
 
     public function manage() {
         $products = Product::latest()->get();
+
         return view('backend.product.product_view', compact('products'));
     }
 
@@ -122,17 +126,17 @@ class ProductController extends Controller
         $multiImgs = MultiImg::where('product_id', $id)->get();
 
         $categories = Category::latest()->get();
-        $subcategories = SubCategory::latest()->get();
-        $subsubcategories = SubSubCategory::latest()->get();
+        $subCategories = SubCategory::latest()->get();
+        $subSubCategories = SubSubCategory::latest()->get();
         $brands = Brand::latest()->get();
         $product = Product::findOrFail($id);
-        return view('backend.product.product_edit', compact('product', 'brands', 'categories', 'subcategories', 'subsubcategories', 'multiImgs'));
+        return view('backend.product.product_edit', compact('product', 'brands', 'categories', 'subCategories', 'subSubCategories', 'multiImgs'));
     }
 
     public function update(Request $request){
-        $product_id = $request->id;
+        $productId = $request->id;
 
-        Product::findOrFail($product_id)->update([
+        Product::findOrFail($productId)->update([
             'brand_id' => $request->brand_id,
             'category_id' => $request->category_id,
             'subcategory_id' => $request->subcategory_id,
@@ -163,32 +167,35 @@ class ProductController extends Controller
             'special_offer' => $request->special_offer,
             'special_deals' => $request->special_deals,
 
-            // 'product_thumbnail' => $save_url,
             'status' => 1,
             'created_at' => Carbon::now(),
         ]);
 
-        $notofication = [
+        $notification = [
             'message' => 'Product updated without image successfully',
             'alert-type' => 'success'
         ];
 
-        return redirect()->route('manage.product')->with($notofication);
+        return redirect()->route('manage.product')->with($notification);
     }
 
-    public function updateMultiImage(Request $request){
+    public function updateMultiImage(Request $request) {
         $imgs = $request->multi_img;
         $image_size = $request->image_size;
+
         if ($image_size == '1200x800'){
             $w = 1200; $h = 800;
         }
+
         if ($image_size == '917x1000'){
             $w = 917; $h = 1000;
         }
+
         if ($image_size == '792x1056'){
             $w = 792; $h = 1056;
         }
-        foreach($imgs as $id => $img){
+
+        foreach ($imgs as $id => $img) {
             $existImg = MultiImg::findOrFail($id);
             unlink($existImg->photo_name);
 
@@ -202,12 +209,12 @@ class ProductController extends Controller
             ]);
         }
 
-        $notofication = [
+        $notification = [
             'message' => 'Product image updated successfully',
             'alert-type' => 'info'
         ];
 
-        return redirect()->route('manage.product')->with($notofication);
+        return redirect()->route('manage.product')->with($notification);
     }
 
     public function updateThumbnailImage(Request $request) {
@@ -225,6 +232,7 @@ class ProductController extends Controller
         if ($image_size == '792x1056'){
             $w = 792; $h = 1056;
         }
+
         $img = $request->file('product_thumbnail');
 
         $makeName = hexdec(uniqid()).'.'.$img->getClientOriginalExtension();
@@ -236,12 +244,12 @@ class ProductController extends Controller
             'updated_at' => Carbon::now(),
         ]);
 
-        $notofication = [
+        $notification = [
             'message' => 'Product thumbnail image updated successfully',
             'alert-type' => 'info'
         ];
 
-        return redirect()->route('manage.product')->with($notofication);
+        return redirect()->route('manage.product')->with($notification);
     }
 
     public function deleteMultiImage($id) {
@@ -249,6 +257,7 @@ class ProductController extends Controller
         unlink($oldImg->photo_name);
 
         MultiImg::findOrFail($id)->delete();
+
         return redirect()->back();
     }
 
@@ -256,6 +265,7 @@ class ProductController extends Controller
         Product::findOrFail($id)->update([
             'status' => 0
         ]);
+
         $notification = [
             'message' => 'Product inactive successfully',
             'alert-type' => 'info'
@@ -268,6 +278,7 @@ class ProductController extends Controller
         Product::findOrFail($id)->update([
             'status' => 1
         ]);
+
         $notification = [
             'message' => 'Product active successfully',
             'alert-type' => 'info'
@@ -280,6 +291,7 @@ class ProductController extends Controller
         $product = Product::findOrFail($id);
 
         unlink($product->product_thumbnail);
+        
         $multiImgs = MultiImg::where('product_id', $id)->get();
         foreach($multiImgs as $img){
             unlink($img->photo_name);

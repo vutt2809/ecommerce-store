@@ -76,7 +76,7 @@
     <script>
         @if(Session::has('message'))
             var type = "{{ Session::get('alert-type', 'info') }}";
-            switch(type){
+            switch(type) {
                 case 'info':
                     toastr.info("{{ Session::get('message') }}");
                     break;
@@ -169,7 +169,7 @@
                 type: 'GET',
                 url: '/product/view/modal/' + id,
                 dataType: 'json', 
-                success: function (data){
+                success: function (data) {
                     $('#p_name').text(data.product.product_name_en);
                     $('#p_code').text(data.product.product_code);
                     $('#p_category').text(data.product.category.category_name_en);
@@ -181,7 +181,7 @@
                     $('#quantity').val(1);
 
                     // check Product price
-                    if (data.product.discount_price == null){
+                    if (data.product.discount_price == null) {
                         $('#p_price').text('')
                         $('#p_old_price').text('')
                         $('#p_price').text(data.product.selling_price)
@@ -200,14 +200,14 @@
                     $.each(data.size, (key, value) => {
                         $('select[name="size"]').append('<option value="'+ value +'">'+ value +'</option>', )
 
-                        if (data.size == ""){
+                        if (data.size == "") {
                             $('.size-area').hide();
                         }else{
                             $('.size-area').show();
                         }
                     }) 
 
-                    if (data.product.product_qty > 0){
+                    if (data.product.product_qty > 0) {
                         $('#available').text('') 
                         $('#stockout').text('') 
                         $('#available').text('Available') 
@@ -221,7 +221,7 @@
             })
         }
         
-        function addToCart(){
+        function addToCart() {
             var product_name = $('#p_name').text()
             var id = $('#product_id').val()
             var color = $('#color option:selected').text()
@@ -247,7 +247,7 @@
                         timer: 2000
                     })
 
-                    if ($.isEmptyObject(data.error)){
+                    if ($.isEmptyObject(data.error)) {
                         Toast.fire({
                             title: data.success
                         })
@@ -312,7 +312,7 @@
                         timer: 2000
                     })
 
-                    if ($.isEmptyObject(data.error)){
+                    if ($.isEmptyObject(data.error)) {
                         Toast.fire({
                             title: data.success
                         })
@@ -338,7 +338,7 @@
                         timer: 2000
                     })
 
-                    if ($.isEmptyObject(data.error)){
+                    if ($.isEmptyObject(data.error)) {
                         Toast.fire({
                             icon: 'success',
                             title: data.success
@@ -351,9 +351,6 @@
                     }
                 }
             })
-            
-            
-
         }
 
         function wishlist() {
@@ -401,7 +398,7 @@
             })
         }
 
-        function removeWishlist(id){
+        function removeWishlist(id) {
             $.ajax({
                 type: 'GET',
                 url: '/user/wishlist-remove/' + id,
@@ -415,7 +412,7 @@
                         showConfirmButton: false,
                         timer: 2000
                     })
-                    if ($.isEmptyObject(data.error)){
+                    if ($.isEmptyObject(data.error)) {
                         Toast.fire({
                             icon: 'success',
                             title: data.success
@@ -477,7 +474,7 @@
             })
         }
 
-        function removeProductFromCart(id){
+        function removeProductFromCart(id) {
             console.log(id);
             $.ajax({
                 type: 'GET',
@@ -496,7 +493,7 @@
                         showConfirmButton: false,
                         timer: 2000
                     })
-                    if ($.isEmptyObject(data.error)){
+                    if ($.isEmptyObject(data.error)) {
                         Toast.fire({
                             icon: 'success',
                             title: data.success
@@ -548,6 +545,7 @@
     // ===================== Coupon Apply =====================
     function applyCoupon() {
         var coupon_name = $('#coupon_name').val();
+        
         $.ajax({
             type: 'POST',
             dataType: 'json',
@@ -562,7 +560,7 @@
                     showConfirmButton: false,
                     timer: 2000
                 })
-                if ($.isEmptyObject(data.error)){                                  
+                if ($.isEmptyObject(data.error)) {                                  
                     Toast.fire({
                         icon: 'success',
                         title: data.success
@@ -584,7 +582,7 @@
             url:  "{{ url('/coupon-calculation') }}",
             dataType: 'json',
             success: (data) => {
-                if (data.total){
+                if (data.total) {
                     $('#couponCalField').html(`
                         <tr>
                             <th>
@@ -597,7 +595,7 @@
                             </th>
                         </tr>
                     `)
-                }else{
+                }else {
                     $('#couponCalField').html(`
                         <tr>
                             <th>
@@ -622,7 +620,6 @@
         })
     }
 
-
     function removeCoupon() {
         $.ajax({
             type: 'GET',
@@ -638,7 +635,7 @@
                     showConfirmButton: false,
                     timer: 2000
                 })
-                if ($.isEmptyObject(data.error)){                                  
+                if ($.isEmptyObject(data.error)) {                                  
                     Toast.fire({
                         icon: 'success',
                         title: data.success

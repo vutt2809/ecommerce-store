@@ -8,7 +8,7 @@
             <div class="col-8">
                 <div class="box">
                     <div class="box-header with-border">
-                        <h3 class="box-title">SubCategory List -  <span class="badge badge-pill badge-info">{{ count($subcategories) }}</span> </h3>
+                        <h3 class="box-title">SubCategory List -  <span class="badge badge-pill badge-info">{{ count($subCategories) }}</span> </h3>
                     </div>
                     <div class="box-body">
                         <div class="table-responsive">
@@ -22,14 +22,14 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($subcategories as $subcategory)
+                                @foreach($subCategories as $subCategory)
                                     <tr>
-                                        <td>{{ $subcategory->category->category_name_en }}</td>
-                                        <td>{{ $subcategory->subcategory_name_en }}</td>
-                                        <td>{{ $subcategory->subcategory_name_vn }}</td>
+                                        <td>{{ $subCategory->category->category_name_en }}</td>
+                                        <td>{{ $subCategory->subcategory_name_en }}</td>
+                                        <td>{{ $subCategory->subcategory_name_vn }}</td>
                                         <td>
-                                            <a href="{{ route('subcategory.edit', $subcategory->id) }}" class="btn btn-sm btn-info"><i class="fa fa-pencil"></i></a>
-                                            <a href="{{ route('subcategory.delete', $subcategory->id) }}" class="btn btn-sm btn-danger" id="delete"><i class="fa fa-trash"></i></a>
+                                            <a href="{{ route('subcategory.edit', $subCategory->id) }}" class="btn btn-sm btn-info"><i class="fa fa-pencil"></i></a>
+                                            <a href="{{ route('subcategory.delete', $subCategory->id) }}" class="btn btn-sm btn-danger" id="delete"><i class="fa fa-trash"></i></a>
                                         </td>
                                     </tr>
                                 @endforeach

@@ -12,6 +12,7 @@ class LanguageController extends Controller
         session()->get('language');
         session()->forget('language');
         Session::put('language', 'english');
+
         return redirect()->back();
     }
 
@@ -19,6 +20,7 @@ class LanguageController extends Controller
         session()->get('language');
         session()->forget('language');
         Session::put('language', 'vietnam');
+        
         return redirect()->back();
     }
 }

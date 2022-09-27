@@ -24,7 +24,9 @@ class StripeController extends Controller
         }
 
         \Stripe\Stripe::setApiKey('sk_test_51Ksep3Da0BmhoVrE9pY4uirCu0fdlEvb9gvzFOcOEsRP0hsDPw2BtyIVCFnQI45Y1FJFXdCSbhZCioJ9ikWOsrtI004CnUkUoA');
+        
         $token = $_POST['stripeToken'];
+
         $charge = \Stripe\Charge::create([
             'amount' => $total_amount * 100,
             'currency' => 'usd',
@@ -63,15 +65,18 @@ class StripeController extends Controller
 
         // Send Email 
         $invoice = Order::findOrFail($orderId);
+
         $data = [
             'invoice_no' => $invoice->invoice_no,
             'amount' => $total_amount,
             'name' => $invoice->name,
             'email' => $invoice->email,
         ];
+
         Mail::to($request->email)->send(new OrderMail($data));
 
         $cart = Cart::getContent();
+        
         foreach ($cart as $item) {
             OrderItem::insert([
                 'order_id' => $orderId,

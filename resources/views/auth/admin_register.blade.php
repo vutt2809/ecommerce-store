@@ -32,7 +32,7 @@
 							<p class="text-dark-50">Sign in to start your session</p>							
 						</div>
 						<div class="p-30 rounded30 box-shadowed b-2 b-dashed">
-							@if(Session::has('message'))
+							@if (Session::has('message'))
 							<div class="alert alert-warning alert-dismissible fade show" role="alert">
 								<strong>{{ Session::get('message') }}</strong>
 								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -114,8 +114,6 @@
 			</div>
 		</div>
 	</div>
-
-
 	<!-- Vendor JS -->
 	<script src="{{ asset('backend/js/vendors.min.js') }}"></script>
     <script src="{{ asset('../assets/icons/feather-icons/feather.min.js') }}"></script>		

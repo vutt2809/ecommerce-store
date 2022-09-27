@@ -48,15 +48,18 @@ class CashController extends Controller
 
         // Send Email 
         $invoice = Order::findOrFail($orderId);
+
         $data = [
             'invoice_no' => $invoice->invoice_no,
             'amount' => $total_amount,
             'name' => $invoice->name,
             'email' => $invoice->email,
         ];
+
         Mail::to($request->email)->send(new OrderMail($data));
 
         $cart = Cart::getContent();
+
         foreach ($cart as $item) {
             OrderItem::insert([
                 'order_id' => $orderId,
@@ -69,7 +72,7 @@ class CashController extends Controller
             ]);
         }
 
-        if (Session::get('coupon')){
+        if (Session::get('coupon')) {
             Session::forget('coupon');
         }
 

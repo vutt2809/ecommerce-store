@@ -50,12 +50,12 @@ Tag Wise Product
                                         <!-- /.accordion-heading -->
                                         <div class="accordion-body collapse" id="collapse{{$category->id}}" style="height: 0px;">
                                             @php
-                                            $subcategories = App\Models\SubCategory::where('category_id', $category->id)->orderBy('subcategory_name_en', 'ASC')->get();
+                                            $subCategories = App\Models\SubCategory::where('category_id', $category->id)->orderBy('subcategory_name_en', 'ASC')->get();
                                             @endphp
                                             <div class="accordion-inner">
-                                                @foreach ($subcategories as $subcategory)
+                                                @foreach ($subCategories as $subCategory)
                                                 <ul>
-                                                    <li><a href="#">{{ $subcategory->subcategory_name_en }}</a></li>
+                                                    <li><a href="#">{{ $subCategory->subcategory_name_en }}</a></li>
                                                 </ul>
                                                 @endforeach
                                             </div>
@@ -65,8 +65,6 @@ Tag Wise Product
                                     </div>
                                     <!-- /.accordion-group -->
                                     @endforeach
-
-
                                 </div>
                                 <!-- /.accordion -->
                             </div>

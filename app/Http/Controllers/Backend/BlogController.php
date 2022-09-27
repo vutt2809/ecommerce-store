@@ -12,8 +12,8 @@ use Svg\Tag\Rect;
 class BlogController extends Controller
 {
     public function blogCategory() {
-        $blogcategories = BlogPostCategory::latest()->get();
-        return view('backend.blog.category.category_view', compact('blogcategories'));
+        $blogCategories = BlogPostCategory::latest()->get();
+        return view('backend.blog.category.category_view', compact('blogCategories'));
     }
 
     public function store(Request $request) {
@@ -66,9 +66,10 @@ class BlogController extends Controller
     }
 
     public function allBlogPost () {
-        $blogcategories = BlogPostCategory::orderBy('blog_category_name_en', 'DESC')->get();
+        $blogCategories = BlogPostCategory::orderBy('blog_category_name_en', 'DESC')->get();
         $blogPosts = BlogPost::latest()->get();
-        return view('backend.blog.post.post_view', compact('blogPosts', 'blogcategories'));
+
+        return view('backend.blog.post.post_view', compact('blogPosts', 'blogCategories'));
     }
 
 

@@ -13,7 +13,7 @@
                     <div class="box-body">
                         <form method="post" action="{{ route('subsubcategory.update') }}" enctype="multipart/form-data">
                             @csrf 
-                            <input type="hidden" name="id" value="{{ $subsubcategory->id }}">
+                            <input type="hidden" name="id" value="{{ $subSubCategory->id }}">
 
                             <div class="form-group">
 								<h5>Category Select<span class="text-danger">*</span></h5>
@@ -21,7 +21,7 @@
 									<select name="category_id" id="category_id" required="" class="form-control">
                                         <option value="" selected="" disabled="">Select Category</option>
                                         @foreach ($categories as $category)
-										<option value="{{ $category->id }}" {{ $category->id == $subsubcategory->category_id ? 'selected' : '' }}>{{ $category->category_name_en }}</option>
+										<option value="{{ $category->id }}" {{ $category->id == $subSubCategory->category_id ? 'selected' : '' }}>{{ $category->category_name_en }}</option>
                                         @endforeach
 									</select>
                                 @error('category_id')
@@ -34,8 +34,8 @@
 								<div class="controls">
 									<select name="subcategory_id" id="subcategory_id" required="" class="form-control">
                                         <option value="" selected="" disabled="">Select SubCategory</option>
-                                        @foreach ($subcategories as $subcategory)
-										<option value="{{ $subcategory->id }}" {{ $subcategory->id == $subsubcategory->subcategory_id ? 'selected' : '' }}>{{ $subcategory->subcategory_name_en }}</option>
+                                        @foreach ($subCategories as $subCategory)
+										<option value="{{ $subCategory->id }}" {{ $subCategory->id == $subSubCategory->subcategory_id ? 'selected' : '' }}>{{ $subCategory->subcategory_name_en }}</option>
                                         @endforeach
 									</select>
                                 @error('subcategory_id')
@@ -46,7 +46,7 @@
                             <div class="form-group">
                                 <h5>Sub SubCategory Name English<span class="text-danger">*</span></h5>
                                 <div class="controls">
-                                    <input type="text" id="subsubcategory_name_en" name="subsubcategory_name_en" class="form-control"  value="{{ $subsubcategory->subsubcategory_name_en }}">
+                                    <input type="text" id="subsubcategory_name_en" name="subsubcategory_name_en" class="form-control"  value="{{ $subSubCategory->subsubcategory_name_en }}">
                                 </div>
                                 @error('subsubcategory_name_en')
                                 <span class="text-danger">{{ $message }}</span>
@@ -56,7 +56,7 @@
                             <div class="form-group">
                                 <h5>Sub SubCategory Name VietNam<span class="text-danger">*</span></h5>
                                 <div class="controls">
-                                    <input type="text" id="subsubcategory_name_vn" name="subsubcategory_name_vn" class="form-control" value="{{ $subsubcategory->subsubcategory_name_vn }}">
+                                    <input type="text" id="subsubcategory_name_vn" name="subsubcategory_name_vn" class="form-control" value="{{ $subSubCategory->subsubcategory_name_vn }}">
                                 </div>
                                 @error('subsubcategory_name_vn')
                                 <span class="text-danger">{{ $message }}</span>
@@ -79,9 +79,10 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
       $(document).ready(function() {
-        $('select[name="category_id"]').on('change', function(){
+        $('select[name="category_id"]').on('change', function() {
             var category_id = $(this).val();
-            if(category_id) {
+
+            if (category_id) {
                 $.ajax({
                     url: "{{  url('/category/subcategory/ajax') }}/"+category_id,
                     type:"GET",

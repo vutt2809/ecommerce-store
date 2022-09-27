@@ -20,7 +20,6 @@ Product in Sub-SubCategory
 </div>
 <!-- /.breadcrumb -->
 
-
 <div class="body-content outer-top-xs">
     <div class='container'>
         <div class='row'>
@@ -28,8 +27,6 @@ Product in Sub-SubCategory
                 <!-- ================================== TOP NAVIGATION ================================== -->
                 @include('frontend.common.vertical_menu')
                 <!-- ================================== TOP NAVIGATION : END ================================== -->
-
-
                 <div class="sidebar-module-container">
                     <div class="sidebar-filter">
                         <!-- ============================================== SIDEBAR CATEGORY ============================================== -->
@@ -50,12 +47,12 @@ Product in Sub-SubCategory
                                         <!-- /.accordion-heading -->
                                         <div class="accordion-body collapse" id="collapse{{$category->id}}" style="height: 0px;">
                                             @php
-                                            $subcategories = App\Models\SubCategory::where('category_id', $category->id)->orderBy('subcategory_name_en', 'ASC')->get();
+                                            $subCategories = App\Models\SubCategory::where('category_id', $category->id)->orderBy('subcategory_name_en', 'ASC')->get();
                                             @endphp
                                             <div class="accordion-inner">
-                                                @foreach ($subcategories as $subcategory)
+                                                @foreach ($subCategories as $subCategory)
                                                 <ul>
-                                                    <li><a href="{{ url('subcategory/product/'.$subcategory->id.'/'.$subcategory->subcategory_slug_en )}}">{{ $subcategory->subcategory_name_en }}</a></li>
+                                                    <li><a href="{{ url('subcategory/product/'.$subCategory->id.'/'.$subCategory->subcategory_slug_en )}}">{{ $subCategory->subcategory_name_en }}</a></li>
                                                 </ul>
                                                 @endforeach
                                             </div>
@@ -65,12 +62,9 @@ Product in Sub-SubCategory
                                     </div>
                                     <!-- /.accordion-group -->
                                     @endforeach
-
-
                                 </div>
                                 <!-- /.accordion -->
                             </div>
-
                             <!-- /.sidebar-widget-body -->
                         </div>
                         <!-- /.sidebar-widget -->
@@ -145,13 +139,9 @@ Product in Sub-SubCategory
                         </div>
                         <!-- /.sidebar-widget -->
                         <!-- ============================================== COMPARE: END ============================================== -->
-
-
                         <!-- ============================================== PRODUCT TAGS ============================================== -->
                         @include('frontend.common.product_tags')
                         <!-- ============================================== END PRODUCT TAGS ============================================== -->
-
-
                         <!----------- Testimonials------------->
                         @include('frontend.common.testimonials')
                         <!-- ============================================== Testimonials: END ============================================== -->

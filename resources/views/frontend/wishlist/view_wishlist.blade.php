@@ -36,7 +36,9 @@ VNShop
                 </div>
             </div><!-- /.row -->
         </div><!-- /.sigin-in-->
+
         @include('frontend.body.brands')
+        
     </div><!-- /.container -->
 </div><!-- /.body-content -->
 

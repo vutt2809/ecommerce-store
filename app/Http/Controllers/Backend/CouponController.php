@@ -37,6 +37,7 @@ class CouponController extends Controller
             'message' => 'Coupon inserted successfully',
             'alert-type' => 'success'
         ];
+
         return redirect()->back()->with($notification);
     }
 
@@ -52,10 +53,12 @@ class CouponController extends Controller
             'coupon_validity' => $request->coupon_validity,
             'updated_at' => Carbon::now()
         ]);
+
         $notification = [
             'message' => 'Coupon updated successfully',
             'alert-type' => 'success'
         ];
+        
         return redirect()->route('manage.coupon')->with($notification);
     }
 

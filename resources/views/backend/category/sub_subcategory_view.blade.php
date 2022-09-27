@@ -1,16 +1,13 @@
 @extends('admin.admin_master')
 
 @section('admin')
-
-
-
 <div class="container-full">
     <section class="content">
         <div class="row">
             <div class="col-6 offset-3">
                 <div class="box">
                     <div class="box-header with-border">
-                        <h3 class="box-title">Add SubSubCategory -  <span class="badge badge-pill badge-info">{{ count($subcategories) }}</span></h3>
+                        <h3 class="box-title">Add SubSubCategory -  <span class="badge badge-pill badge-info">{{ count($subCategories) }}</span></h3>
                     </div>
                     <div class="box-body">
                         <form method="post" action="{{ route('subsubcategory.store') }}" enctype="multipart/form-data">
@@ -28,7 +25,6 @@
                                 @error('category_id')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
-                                
 							</div>
                             
                             <div class="form-group mt-3">
@@ -88,15 +84,15 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($subsubcategories as $subsubcategory)
+                                @foreach($subSubCategories as $subSubCategory)
                                     <tr>
-                                        <td>{{ $subsubcategory->category->category_name_en }} </td>
-                                        <td>{{ $subsubcategory->subcategory->subcategory_name_en }} </td>
-                                        <td>{{ $subsubcategory->subsubcategory_name_en }}</td>
-                                        <td>{{ $subsubcategory->subsubcategory_name_vn }}</td>
+                                        <td>{{ $subSubCategory->category->category_name_en }} </td>
+                                        <td>{{ $subSubCategory->subcategory->subcategory_name_en }} </td>
+                                        <td>{{ $subSubCategory->subsubcategory_name_en }}</td>
+                                        <td>{{ $subSubCategory->subsubcategory_name_vn }}</td>
                                         <td>
-                                            <a href="{{ route('subsubcategory.edit', $subsubcategory->id) }}" class="btn btn-sm btn-info"><i class="fa fa-pencil"></i></a>
-                                            <a href="{{ route('subsubcategory.delete', $subsubcategory->id) }}" class="btn btn-sm btn-danger" id="delete"><i class="fa fa-trash"></i></a>
+                                            <a href="{{ route('subsubcategory.edit', $subSubCategory->id) }}" class="btn btn-sm btn-info"><i class="fa fa-pencil"></i></a>
+                                            <a href="{{ route('subsubcategory.delete', $subSubCategory->id) }}" class="btn btn-sm btn-danger" id="delete"><i class="fa fa-trash"></i></a>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -114,9 +110,10 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
       $(document).ready(function() {
-        $('select[name="category_id"]').on('change', function(){
+        $('select[name="category_id"]').on('change', function() {
             var category_id = $(this).val();
-            if(category_id) {
+
+            if (category_id) {
                 $.ajax({
                     url: "{{  url('/category/subcategory/ajax') }}/"+category_id,
                     type:"GET",

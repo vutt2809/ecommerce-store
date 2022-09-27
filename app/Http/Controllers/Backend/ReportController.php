@@ -21,6 +21,7 @@ class ReportController extends Controller
         $date = new DateTime($request->date);
         $formatDate = $date->format('d F Y');
         $orders = Order::where('order_date', $formatDate)->latest()->get();
+
         return view('backend.report.report_by_date', compact('orders', 'formatDate'));
     }
 
@@ -29,6 +30,7 @@ class ReportController extends Controller
         $year = $request->year_name;
         
         $orders = Order::where('order_month', $month)->where('order_year', $year)->latest()->get();
+
         return view('backend.report.report_by_month', compact('orders', 'month', 'year'));
     }
 
@@ -53,7 +55,6 @@ class ReportController extends Controller
             ->pluck('product_id', 'total');
 
         $products = Product::whereIn('id', $ids)->get();
-
 
         return view('backend.report.product.product_report_result', compact('products', 'ids'));
     }

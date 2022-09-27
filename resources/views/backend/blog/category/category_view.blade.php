@@ -27,7 +27,7 @@
             <div class="col-8">
                 <div class="box">
                     <div class="box-header with-border">
-                        <h3 class="box-title">Blog Post Category List - <span class="badge badge-pill badge-info">{{ count($blogcategories) }}</span></h3>
+                        <h3 class="box-title">Blog Post Category List - <span class="badge badge-pill badge-info">{{ count($blogCategories) }}</span></h3>
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
@@ -41,7 +41,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($blogcategories as $category)
+                                @foreach($blogCategories as $category)
                                     <tr>
                                         <td>{{ $category->blog_category_name_en }}</td>
                                         <td>{{ $category->blog_category_name_vn }}</td>

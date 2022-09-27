@@ -35,15 +35,13 @@ My Shopping Cart
                                     <th class="last-item">Grandtotal</th>
                                 </tr>
                             </thead>
-                            <tbody id="my-cart">
-                                
-                                
-                            </tbody>
+                            <tbody id="my-cart"></tbody>
                         </table>
                     </div>
                 </div>
 
                 <div class="col-md-4"></div>
+                
                 <div class="col-md-4 col-sm-12 estimate-ship-tax">
                     @if(Session::has('coupon'))
 

@@ -23,7 +23,7 @@
                                                 <div class="controls">
                                                     <select name="blogcategory_id" id="blogcategory_id" required="" class="form-control">
                                                         <option value="" selected="" disabled="">Select Blog Category</option>
-                                                        @foreach ($blogcategories as $category)
+                                                        @foreach ($blogCategories as $category)
                                                         <option value="{{ $category->id }}">{{ $category->blog_category_name_en }}</option>
                                                         @endforeach
                                                     </select>

@@ -103,7 +103,7 @@
             </li>	
 
             @php
-            $admin = DB::table('admins')->first();
+                $admin = DB::table('admins')->first();
             @endphp
             
             <!-- User Account-->

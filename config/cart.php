@@ -1,6 +1,7 @@
 <?php
 
-use Money\Money;
+use Akaunting\Money\Currency;
+use Akaunting\Money\Money;
 
 return [
 
@@ -14,7 +15,7 @@ return [
     |
     */
 
-    'rounding' => Money::ROUND_UP,
+    // 'rounding' => Money::ROUND_UP,
 
     /*
     |--------------------------------------------------------------------------

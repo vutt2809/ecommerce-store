@@ -6,9 +6,10 @@
     "license": "MIT",
     "require": {
         "php": "^8.0.2",
+        "akaunting/laravel-money": "^3.1",
         "barryvdh/laravel-dompdf": "^1.0",
-        "bumbummen99/shoppingcart": "*",
         "darryldecode/cart": "^4.2",
+        "doctrine/dbal": "^3.4",
         "fruitcake/laravel-cors": "^2.0.5",
         "guzzlehttp/guzzle": "^7.2",
         "intervention/image": "^2.7",

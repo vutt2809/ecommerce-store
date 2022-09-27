@@ -25,9 +25,9 @@ class BrandController extends Controller
         ]);
 
         $image = $request->file('brand_image');
-        $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
-        Image::make($image)->resize(300, 300)->save('upload/brand/'.$name_gen);
-        $save_url = 'upload/brand/'.$name_gen;
+        $nameGeneration = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
+        Image::make($image)->resize(300, 300)->save('upload/brand/'.$nameGeneration);
+        $save_url = 'upload/brand/'.$nameGeneration;
         
         Brand::insert([
             'brand_name_en' => $request->brand_name_en,
@@ -41,6 +41,7 @@ class BrandController extends Controller
             'message' => 'Brand inserted successfully',
             'alert-type' => 'success'
         ];
+
         return redirect()->back()->with($notification);
     }
 
@@ -50,17 +51,17 @@ class BrandController extends Controller
     }
 
     public function update(Request $request){
-        $brand_id = $request->id;
-        $old_img = $request->old_image;
+        $brandId = $request->id;
+        $oldImg = $request->old_image;
 
         if($request->file('brand_image')){
-            unlink($old_img);
+            unlink($oldImg);
             $image = $request->file('brand_image');
-            $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
-            Image::make($image)->resize(300, 300)->save('upload/brand/'.$name_gen);
-            $save_url = 'upload/brand/'.$name_gen;
+            $nameGeneration = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
+            Image::make($image)->resize(300, 300)->save('upload/brand/'.$nameGeneration);
+            $save_url = 'upload/brand/'.$nameGeneration;
             
-            Brand::findOrFail($brand_id)->update([
+            Brand::findOrFail($brandId)->update([
                 'brand_name_en' => $request->brand_name_en,
                 'brand_name_vn' => $request->brand_name_vn,
                 'brand_slug_en' => strtolower(str_replace(' ', '-', $request->brand_name_en)),
@@ -72,9 +73,10 @@ class BrandController extends Controller
                 'message' => 'Brand updated successfully',
                 'alert-type' => 'info',
             ];
+
             return redirect()->route('all.brand')->with($notification);
-        }else{
-            Brand::findOrFail($brand_id)->update([ 
+        }else {
+            Brand::findOrFail($brandId)->update([ 
                 'brand_name_en' => $request->brand_name_en,
                 'brand_name_vn' => $request->brand_name_vn,
                 'brand_slug_en' => strtolower(str_replace(' ', '-', $request->brand_name_en)),
@@ -85,6 +87,7 @@ class BrandController extends Controller
                 'message' => 'Brand updated successfully',
                 'alert-type' => 'info',
             ];
+            
             return redirect()->route('all.brand')->with($notification);
         }
     }

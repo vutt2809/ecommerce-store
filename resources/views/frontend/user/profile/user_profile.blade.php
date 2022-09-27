@@ -34,7 +34,9 @@
         </div>
         <div class="row">
             @include('frontend.user.sidebar') 
+
             <div class="col-md-1"></div>
+            
             <div class="col-md-8">
                 <div class="card">
                     <h3 class="text-center"><span class="text-danger">Hi...</span><strong> {{ Auth::user()->name }}</strong> Welcome To <strong>Vutt</strong> Learning</h3>

@@ -13,17 +13,16 @@ use Illuminate\Http\Request;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
-use Money\Money;
-
 class CartController extends Controller
 {
     public function addToCart(Request $request, $id) {
-        if (Session::has('coupon')){
+        if (Session::has('coupon')) {
             Session::forget('coupon');
         }
+
         $product = Product::findOrFail($id);
 
-        if ($product->discount_price == NULL){
+        if ($product->discount_price == NULL) {
             Cart::add([
                 'id' => hexdec(uniqid()),
                 'name' => $request->product_name,
@@ -37,8 +36,9 @@ class CartController extends Controller
                 ],
                 'associatedModel' => $product
             ]);
+
             return response()->json(['success' => 'Successfully added your cart']);
-        }else{
+        } else {
             Cart::add([
                 'id' => hexdec(uniqid()),
                 'name' => $request->product_name,
@@ -52,11 +52,12 @@ class CartController extends Controller
                 ],
                 'associatedModel' => $product
             ]);
+
             return response()->json(['success' => 'Successfully added your cart']);
         }
     }
 
-    public function addMiniCart(){
+    public function addMiniCart() {
         $carts = Cart::getContent();
         $cartQuantity = Cart::getTotalQuantity();
         $cartTotal = Cart::getTotal();
@@ -68,48 +69,51 @@ class CartController extends Controller
         ]);
     }
 
-    public function removeMiniCart($id){
+    public function removeMiniCart($id) {
         Cart::remove($id);
+
         return response()->json(['success' => 'Product remove from cart']);
     }
     
-    public function addToWishlist(Request $request, $product_id){
-
-        if (Auth::check()){
+    public function addToWishlist(Request $request, $product_id) {
+        if (Auth::check()) {
             $exists = Wishlist::where('user_id', Auth::id())->where('product_id', $product_id)->first();
 
-            if (!$exists){
+            if(!$exists) {
                 Wishlist::insert([
                     'user_id' => Auth::id(),
                     'product_id' => $product_id,
                     'created_at' => Carbon::now()
                 ]);
+
                 return response()->json(['success' => 'Successfully added on your wishlist']);
-            }else{
+            }else {
                 return response()->json(['error' => 'This product has already on your wishlist']);            
             }
-        }else{
+        }else {
             return response()->json(['error' => 'At first login your account']);
         }
     }
 
     public function applyCoupon(Request $request) {
         $coupon = Coupon::where('coupon_name', $request->coupon_name)->where('status', 1)->where('coupon_validity' ,'>=', Carbon::now()->format('Y-m-d'))->first();
-        if ($coupon){
+        
+        if ($coupon) {
             Session::put('coupon', [
                 'coupon_name' => $coupon->coupon_name,
                 'coupon_discount' => $coupon->coupon_discount,
                 'discount_amount' => Cart::getTotal() * ($coupon->coupon_discount) / (100),
                 'total_amount' => Cart::getTotal() - (Cart::getTotal() * (($coupon->coupon_discount) / 100)),
             ]);
+            
             return response()->json(['success' => 'Coupon applied successfully']);
-        }else{
+        }else {
             return response()->json(['error' => 'Invalid coupon']);
         }
     }
 
     public function calculationCoupon() {
-        if (Session::has('coupon')){
+        if (Session::has('coupon')) {
             return response()->json([
                 'subtotal' => Cart::getTotal(),
                 'coupon_name' => session()->get('coupon')['coupon_name'],
@@ -117,21 +121,21 @@ class CartController extends Controller
                 'discount_amount' => Cart::getTotal() - (session()->get('coupon')['coupon_discount']) / 100,
                 'total_amount' => Cart::getTotal() - (Cart::getTotal() * (session()->get('coupon')['coupon_discount']) / 100),
             ]);
-        }else{
+        }else {
             return response()->json([
                 'total' => Cart::getTotal(),
             ]);
         }
     }
 
-    public function removeCoupon(){
+    public function removeCoupon() {
         Session::forget('coupon');
         return response()->json(['success' => 'Coupon removed successfully']);
     }
 
     public function checkout() {
-        if (Auth::check()){
-            if (Cart::getTotal() > 0){
+        if (Auth::check()) { 
+            if (Cart::getTotal() > 0) {
                 $carts = Cart::getContent();
                 $cartQuantity = Cart::getTotalQuantity();
                 $cartTotal = Cart::getTotal();
@@ -140,14 +144,14 @@ class CartController extends Controller
                 $districts = ShipDistrict::orderBy('district_name', 'ASC')->get();
 
                 return view('frontend.checkout.checkout_view', compact('carts', 'cartQuantity', 'cartTotal', 'divisions', 'districts'));
-            }else{
+            }else {
                 $notification = [
                     'message' => 'Shoppping at least one product',
                     'alert-type' => 'warning'
                 ];
                 return redirect()->to('/')->with($notification);
             }
-        }else{
+        }else {
             $notification = [
                 'message' => 'You need to login first',
                 'alert-type' => 'warning'

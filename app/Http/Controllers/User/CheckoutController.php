@@ -13,11 +13,13 @@ class CheckoutController extends Controller
 {
     public function getDistrict($division_id) {
         $districts = ShipDistrict::where('division_id', $division_id)->orderBy('district_name', 'ASC')->get();
+
         return json_encode($districts);
     }
 
     public function getState($district_id) {
         $states = ShipState::where('district_id', $district_id)->orderBy('state_name', 'ASC')->get();
+        
         return json_encode($states);
     }
 

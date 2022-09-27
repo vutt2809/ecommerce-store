@@ -2,9 +2,7 @@
 Product in SubCategory
 @endsection
 @extends('frontend.main_master')
-
 @section('content')
-
 
 <div class="breadcrumb">
     <div class="container">
@@ -20,7 +18,6 @@ Product in SubCategory
 </div>
 <!-- /.breadcrumb -->
 
-
 <div class="body-content outer-top-xs">
     <div class='container'>
         <div class='row'>
@@ -28,8 +25,6 @@ Product in SubCategory
                 <!-- ================================== TOP NAVIGATION ================================== -->
                 @include('frontend.common.vertical_menu')
                 <!-- ================================== TOP NAVIGATION : END ================================== -->
-
-
                 <div class="sidebar-module-container">
                     <div class="sidebar-filter">
                         <!-- ============================================== SIDEBAR CATEGORY ============================================== -->
@@ -50,12 +45,12 @@ Product in SubCategory
                                         <!-- /.accordion-heading -->
                                         <div class="accordion-body collapse" id="collapse{{$category->id}}" style="height: 0px;">
                                             @php
-                                            $subcategories = App\Models\SubCategory::where('category_id', $category->id)->orderBy('subcategory_name_en', 'ASC')->get();
+                                            $subCategories = App\Models\SubCategory::where('category_id', $category->id)->orderBy('subcategory_name_en', 'ASC')->get();
                                             @endphp
                                             <div class="accordion-inner">
-                                                @foreach ($subcategories as $subcategory)
+                                                @foreach ($subCategories as $subCategory)
                                                 <ul>
-                                                    <li><a href="{{ url('subcategory/product/'.$subcategory->id.'/'.$subcategory->subcategory_slug_en )}}">{{ $subcategory->subcategory_name_en }}</a></li>
+                                                    <li><a href="{{ url('subcategory/product/'.$subCategory->id.'/'.$subCategory->subcategory_slug_en )}}">{{ $subCategory->subcategory_name_en }}</a></li>
                                                 </ul>
                                                 @endforeach
                                             </div>
@@ -65,8 +60,6 @@ Product in SubCategory
                                     </div>
                                     <!-- /.accordion-group -->
                                     @endforeach
-
-
                                 </div>
                                 <!-- /.accordion -->
                             </div>
@@ -75,7 +68,6 @@ Product in SubCategory
                         </div>
                         <!-- /.sidebar-widget -->
                         <!-- ============================================== SIDEBAR CATEGORY : END ============================================== -->
-
                         <!-- ============================================== PRICE SILDER============================================== -->
                         <div class="sidebar-widget wow fadeInUp">
                             <div class="widget-header">
@@ -146,12 +138,9 @@ Product in SubCategory
                         <!-- /.sidebar-widget -->
                         <!-- ============================================== COMPARE: END ============================================== -->
 
-
                         <!-- ============================================== PRODUCT TAGS ============================================== -->
                         @include('frontend.common.product_tags')
                         <!-- ============================================== END PRODUCT TAGS ============================================== -->
-
-
                         <!----------- Testimonials------------->
                         @include('frontend.common.testimonials')
                         <!-- ============================================== Testimonials: END ============================================== -->
@@ -165,9 +154,7 @@ Product in SubCategory
             <!-- /.sidebar -->
             <div class='col-md-9'>
                 <!-- ========================================== SECTION – HERO ========================================= -->
-
                 <div id="category" class="category-carousel hidden-xs">
-
                     <div class="item">
                         <div class="image"> <img src="{{ asset('frontend/assets/images/banners/cat-banner-1.jpg') }}" alt="" class="img-responsive"> </div>
                         <div class="container-fluid">
@@ -181,8 +168,6 @@ Product in SubCategory
                         <!-- /.container-fluid -->
                     </div>
                 </div>
-
-
                 <div class="clearfix filters-container m-t-10">
                     <div class="row">
                         <div class="col col-sm-6 col-md-2">

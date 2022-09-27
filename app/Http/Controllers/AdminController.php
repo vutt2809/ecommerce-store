@@ -30,6 +30,7 @@ class AdminController extends Controller
 
     public function logout() {
         Auth::guard('admin')->logout();
+        
         return redirect()->route('admin.login')->with('message', 'Admin Logout Successfully');
     }
 
@@ -38,13 +39,13 @@ class AdminController extends Controller
     }
 
     public function registerCreate(Request $request){
-        
         Admin::insert([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'created_at' => Carbon::now(),
         ]);
+
         return redirect()->route('admin.login')->with('message', 'Your account have been created Successfully');
     }
 

@@ -12,6 +12,7 @@ class SliderController extends Controller
 {
     public function allSlider(){
         $sliders = Slider::latest()->get();
+
         return view('backend.slider.slider_view', compact('sliders'));
     }
 
@@ -34,16 +35,17 @@ class SliderController extends Controller
             'created_at' => Carbon::now()
         ]); 
 
-        $notofication = [
+        $notification = [
             'message' => 'Slider inserted successfully',
             'alert-type' => 'success'
         ];
 
-        return redirect()->back()->with($notofication);
+        return redirect()->back()->with($notification);
     }
 
     public function edit($id) {
         $slider = Slider::findOrFail($id);
+
         return view('backend.slider.slider_edit', compact('slider'));
     }
 
@@ -63,7 +65,7 @@ class SliderController extends Controller
                 'description' => $request->title,
                 'slider_img' => $save_url
             ]);
-        }else{
+        } else {
             Slider::findOrFail($sliderId)->update([
                 'title' => $request->title,
                 'description' => $request->description,
@@ -71,14 +73,12 @@ class SliderController extends Controller
             ]);
         }
 
-        $notofication = [
+        $notification = [
             'message' => 'Slider updated successfully',
             'alert-type' => 'success'
         ];
 
-        return redirect()->route('manage.slider')->with($notofication);
-
-        
+        return redirect()->route('manage.slider')->with($notification);
     }
 
     public function delete($id) {
@@ -88,12 +88,12 @@ class SliderController extends Controller
 
         $slider->delete();
 
-        $notofication = [
+        $notification = [
             'message' => 'Slider deleted successfully',
             'alert-type' => 'info'
         ];
 
-        return redirect()->back()->with($notofication);
+        return redirect()->back()->with($notification);
     }
 
     public function active($id) {
