@@ -26,28 +26,18 @@
 
         @include('admin.body.header')
         
-        <!-- Left side column. contains the logo and sidebar -->
         @include('admin.body.sidebar')
 
-        <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
             
             @yield('admin')
 
         </div>
-        <!-- /.content-wrapper -->
+
         @include('admin.body.footer')
 
-        <!-- Control Sidebar -->
-
-        <!-- /.control-sidebar -->
-        
-        <!-- Add the sidebar's background. This div must be placed immediately after the control sidebar -->
         <div class="control-sidebar-bg"></div>
-    
     </div>
-<!-- ./wrapper -->
-	<!-- Vendor JS -->
 	<script src="{{ asset('backend/js/vendors.min.js') }}"></script>
     <script src="{{ asset('../assets/icons/feather-icons/feather.min.js') }}"></script>	
 	<script src="{{ asset('../assets/vendor_components/easypiechart/dist/jquery.easypiechart.js') }}"></script>
@@ -74,7 +64,7 @@
     <script>
         @if(Session::has('message'))
             var type = "{{ Session::get('alert-type', 'info') }}";
-            switch(type){
+            switch(type) {
                 case 'info':
                     toastr.info("{{ Session::get('message') }}");
                     break;

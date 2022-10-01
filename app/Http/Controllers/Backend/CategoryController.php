@@ -49,6 +49,7 @@ class CategoryController extends Controller
 
     public function update(Request $request) {
         $categoryId = $request->id;
+        
         Category::findOrFail($categoryId)->update([
             'category_name_en' => $request->category_name_en,
             'category_name_vn' => $request->category_name_vn,

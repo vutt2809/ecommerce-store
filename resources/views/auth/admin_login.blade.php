@@ -19,10 +19,8 @@
      
   </head>
 <body class="hold-transition theme-primary bg-gradient-light">
-	
 	<div class="container h-p100">
 		<div class="row align-items-center justify-content-md-center h-p100">	
-			
 			<div class="col-12">
 				<div class="row justify-content-center no-gutters">
 					<div class="col-lg-4 col-md-5 col-12">
@@ -95,7 +93,6 @@
 			</div>
 		</div>
 	</div>
-
 
 	<!-- Vendor JS -->
 	<script src="{{ asset('backend/js/vendors.min.js') }}"></script>

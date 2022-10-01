@@ -10,7 +10,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
-
 class AdminController extends Controller
 {
     public function login() {
@@ -71,8 +70,7 @@ class AdminController extends Controller
         if ($request->file('profile_photo_path')) {
             $file = $request->file('profile_photo_path');
 
-            if ($admin->profile_photo_path)
-            unlink(public_path('upload/admin_images/'.$admin->profile_photo_path));
+            if ($admin->profile_photo_path) unlink(public_path('upload/admin_images/'.$admin->profile_photo_path));
 
             $filename = date('YmdHi').$file->getClientOriginalName();
             $file->move(public_path('upload/admin_images'), $filename);
@@ -87,7 +85,6 @@ class AdminController extends Controller
         );
 
         return redirect()->route('admin.profile')->with($notification);  
-
     }
 
     public function changePassword () {

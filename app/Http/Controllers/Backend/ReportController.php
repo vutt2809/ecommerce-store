@@ -17,7 +17,7 @@ class ReportController extends Controller
         return view('backend.report.report_view');
     }
 
-    public function reportByDate (Request $request) {
+    public function reportByDate(Request $request) {
         $date = new DateTime($request->date);
         $formatDate = $date->format('d F Y');
         $orders = Order::where('order_date', $formatDate)->latest()->get();
@@ -25,7 +25,7 @@ class ReportController extends Controller
         return view('backend.report.report_by_date', compact('orders', 'formatDate'));
     }
 
-    public function reportByMonth (Request $request) {
+    public function reportByMonth(Request $request) {
         $month = $request->month;
         $year = $request->year_name;
         

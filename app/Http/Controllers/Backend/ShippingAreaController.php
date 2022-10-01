@@ -55,7 +55,7 @@ class ShippingAreaController extends Controller
         return redirect()->route('manage.division')->with($notification);
     }
 
-    public function deleteDivision ($id){
+    public function deleteDivision($id) {
         ShipDivision::findOrFail($id)->delete();
         
         $notification = [
@@ -65,7 +65,6 @@ class ShippingAreaController extends Controller
 
         return redirect()->back()->with($notification);
     }
-
 
     // ================Ship district================
     public function viewDistrict() {
@@ -119,7 +118,7 @@ class ShippingAreaController extends Controller
         return redirect()->route('manage.district')->with($notification);
     }
 
-    public function deleteDistrict ($id) {
+    public function deleteDistrict($id) {
         ShipDistrict::findOrFail($id)->delete();
 
         $notification = [

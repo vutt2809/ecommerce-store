@@ -29,13 +29,13 @@
                         <h3 class="box-title">Edit Blog Category</h3>
                     </div>
                     <div class="box-body">
-                        <form method="post" action="{{ route('blogcategory.update', $blogcategory->id) }}" enctype="multipart/form-data">
+                        <form method="post" action="{{ route('blogcategory.update', $blogPostCategory->id) }}" enctype="multipart/form-data">
                             @csrf
-                            <input type="hidden" name="id" value="{{ $blogcategory->id }}">
+                            <input type="hidden" name="id" value="{{ $blogPostCategory->id }}">
                             <div class="form-group">
                                 <h5>Blog Category Name English<span class="text-danger">*</span></h5>
                                 <div class="controls">
-                                    <input type="text" id="blog_category_name_en" name="blog_category_name_en" class="form-control"  value="{{ $blogcategory->blog_category_name_en }}">
+                                    <input type="text" id="blog_category_name_en" name="blog_category_name_en" class="form-control"  value="{{ $blogPostCategory->blog_category_name_en }}">
                                 </div>
                                 @error('blog_category_name_en')
                                 <span class="text-danger">{{ $message }}</span>
@@ -44,7 +44,7 @@
                             <div class="form-group">
                                 <h5>Blog Category Name VietNam<span class="text-danger">*</span></h5>
                                 <div class="controls">
-                                    <input type="text" id="blog_category_name_vn" name="blog_category_name_vn" class="form-control" value="{{ $blogcategory->blog_category_name_vn }}">
+                                    <input type="text" id="blog_category_name_vn" name="blog_category_name_vn" class="form-control" value="{{ $blogPostCategory->blog_category_name_vn }}">
                                 </div>
                                 @error('blog_category_name_vn')
                                 <span class="text-danger">{{ $message }}</span>

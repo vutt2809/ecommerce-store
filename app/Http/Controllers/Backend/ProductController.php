@@ -199,9 +199,9 @@ class ProductController extends Controller
             $existImg = MultiImg::findOrFail($id);
             unlink($existImg->photo_name);
 
-            $makeName = hexdec(uniqid()).'.'.$img->getClientOriginalExtension();
+            $makeName = hexdec(uniqid()). ' . '. $img->getClientOriginalExtension();
             Image::make($img)->resize($w, $h)->save('upload/product/multi-image/'.$makeName);
-            $uploadPath = 'upload/product/multi-image/'.$makeName;
+            $uploadPath = 'upload/product/multi-image/'. $makeName;
 
             MultiImg::where('id', $id)->update([
                 'photo_name' => $uploadPath,

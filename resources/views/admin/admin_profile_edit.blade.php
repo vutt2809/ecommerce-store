@@ -67,11 +67,13 @@
 
     $(document).ready(function () {
         $('#image').change(function(e) {
-            let reader = new FileReader();
+            let reader = new FileReader()
+
             reader.onload = function (e) {
-                $('#profile-image').attr('src', e.target.result);
+                $('#profile-image').attr('src', e.target.result)
             }
-            reader.readAsDataURL (e.target.files['0']);
+
+            reader.readAsDataURL (e.target.files['0'])
         });
     });
 

@@ -19,7 +19,6 @@ class AdminController extends Controller
     }
 
     public function loginOwner(Request $request) {
-        
         $check = $request->all();
         if (Auth::guard('admin')->attempt(['email' => $check['email'], 'password' => $check['password']])){
             return redirect()->route('admin.dashboard')->with('message', 'Admin Login Successfully');

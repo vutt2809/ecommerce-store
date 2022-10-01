@@ -10,7 +10,7 @@ use Intervention\Image\Facades\Image;
 
 class SliderController extends Controller
 {
-    public function allSlider(){
+    public function allSlider() {
         $sliders = Slider::latest()->get();
 
         return view('backend.slider.slider_view', compact('sliders'));
@@ -106,7 +106,7 @@ class SliderController extends Controller
         return redirect()->back()->with($notification);
     }
 
-    public function inactive($id){
+    public function inactive($id) {
         Slider::findOrFail($id)->update(['status' => 0]);
         $notification = [
             'message' => 'Slider is inactived successfully',

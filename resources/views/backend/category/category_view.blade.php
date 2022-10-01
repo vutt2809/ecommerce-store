@@ -3,7 +3,6 @@
 @section('admin')
 
 <div class="container-full">
-    <!-- Content Header (Page header) -->
     <div class="content-header">
         <div class="d-flex align-items-center">
             <div class="mr-auto">
@@ -20,8 +19,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Main content -->
     <section class="content">
         <div class="row">
             <div class="col-8">
@@ -57,9 +54,7 @@
                             </table>
                         </div>
                     </div>
-                    <!-- /.box-body -->
                 </div>
-                <!-- /.box -->
             </div>
             <div class="col-4">
                 <div class="box">

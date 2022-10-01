@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
-    public function pendingOrders () {
+    public function pendingOrders() {
         $orders = Order::where('status', 'Pending')->orderBy('id', 'DESC')->get();
 
         return view('backend.orders.pending_orders', compact('orders'));
@@ -24,37 +24,37 @@ class OrderController extends Controller
         return view('backend.orders.pending_order_details', compact('order', 'orderItem'));
     }
 
-    public function confirmedOrders () {
+    public function confirmedOrders() {
         $orders = Order::where('status', 'confirmed')->orderBy('id', 'DESC')->get();
 
         return view('backend.orders.confirmed_orders', compact('orders'));
     }
 
-    public function processingOrders () {
+    public function processingOrders() {
         $orders = Order::where('status', 'processing')->orderBy('id', 'DESC')->get();
 
         return view('backend.orders.processing_orders', compact('orders'));
     }
 
-    public function pickedOrders () {
+    public function pickedOrders() {
         $orders = Order::where('status', 'picked')->orderBy('id', 'DESC')->get();
 
         return view('backend.orders.picked_orders', compact('orders'));
     }
 
-    public function shippedOrders () {
+    public function shippedOrders() {
         $orders = Order::where('status', 'shipped')->orderBy('id', 'DESC')->get();
 
         return view('backend.orders.shipped_orders', compact('orders'));
     }
 
-    public function deliveredOrders () {
+    public function deliveredOrders() {
         $orders = Order::where('status', 'delivered')->orderBy('id', 'DESC')->get();
 
         return view('backend.orders.delivered_orders', compact('orders'));
     }
 
-    public function cancelOrders () {
+    public function cancelOrders() {
         $orders = Order::where('status', 'cancel')->orderBy('id', 'DESC')->get();
 
         return view('backend.orders.cancel_orders', compact('orders'));

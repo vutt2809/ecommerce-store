@@ -10,6 +10,7 @@ use PHPUnit\Framework\Constraint\Count;
 
 class CouponController extends Controller
 {
+
     public function couponView() {
         $coupons = Coupon::orderBy('id', 'DESC')->get();
         return view('backend.coupon.coupon_view', compact('coupons'));
@@ -43,6 +44,7 @@ class CouponController extends Controller
 
     public function edit ($id) {
         $coupon = Coupon::findOrFail($id);
+
         return view('backend.coupon.coupon_edit', compact('coupon'));
     }
 
