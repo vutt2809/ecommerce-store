@@ -55,14 +55,13 @@ Route::prefix('seller')->group(function (){
 
 /*======================= Brand Route =======================*/
 Route::prefix('brand')->group(function() {
-    Route::get('/view', [BrandController::class, 'allBrand'])->name('all.brand');
-    Route::post('/store', [BrandController::class, 'store'])->name('brand.store');
+    Route::get('/view', [BrandController::class, 'index'])->name('all.brand');
+    Route::post('/store', [BrandController::class, 'create'])->name('brand.store');
     Route::get('/edit/{id}', [BrandController::class, 'edit'])->name('brand.edit');
     Route::post('/update', [BrandController::class, 'update'])->name('brand.update');
     Route::get('/delete/{id}', [BrandController::class, 'delete'])->name('brand.delete');
 });
 /*======================= End Brand Route =======================*/
-
 
 /*======================= Category Route =======================*/
 Route::prefix('category')->group(function() {
@@ -88,8 +87,6 @@ Route::prefix('category')->group(function() {
 });
 /*======================= End Category Route =======================*/
 
-
-
 /*======================= Admin Product Route =======================*/
 Route::prefix('product')->group(function() {
     Route::get('/add', [ProductController::class, 'add'])->name('add.product');
@@ -106,8 +103,6 @@ Route::prefix('product')->group(function() {
 });
 /*======================= End Admin Product Route =======================*/
 
-
-
 /*======================= Admin Slider Route =======================*/
 Route::prefix('slider')->group(function() {
     Route::get('/view', [SliderController::class, 'allSlider'])->name('manage.slider');
@@ -120,7 +115,6 @@ Route::prefix('slider')->group(function() {
     Route::get('/active/{id}', [SliderController::class, 'active'])->name('slider.active');
 });
 /*======================= End Admin Slider Route =======================*/
-
 
 /*======================= Admin Coupons Route =======================*/
 Route::prefix('coupons')->group(function() {
@@ -177,7 +171,6 @@ Route::prefix('orders')->group(function() {
 });
 /*====================== End Admin Orders Route ==========================*/
 
-
 /*========================= Admin Report Route ==========================*/
 Route::prefix('reports')->group(function() {
     Route::get('/report-', [ReportController::class, 'allReport'])->name('manage.reports');
@@ -194,14 +187,14 @@ Route::prefix('reports')->group(function() {
 /*======================== Admin Blog Route ============================*/
 Route::prefix('blog')->group(function () {
     Route::get('/category', [BlogController::class, 'blogCategory'])->name('blog.category');
-    Route::post('/store', [BlogController::class, 'store'])->name('blogcategory.store');
+    Route::post('/store', [BlogController::class, 'blogCategoryStore'])->name('blogcategory.store');
+    Route::get('/category/edit/{id}', [BlogController::class, 'blogCategoryEdit'])->name('blogcategory.edit');
+    Route::post('/update', [BlogController::class, 'blogCategoryUpdate'])->name('blogcategory.update');
 
     Route::get('/view/post', [BlogController::class, 'allBlogPost'])->name('blog.post');
-
-
+    Route::get('/add/post', [BlogController::class, 'addBlogPost'])->name('add.post');
 });
 /*====================== End Admin Blog Route ==========================*/
-
 
 /*========================= Admin Manage User Route ==========================*/
 Route::prefix('alluser')->group(function() {

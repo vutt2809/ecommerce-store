@@ -49,10 +49,10 @@ class ReportController extends Controller
         $number = $request->number;
 
         $ids = OrderItem::select('product_id', DB::raw('count(qty) as total'))
-            ->groupBy('product_id')
-            ->orderByRaw('count(qty) DESC')
-            ->limit($number)
-            ->pluck('product_id', 'total');
+                        ->groupBy('product_id')
+                        ->orderByRaw('count(qty) DESC')
+                        ->limit($number)
+                        ->pluck('product_id', 'total');
 
         $products = Product::whereIn('id', $ids)->get();
 

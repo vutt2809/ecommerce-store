@@ -1,5 +1,4 @@
 <header class="header-style-1"> 
-    
     <!-- ============================================== TOP MENU ============================================== -->
     <div class="top-bar animate-dropdown">
         <div class="container">
@@ -100,8 +99,6 @@
                         <!-- ============ Render List Cart Item Here ============-->
                         <div id="miniCart"></div>
                         <!-- ======================== End =======================-->
-
-                        <!-- /.cart-item -->
                         
                         <div class="clearfix cart-total">
                         <div class="pull-right"> <span class="text">Sub Total :</span><span id='cart-total'></span> </div>
@@ -114,7 +111,6 @@
         </div>
     </div>
     
-
     <div class="header-nav animate-dropdown">
         <div class="container">
         <div class="yamm navbar navbar-default" role="navigation">
@@ -178,5 +174,4 @@
         </div>
         </div>
     </div>
-
 </header>

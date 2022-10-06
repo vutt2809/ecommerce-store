@@ -21,8 +21,8 @@ class AdminController extends Controller
     }
 
     public function loginOwner(Request $request) {
-        
         $check = $request->all();
+
         if (Auth::guard('admin')->attempt(['email' => $check['email'], 'password' => $check['password']])) {
             return redirect()->route('admin.dashboard')->with('message', 'Admin Login Successfully');
         } else {
@@ -40,13 +40,13 @@ class AdminController extends Controller
     }
 
     public function registerCreate(Request $request) {
-        
         Admin::insert([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'created_at' => Carbon::now(),
         ]);
+
         return redirect()->route('admin.login')->with('message', 'Your account have been created Successfully');
     }
     
@@ -88,7 +88,6 @@ class AdminController extends Controller
     }
 
     public function changePassword () {
-        $admin = Admin::find(1);
         return view('admin.admin_change_password');
     }
 
