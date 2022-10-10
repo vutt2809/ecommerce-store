@@ -12,6 +12,7 @@ use App\Http\Controllers\Backend\ShippingAreaController;
 use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\Backend\SubCategoryController;
 use App\Http\Controllers\Frontend\CartController;
+use App\Http\Controllers\Frontend\HomeBlogController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\LanguageController;
 use App\Http\Controllers\SellerController;
@@ -21,6 +22,7 @@ use App\Http\Controllers\User\CashController;
 use App\Http\Controllers\User\CheckoutController;
 use App\Http\Controllers\User\StripeController;
 use App\Http\Controllers\User\UserController;
+use App\Models\Blog\BlogPost;
 use Illuminate\Support\Facades\Route;
 
 require __DIR__.'/auth.php';
@@ -187,12 +189,16 @@ Route::prefix('reports')->group(function() {
 /*======================== Admin Blog Route ============================*/
 Route::prefix('blog')->group(function () {
     Route::get('/category', [BlogController::class, 'blogCategory'])->name('blog.category');
-    Route::post('/store', [BlogController::class, 'blogCategoryStore'])->name('blogcategory.store');
-    Route::get('/category/edit/{id}', [BlogController::class, 'blogCategoryEdit'])->name('blogcategory.edit');
-    Route::post('/update', [BlogController::class, 'blogCategoryUpdate'])->name('blogcategory.update');
+    Route::post('/store', [BlogController::class, 'saveBlogCategory'])->name('blogcategory.store');
+    Route::get('/category/edit/{id}', [BlogController::class, 'editBlogCategory'])->name('blogcategory.edit');
+    Route::post('/update', [BlogController::class, 'updateBlogCategory'])->name('blogcategory.update');
 
-    Route::get('/view/post', [BlogController::class, 'allBlogPost'])->name('blog.post');
-    Route::get('/add/post', [BlogController::class, 'addBlogPost'])->name('add.post');
+    Route::get('/post/list', [BlogController::class, 'listBlogPost'])->name('list.post');
+    Route::get('/post/add', [BlogController::class, 'createBlogPost'])->name('add.post');
+    Route::post('/post/save', [BlogController::class, 'saveBlogPost'])->name('save.post');
+    Route::get('/post/edit/{id}', [BlogController::class, 'editBlogPost'])->name('post.edit');
+    Route::post('/post/update/{id}', [BlogController::class, 'updateBlogPost'])->name('post.update');
+    Route::get('/post/delete/{id}', [BlogController::class, 'deleteBlogPost'])->name('post.delete');
 });
 /*====================== End Admin Blog Route ==========================*/
 
@@ -290,4 +296,8 @@ Route::get('/shipping/get-state/{district_id}', [CheckoutController::class, 'get
 Route::post('/checkout/store', [CheckoutController::class, 'storeCheckout'])->name('checkout.store');
 /*========================= End Checkout ========================*/
 
-
+/*============================ Blog ============================*/
+Route::get('/blog/home', [HomeBlogController::class, 'list'])->name('home.blog');
+Route::get('/blog/detail/{id}', [HomeBlogController::class, 'detail'])->name('blog.detail');
+Route::get('/blog/category/post/{category_id}', [HomeBlogController::class, 'homeBlogCategoryPost']);
+/*=========================== End Blog =========================*/

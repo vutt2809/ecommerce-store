@@ -80,7 +80,7 @@
             
             <div class="col-xs-12 col-sm-12 col-md-2 animate-dropdown top-cart-row"> 
             <!-- ============================================================= SHOPPING CART DROPDOWN ============================================================= -->
-            
+
             <div class="dropdown dropdown-cart"> <a href="#" class="dropdown-toggle lnk-cart" data-toggle="dropdown">
                 <div class="items-cart-inner">
                     <div class="basket"> <i class="glyphicon glyphicon-shopping-cart"></i> </div>
@@ -166,6 +166,7 @@
                     </li>
                     @endforeach
                     <li class="dropdown  navbar-right special-menu"> <a href="#">@if (session()->get('language') == 'vietnam') Hot Deals hôm nay @else Todays offer @endif</a> </li>
+                    <li class="dropdown  navbar-right special-menu"> <a href="{{ route('home.blog') }}">Blog</a> </li>
                 </ul>
                 <div class="clearfix"></div>
                 </div>

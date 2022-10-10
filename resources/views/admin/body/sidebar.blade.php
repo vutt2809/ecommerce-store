@@ -164,7 +164,7 @@
                 </a>
                 <ul class="treeview-menu">
                     <li class="{{ $route == 'blog.category' ? 'active' : ''}}"><a href="{{ route('blog.category') }}"><i class="ti-more"></i>Blog Category</a></li>
-                    <li class="{{ $route == 'blog.post' ? 'active' : ''}}"><a href="{{ route('blog.post') }}"><i class="ti-more"></i>View Blog Post</a></li>
+                    <li class="{{ $route == 'list.post' ? 'active' : ''}}"><a href="{{ route('list.post') }}"><i class="ti-more"></i>All Blog Post</a></li>
                     <li class="{{ $route == 'add.post' ? 'active' : ''}}"><a href="{{ route('add.post') }}"><i class="ti-more"></i>Add Blog Post</a></li>
                 </ul>
             </li>

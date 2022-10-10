@@ -7,6 +7,7 @@ use App\Models\Blog\BlogPost;
 use App\Models\Blog\BlogPostCategory;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Intervention\Image\Facades\Image;
 
 class BlogController extends Controller
 {
@@ -16,7 +17,7 @@ class BlogController extends Controller
         return view('backend.blog.category.category_view', compact('blogCategories'));
     }
 
-    public function blogCategoryStore(Request $request) {
+    public function saveBlogCategory(Request $request) {
         $request->validate([
             'blog_category_name_en' => 'required',
             'blog_category_name_vn' => 'required',
@@ -40,13 +41,13 @@ class BlogController extends Controller
         return redirect()->back()->with($notification);
     }
 
-    public function blogCategoryEdit($id) {
+    public function editBlogCategory($id) {
         $blogPostCategory = BlogPostCategory::findOrFail($id);
 
         return view('backend.blog.category.category_edit', compact('blogPostCategory'));
     }
 
-    public function blogCategoryUpdate(Request $request) {
+    public function updateBlogCategory(Request $request) {
         BlogPostCategory::findOrFail($request->id)->update([
             'blog_category_name_en' => $request->blog_category_name_en,
             'blog_category_name_vn' => $request->blog_category_name_vn,
@@ -63,77 +64,125 @@ class BlogController extends Controller
         return redirect()->route('blog.category')->with($notification);
     }
 
-    public function allBlogPost() {
+    // Blog Post
+    public function listBlogPost() {
         $blogPosts = BlogPost::latest()->get();
         $blogCategories = BlogPostCategory::latest()->get();
 
         return view('backend.blog.post.post_view', compact('blogPosts', 'blogCategories'));
     }
 
-    public function blogPostStore(Request $request) {
+    public function createBlogPost() {
+        $blogCategories = BlogPostCategory::latest()->get();
+
+        return view('backend.blog.post.post_add', compact('blogCategories'));
+    }
+
+    public function saveBlogPost(Request $request) {
         $request->validate([
             'post_title_en' => 'required',
-            'post_title_en' => 'required',
             'post_title_vn' => 'required',
-            'post_slug_en' => 'required',
-            'post_slug_vn' => 'required',
             'post_image' => 'required',
             'post_details_en' => 'required',
             'post_details_vn' => 'required',
         ],[
             'post_title_en.required' => 'English post title is required',
             'post_title_vn.required' => 'Vietnamese post title is required',
-            'post_slug_en.required' => 'English post is required',
-            'post_slug_vn.required' => 'Vietnamese post is required',
             'post_image.required' => 'Post image is required',
             'post_details_en.required' => 'English post details is required',
             'post_details_vn.required' => 'Vietnamese post details is required',
         ]);
 
-        BlogPostCategory::insert([
-            'post_title_en' => $request->post_title_en,
+        $image = $request->file('post_image');
+        $nameGeneration = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();
+        Image::make($image)->resize(780,433)->save('upload/blog/' . $nameGeneration);
+        $saveUrl = 'upload/blog/' . $nameGeneration;
+
+        BlogPost::insert([
+            'category_id' => $request->category_id,
             'post_title_en' => $request->post_title_en,
             'post_title_vn' => $request->post_title_vn,
-            'post_slug_en' => $request->post_slug_en,
-            'post_slug_vn' => $request->post_slug_vn,
-            'post_image' => $request->post_image,
+            'post_slug_en' => str_replace(' ', '-', $request->post_title_en),
+            'post_slug_vn' => str_replace(' ', '-', $request->post_title_vn),
+            'post_image' => $saveUrl,
             'post_details_en' => $request->post_details_en,
             'post_details_vn' => $request->post_details_vn,
-            'create_at' => Carbon::now(),
+            'created_at' => Carbon::now(),
         ]);
 
         $notification = [
             'alert-type' => 'success',
-            'message' => 'Blog category is updated successfully'
+            'message' => 'Blog Post is created successfully'
         ];
 
-        return redirect()->back()->with($notification);
+        return redirect()->route('list.post')->with($notification);
     }
 
-    public function addBlogPost(Request $request) {
-        $request->validate([
-            'category_id' => 'required',
-            'post_title_en' => 'required',
-            'post_title_vn' => 'required',
-            'post_slug_en' => 'required',
-            'post_slug_vn' => 'required',
-            'post_image' => 'required',
-            'post_details_en' => 'required',
-            'post_details_vn' => 'required',
-        ],[
-            'category_id.required' => 'Blog post category is required !',
-            'post_title_en.required' => 'English post title is required !',
-            'post_title_vn.required' => 'Vietnamese post title is required !',
-            'post_slug_en.required' => 'Enlish post slug is required !',
-            'post_slug_vn.required' => 'Vietnamese slug is required !',
-            'post_image.required' => 'Post image is required !',
-            'post_details_en.required' => 'English post detail is required !',
-            'post_details_vn.required' => 'Vietnamese post detail is required !',
-        ]);
+    public function editBlogPost($id) {
+        $blogPost = BlogPost::findOrFail($id);
+        $blogCategories = BlogPostCategory::latest()->get();
+        
+        return view('backend.blog.post.post_edit', compact('blogPost', 'blogCategories'));
+    }
+
+    public function updateBlogPost(Request $request) {
+        $blogPostId = $request->id;
+        $oldImg = $request->post_image;
+
+        if ($request->hasFile('post_image')) {
+            unlink($oldImg);
+
+            $image = $request->file('post_image');
+            $nameGeneration = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();
+            Image::make($image)->resize(780,433)->save('upload/blog/' . $nameGeneration);
+            $saveUrl = 'upload/blog/' . $nameGeneration;
+
+            BlogPost::findOrFail($blogPostId)->update([
+                'category_id' => $request->category_id,
+                'post_title_en' => $request->post_title_en,
+                'post_title_vn' => $request->post_title_vn,
+                'post_slug_en' => str_replace(' ', '-', $request->post_title_en),
+                'post_slug_vn' => str_replace(' ', '-', $request->post_title_vn),
+                'post_image' => $saveUrl,
+                'post_details_en' => $request->post_details_en,
+                'post_details_vn' => $request->post_details_vn,
+                'updated_at' => Carbon::now(),
+            ]);
+
+            $notification = [
+                'alert-type' => 'success',
+                'message' => 'Blog Post has been updated successfully'
+            ];
+    
+            return redirect()->route('list.post')->with($notification);
+
+        } else {
+            BlogPost::findOrFail($blogPostId)->update([
+                'category_id' => $request->category_id,
+                'post_title_en' => $request->post_title_en,
+                'post_title_vn' => $request->post_title_vn,
+                'post_slug_en' => str_replace(' ', '-', $request->post_title_en),
+                'post_slug_vn' => str_replace(' ', '-', $request->post_title_vn),
+                'post_details_en' => $request->post_details_en,
+                'post_details_vn' => $request->post_details_vn,
+                'updated_at' => Carbon::now(),
+            ]);
+
+            $notification = [
+                'alert-type' => 'success',
+                'message' => 'Blog Post has been updated successfully'
+            ];
+    
+            return redirect()->route('list.post')->with($notification);
+        }
+    }
+
+    public function deleteBlogPost($id) {
+        BlogPost::findOrFail($id)->delete();
 
         $notification = [
             'alert-type' => 'success',
-            'message' => 'Blog post is created successfully'
+            'message' => 'Blog has been deleted sucecssfully',
         ];
 
         return redirect()->back()->with($notification);

@@ -25,6 +25,11 @@ return new class extends Migration
             $table->string('post_details_vn');
             $table->timestamps();
         });
+
+        Schema::table('blog_posts', function (Blueprint $table) {
+            $table->text('post_details_en')->change();
+            $table->text('post_details_vn')->change();
+        });
     }
 
     /**
