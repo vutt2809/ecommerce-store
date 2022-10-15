@@ -169,7 +169,18 @@
                 </ul>
             </li>
 
-           
+            <li class="treeview {{ $prefix == '/setting' ? 'active' : '' }}">
+                <a href="#">
+                    <i data-feather="book-open"></i>
+                    <span>Site Setting</span>
+                    <span class="pull-right-container">
+                    <i class="fa fa-angle-right pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="{{ $route == 'site.setting' ? 'active' : ''}}"><a href="{{ route('site.setting') }}"><i class="ti-more"></i>Site Setting</a></li>
+                </ul>
+            </li>
         </ul>
 
     </section>
