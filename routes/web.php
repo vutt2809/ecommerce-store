@@ -179,8 +179,10 @@ Route::prefix('blog')->group(function () {
 });
 
 Route::prefix('setting')->group(function () {
-    Route::get('/site', [SiteSettingController::class, 'index'])->name('site.setting');
-    Route::post('/site/update', [SiteSettingController::class, 'update'])->name('site.setting.update');
+    Route::get('/site', [SiteSettingController::class, 'siteSetting'])->name('site.setting');
+    Route::post('/site/update', [SiteSettingController::class, 'updateSiteSetting'])->name('site.setting.update');
+    Route::get('/seo', [SiteSettingController::class, 'seoSetting'])->name('seo.setting');
+    Route::post('/seo/update', [SiteSettingController::class, 'updateSeoSetting'])->name('seo.setting.update');
 });
 
 Route::prefix('alluser')->group(function() {

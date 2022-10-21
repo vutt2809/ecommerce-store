@@ -1,20 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
+    @php
+        $seo = App\Models\Seos::find(1);
+    @endphp
 <head>
     <!-- Meta -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <meta name="description" content="">
+    <meta name="description" content="{{ $seo->meta_description  }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="author" content="">
+    <meta name="author" content="{{ $seo->meta_author }}">
     <meta name="keywords" content="MediaCenter, Template, eCommerce">
+    <meta name="keywords" content="{{ $seo->meta_keyword }}">
     <meta name="robots" content="all">
-    <title>@yield('title')</title>
 
+    <!-- /// Google Analytics Code // -->
+    <script>{{ $seo->google_analytics }}</script>
+    <!-- /// Google Analytics Code // -->
+
+    <title>@yield('title')</title>
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/bootstrap.min.css') }}">
     
-
     <!-- Customizable CSS -->
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/main.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/blue.css') }}">
@@ -43,7 +50,6 @@
     @yield('content')
 
     @include('frontend.body.footer')
-
 
     <script src="{{ asset('frontend/assets/js/jquery-1.11.1.min.js') }}"></script> 
     <script src="{{ asset('frontend/assets/js/bootstrap.min.js') }}"></script> 
