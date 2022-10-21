@@ -180,13 +180,12 @@ Route::prefix('blog')->group(function () {
 
 Route::prefix('setting')->group(function () {
     Route::get('/site', [SiteSettingController::class, 'index'])->name('site.setting');
-    Route::post('/site/update/{id}', [SiteSettingController::class, 'update'])->name('site.setting.update');
+    Route::post('/site/update', [SiteSettingController::class, 'update'])->name('site.setting.update');
 });
 
 Route::prefix('alluser')->group(function() {
     Route::get('/view', [AdminController::class, 'allUser'])->name('manage.user');
 });
-
 
 
 /*========================= FRONTEND ROUTE ========================*/
