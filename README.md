@@ -16,12 +16,22 @@
 - Product Reports Management
 - Product Wishlist Option
 - Advance Product Add to Cart Option
-- Advance JavaScript Uses
 - Site Setting Option
 - Site SEO Option
 - Image Upload System
 - Multiple Image Upload System
 - Ecommerce Blog Management
-- Generate Order Invoice  in PDF
+- Generate Order Invoice in PDF
 - Upload Digital Product
-- and much more functions
+
+## Technology in use
+- Backend: PHP, Laravel
+- Frontend: HTML, CSS, Javascript, Jquery
+- Database: MySQL
+
+## Author
+- Tran Thanh Vu
+- Email: tranthanhvu2809@gmail.com
+
+
+
