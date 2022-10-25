@@ -15,7 +15,7 @@
     <meta name="robots" content="all">
 
     <!-- /// Google Analytics Code // -->
-    <script>{{ $seo->google_analytics }}</script>
+    {{-- <script src="{{ $seo->google_analytics }}"></script> --}}
     <!-- /// Google Analytics Code // -->
 
     <title>@yield('title')</title>

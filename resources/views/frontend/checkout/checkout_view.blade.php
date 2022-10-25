@@ -13,10 +13,9 @@ Checkout
                 <li><a href="{{ url('/')}}">Home</a></li>
                 <li class='active'>Checkout</li>
             </ul>
-        </div><!-- /.breadcrumb-inner -->
-    </div><!-- /.container -->
-</div><!-- /.breadcrumb -->
-
+        </div>
+    </div>
+</div>
 
 <div class="body-content">
     <div class="container">
@@ -24,9 +23,7 @@ Checkout
             <div class="row">
                 <div class="col-md-8">
                     <div class="panel-group checkout-steps" id="accordion">
-                            <!-- checkout-step-01  -->
                             <div class="panel panel-default checkout-step-01">
-                                <!-- panel-heading -->
                                 <div class="panel-heading">
                                     <h4 class="unicase-checkout-title">
                                         <a data-toggle="collapse" class="" data-parent="#accordion" href="#collapseOne">
@@ -34,12 +31,9 @@ Checkout
                                         </a>
                                     </h4>
                                 </div>
-                                <!-- panel-heading -->
                                 <div id="collapseOne" class="panel-collapse collapse in">
-                                    <!-- panel-body  -->
                                     <div class="panel-body">
                                         <div class="row">
-                                            <!-- guest-login -->
                                             <div class="col-md-6 col-sm-6 already-registered-login">
                                                 <h4 class="checkout-subtitle"><b>Shipping Address</b></h4>
 
@@ -62,9 +56,6 @@ Checkout
                                                         <input type="text" class="form-control unicase-form-control text-input" name="post_code" placeholder="Post Code" require="">
                                                     </div>
                                             </div>
-                                            <!-- guest-login -->
-
-                                            <!-- already-registered-login -->
                                             <div class="col-md-6 col-sm-6 already-registered-login">
                                                 <div class="form-group">
                                                     <h5><b>Division Select </b> <span class="text-danger">*</span></h5>
@@ -79,9 +70,7 @@ Checkout
                                                         <span class="text-danger">{{ $message }}</span>
                                                         @enderror 
                                                     </div>
-                                                </div> <!-- // end form group -->
-
-
+                                                </div>
                                                 <div class="form-group">
                                                     <h5><b>District Select</b>  <span class="text-danger">*</span></h5>
                                                     <div class="controls">
@@ -149,17 +138,17 @@ Checkout
                                 </div>
                                 <div class="">
                                     <ul class="nav nav-checkout-progress list-unstyled">
-                                        @foreach($carts as $item)
+                                        @foreach($cart as $cartItem)
                                         <li style="margin-top: 20px;">
-                                            <img src="{{ asset($item->attributes->image )}}" alt="" style="width: 20%">
+                                            <img src="{{ asset($cartItem['product']['product_thumbnail'] )}}" alt="" style="width: 20%">
                                             <strong>Qty : </strong>
-                                            ({{ $item->quantity }}),
+                                            ({{ $cartItem['attributes']['quantity'] }}),
 
                                             <strong>Color : </strong>
-                                            {{ $item->attributes->color }},
+                                            {{ $cartItem['attributes']['color'] }},
 
                                             <strong>Size : </strong>
-                                            {{ $item->attributes->size }}
+                                            {{ $cartItem['attributes']['size'] }}
                                         </li>
                                         @endforeach <hr>
                                         <li>

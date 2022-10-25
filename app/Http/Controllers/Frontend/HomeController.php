@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Hash;
 
 class HomeController extends Controller
 {
-    public function index (){
+    public function index() {
         $categories = Category::orderBy('category_name_en', 'ASC')->get();
         $blogPosts = BlogPost::latest()->get();
         $sliders = Slider::where('status', 1)->orderBy('id', 'DESC')->limit(3)->get();

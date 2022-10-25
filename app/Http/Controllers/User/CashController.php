@@ -6,8 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Mail\OrderMail;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Utils\Helpers;
 use Carbon\Carbon;
-use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -15,12 +15,11 @@ use Illuminate\Support\Facades\Session;
 
 class CashController extends Controller
 {
-    public function cashOrder (Request $request){
-        if (Session::has('coupon')){
-            $total_amount = Session::get('coupon')['total_amount'];
-        }else{
-            $total_amount = round(Cart::getTotal());
-        }
+    public function cashOrder (Request $request)
+    {
+        $cart = Session::get('cart');
+
+        $totalAmount = isset($coupon) ? $coupon['total_amount'] : Helpers::getTotal();
 
         $orderId = Order::insertGetId([
             'user_id' => Auth::id(),
@@ -36,7 +35,7 @@ class CashController extends Controller
             'payment_type' => 'Cash On Delivery',
             'payment_method' => 'Cash On Delivery',
             'currency' => 'USD',
-            'amount' => $total_amount,
+            'amount' => $totalAmount,
 
             'invoice_no' => 'SROS'.mt_rand(10000000,99999999),
             'order_date' => Carbon::now()->format('d F Y'),
@@ -51,23 +50,21 @@ class CashController extends Controller
 
         $data = [
             'invoice_no' => $invoice->invoice_no,
-            'amount' => $total_amount,
+            'amount' => $totalAmount,
             'name' => $invoice->name,
             'email' => $invoice->email,
         ];
 
         Mail::to($request->email)->send(new OrderMail($data));
 
-        $cart = Cart::getContent();
-
-        foreach ($cart as $item) {
+        foreach ($cart as $cartItem) {
             OrderItem::insert([
                 'order_id' => $orderId,
-                'product_id' => $item->associatedModel->id,
-                'color' => $item->attributes->color,
-                'size' => $item->attributes->size,
-                'qty' => $item->quantity,
-                'price' => $item->price,
+                'product_id' => $cartItem['product']['id'],
+                'color' => $cartItem['attributes']['color'],
+                'size' => $cartItem['attributes']['size'],
+                'qty' => $cartItem['attributes']['quantity'],
+                'price' => $cartItem['attributes']['price'],
                 'created_at' => Carbon::now()
             ]);
         }
@@ -76,7 +73,7 @@ class CashController extends Controller
             Session::forget('coupon');
         }
 
-        Cart::clear();
+        Session::forget('cart');
 
         $notification = [
             'message' => 'Your Order Placed Successfully',
@@ -84,6 +81,5 @@ class CashController extends Controller
         ];
 
         return redirect()->route('user.dashboard')->with($notification);
-        
     }
 }

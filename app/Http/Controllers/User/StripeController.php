@@ -7,7 +7,6 @@ use App\Mail\OrderMail;
 use App\Models\Order;
 use App\Models\OrderItem;
 use Carbon\Carbon;
-use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -15,20 +14,46 @@ use Illuminate\Support\Facades\Session;
 
 class StripeController extends Controller
 {
-    public function stripeOrder (Request $request) {
+    public function getTotal() {
+        $cart = Session::get('cart');
+        $total = 0;
 
-        if (Session::has('coupon')){
-            $total_amount = Session::get('coupon')['total_amount'];
-        }else{
-            $total_amount = round(Cart::getTotal());
+        foreach ($cart as $key => $cartItem) {
+            $total += $cartItem['product']['selling_price'];
         }
+
+        return (float)$total;
+    }
+
+    public function getTotalQuantity() {
+        $cart = Session::get('cart');
+        $totalQuantity = 0;
+
+        foreach ($cart as $key => $cartItem) {
+            $totalQuantity += $cartItem['attributes']['quantity'];
+        }
+
+        return $totalQuantity;
+    }
+
+    public function stripeOrder (Request $request) {
+        $cart = Session::get('cart');
+        $coupon = Session::get('couppon');
+
+        // if (Session::has('coupon')){
+        //     $totalAmount = Session::get('coupon')['total_amount'];
+        // }else{
+        //     $totalAmount = $this->getTotal();
+        // }
+
+        $totalAmount = isset($coupon) ? $coupon['total_amount'] : $this->getTotal();
 
         \Stripe\Stripe::setApiKey('sk_test_51Ksep3Da0BmhoVrE9pY4uirCu0fdlEvb9gvzFOcOEsRP0hsDPw2BtyIVCFnQI45Y1FJFXdCSbhZCioJ9ikWOsrtI004CnUkUoA');
         
         $token = $_POST['stripeToken'];
 
         $charge = \Stripe\Charge::create([
-            'amount' => $total_amount * 100,
+            'amount' => $totalAmount * 100,
             'currency' => 'usd',
             'description' => 'SnowRain Online Payment',
             'source' => $token,
@@ -52,7 +77,7 @@ class StripeController extends Controller
             'payment_type' => $charge->payment_method,
             'transaction_id' => $charge->balance_transaction,
             'currency' => $charge->currency,
-            'amount' => $total_amount,
+            'amount' => $totalAmount,
             'order_number' => $charge->metadata->order_id,
 
             'invoice_no' => 'SROS'.mt_rand(10000000,99999999),
@@ -68,23 +93,21 @@ class StripeController extends Controller
 
         $data = [
             'invoice_no' => $invoice->invoice_no,
-            'amount' => $total_amount,
+            'amount' => $totalAmount,
             'name' => $invoice->name,
             'email' => $invoice->email,
         ];
 
         Mail::to($request->email)->send(new OrderMail($data));
-
-        $cart = Cart::getContent();
         
-        foreach ($cart as $item) {
+        foreach ($cart as $cartItem) {
             OrderItem::insert([
                 'order_id' => $orderId,
-                'product_id' => $item->associatedModel->id,
-                'color' => $item->attributes->color,
-                'size' => $item->attributes->size,
-                'qty' => $item->quantity,
-                'price' => $item->price,
+                'product_id' => $cartItem['product']['id'],
+                'color' => $cartItem['attributes']['color'],
+                'size' => $cartItem['attributes']['size'],
+                'qty' => $cartItem['attributes']['quantity'],
+                'price' => $cartItem['attributes']['price'],
                 'created_at' => Carbon::now()
             ]);
         }
@@ -93,7 +116,7 @@ class StripeController extends Controller
             Session::forget('coupon');
         }
 
-        Cart::clear();
+        Session::forget('cart');
 
         $notification = [
             'message' => 'Your Order Placed Successfully',

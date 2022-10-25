@@ -12,16 +12,16 @@ My Shopping Cart
             <li><a href="{{ url('/')}}">Home</a></li>
                 <li class='active'>My Cart</li>
             </ul>
-        </div><!-- /.breadcrumb-inner -->
-    </div><!-- /.container -->
-</div><!-- /.breadcrumb -->
+        </div>
+    </div>
+</div>
 
 <div class="body-content outer-top-xs">
 	<div class="container">
-		<div class="row ">
-			<div class="shopping-cart">
+		<div class="row cart-panel">
+            <div class="shopping-cart">
                 <h2><strong>My Shopping Cart</strong></h2>
-				<div class="shopping-cart-table ">
+                <div class="shopping-cart-table ">
                     <div class="table-responsive">
                         <table class="table">
                             <thead>
@@ -41,7 +41,7 @@ My Shopping Cart
                 </div>
 
                 <div class="col-md-4"></div>
-                
+                    
                 <div class="col-md-4 col-sm-12 estimate-ship-tax">
                     @if(Session::has('coupon'))
 
@@ -75,7 +75,7 @@ My Shopping Cart
                     <table class="table">
                         <thead id="couponCalField">
                             
-                        </thead><!-- /thead -->
+                        </thead>
                         <tbody>
                                 <tr>
                                     <td>
@@ -85,14 +85,14 @@ My Shopping Cart
                                         </div>
                                     </td>
                                 </tr>
-                        </tbody><!-- /tbody -->
-                    </table><!-- /table -->
-                </div><!-- /.cart-shopping-total -->			
-            </div><!-- /.row -->
-        </div><!-- /.sigin-in-->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
         @include('frontend.body.brands')
-    </div><!-- /.container -->
-</div><!-- /.body-content -->
+    </div>
+</div>
 
 @endsection
 

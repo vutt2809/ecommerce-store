@@ -65,7 +65,7 @@ function preview(id) {
 }
 
 function addToCart() {
-    var product_name = $('#p_name').text()
+    var productName = $('#p_name').text()
     var id = $('#product_id').val()
     var color = $('#color option:selected').text()
     var size = $('#size option:selected').text()
@@ -75,7 +75,10 @@ function addToCart() {
         type: "POST",
         dataType: "json",
         data: {
-            color: color, size: size, quantity: quantity, product_name: product_name
+            color: color, 
+            size: size, 
+            quantity: quantity, 
+            productName: productName
         },
         url: "/cart/data/store/" + id,
         success: (data) => {
@@ -114,21 +117,22 @@ function miniCart() {
             $('span[id="cart-total"]').text(res.cartTotal);
 
             var miniCart = "";
-            $.each(res.carts, (key, val) => {
-                console.log(val);
+
+            $.each(res.cart, (key, cartItem) => {
+                let product = cartItem.product;
 
                 miniCart +=
                     `<div class="cart-item product-summary">
                     <div class="row">
                         <div class="col-xs-4">
-                            <div class="image"> <a href="{{ url('product/details/'.'${val.id}'.'/'.'${val.product_slug_en}') }}"><img src="/${val.attributes.image}" alt=""></a> </div>
+                            <div class="image"> <a href="{{ url('product/details/'.'${product.id}'.'/'.'${product.product_slug_en}') }}"><img src="/${product.product_thumbnail}" alt=""></a> </div>
                         </div>
                         <div class="col-xs-7">
-                            <h4 class="name"><a href="{{ url('product/details/'.'${val.id}'.'/'.'${val.product_slug_en}') }}"">${val.name}</a></h4>
-                            <div class="price">${val.price} * ${val.quantity} $</div>
+                            <h4 class="name"><a href="{{ url('product/details/'.'${product.id}'.'/'.'${product.product_slug_en}') }}"">${product.product_name_en}</a></h4>
+                            <div class="price">${product.discount_price} * ${cartItem.attributes.quantity} $</div>
                         </div>
                         <div class="col-xs-1 action"> 
-                            <button type="submit" id="${val.id}" onclick="miniCartRemove(this.id)"><i class="fa fa-trash"></i></button> 
+                            <button type="submit" id="${product.id}" onclick="miniCartRemove(this.id)"><i class="fa fa-trash"></i></button> 
                         </div>
                     </div>
                 </div>
@@ -136,15 +140,16 @@ function miniCart() {
                 <hr>
                 `;
             })
+
             $('#miniCart').html(miniCart);
         }
     })
 }
 
-function miniCartRemove(rowdId) {
+function miniCartRemove(productId) {
     $.ajax({
         type: 'GET',
-        url: '/minicart/product-remove/' + rowdId,
+        url: '/minicart/product-remove/' + productId,
         dataType: 'json',
         success: (data) => {
             miniCart()
@@ -279,36 +284,39 @@ function cart() {
         dataType: 'json',
         success: (res) => {
             var rows = "";
-            $.each(res.carts, (key, val) => {
-                console.log(val)
+
+            $.each(res.cart, (key, cartItem) => {
+                let product = cartItem.product;
+                let attributes = cartItem.attributes;
+
                 rows +=
                     `<tr>
-                    <td class="col-md-2"><img src="/${val.attributes.image}" alt="imga" style="width: 100%"></td>
+                    <td class="col-md-2"><img src="/${product.product_thumbnail}" alt="imga" style="width: 100%"></td>
                     <td class="col-md-4">
-                        <div class="product-name"><a href="#">${val.name}</a></div>
-                        <div class="price">${val.price}</div>
+                        <div class="product-name"><a href="{{ url('product/details/${product.id}/${product.product_slug_en}') }}">${product.product_name_en}</a></div>
+                        <div class="price">$${attributes.price}</div>
                     </td>
                     <td class="col-md-1"> 
-                        ${val.attributes.color == null ? `<span> ... </span>` : `<strong>${val.attributes.color}</strong>`}
+                        ${attributes.color == null ? `<span> ... </span>` : `<strong>${attributes.color}</strong>`}
                     </td>
                     <td class="col-md-1"> 
-                        ${val.attributes.size == null ? `<span> ... </span>` : `<strong>${val.attributes.size}</strong>`}
+                        ${attributes.size == null ? `<span> ... </span>` : `<strong>${attributes.size}</strong>`}
                     </td>
                     <td class="col-md-2"> 
-                        ${val.quantity > 1
-                        ? `<button type="submit" class="btn btn-danger btn-sm btn-circle" id="${val.id}" onclick="decreaseQuantity(this.id)">-</button>`
+                        ${attributes.quantity > 1
+                        ? `<button type="submit" class="btn btn-danger btn-sm btn-circle" id="${product.id}" onclick="decreaseQuantity(this.id)">-</button>`
                         : `<button type="submit" class="btn btn-danger btn-sm btn-circle" disabled>-</button>`
                     }
                         
-                        <input type="text" value="${val.quantity}" class="text-center" min="1" max="100" disabled="" style="width: 26px;">
-                        <button type="submit" class="btn btn-success btn-sm btn-circle" id="${val.id}" onclick="increaseQuantity(this.id)">+</button>
+                        <input type="text" value="${attributes.quantity}" class="text-center" min="1" max="100" disabled="" style="width: 26px;">
+                        <button type="submit" class="btn btn-success btn-sm btn-circle" id="${product.id}" onclick="increaseQuantity(this.id)">+</button>
                     </td>
                     <td class="col-md-1"> 
-                        <strong>$${val.price * val.quantity}</strong>
+                        <strong>$${attributes.price * attributes.quantity}</strong>
                     </td>
                     <td class="col-md-1 close-btn">
                         <a href="#" class=""></a>
-                        <button type="submit" class="btn btn-danger btn-sm btn-circle" id="${val.id}" onclick="removeProductFromCart(${val.id})"><i class="fa fa-trash"></i></button>
+                        <button type="submit" class="btn btn-danger btn-sm btn-circle" id="${product.id}" onclick="removeProductFromCart(${product.id})"><i class="fa fa-trash"></i></button>
                     </td>
                 </tr>
                 `;
@@ -319,18 +327,25 @@ function cart() {
     })
 }
 
-function removeProductFromCart(id) {
-    console.log(id);
+function removeProductFromCart(productId) {
     $.ajax({
         type: 'GET',
-        url: '/user/cart-remove/' + id,
+        url: '/user/cart-remove/' + productId,
         dataType: 'json',
         success: (data) => {
             couponCalculation()
             cart()
             miniCart()
+
             $('#couponField').show()
             $('#coupon_name').val('')
+
+            if (data.isEmpty) {
+                $('.cart-panel').hide();
+            } else {
+                $('.cart-panel').show();
+            }
+
             const Toast = Swal.mixin({
                 toast: true,
                 position: 'top-end',
@@ -381,6 +396,7 @@ function decreaseQuantity(id) {
 
 
 }
+
 // Run Function
 cart();
 miniCart();
@@ -389,13 +405,13 @@ wishlist();
 
 // ===================== Coupon Apply =====================
 function applyCoupon() {
-    var coupon_name = $('#coupon_name').val();
+    var couponName = $('#coupon_name').val();
 
     $.ajax({
         type: 'POST',
         dataType: 'json',
-        data: { coupon_name: coupon_name },
-        url: "{{ url('/coupon-apply') }}",
+        data: { couponName: couponName },
+        url: '/coupon-apply',
         success: (data) => {
             couponCalculation()
 
@@ -424,7 +440,7 @@ function applyCoupon() {
 function couponCalculation() {
     $.ajax({
         type: 'GET',
-        url: "{{ url('/coupon-calculation') }}",
+        url: '/coupon-calculation',
         dataType: 'json',
         success: (data) => {
             if (data.total) {
@@ -468,18 +484,22 @@ function couponCalculation() {
 function removeCoupon() {
     $.ajax({
         type: 'GET',
-        url: "{{ url('/coupon-remove') }}",
+        url: '/coupon-remove',
         dataType: 'json',
         success: (data) => {
             couponCalculation()
+
             $('#couponField').show();
             $('#coupon_name').val('');
-            const Toast = Swal.mixin({
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 2000
-            })
+
+            const Toast = Swal.mixin(
+                {
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 2000
+                }
+            )
             if ($.isEmptyObject(data.error)) {
                 Toast.fire({
                     icon: 'success',
@@ -494,3 +514,4 @@ function removeCoupon() {
         }
     })
 }
+
