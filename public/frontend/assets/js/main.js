@@ -353,6 +353,7 @@ function removeProductFromCart(productId) {
                 showConfirmButton: false,
                 timer: 2000
             })
+            
             if ($.isEmptyObject(data.error)) {
                 Toast.fire({
                     icon: 'success',

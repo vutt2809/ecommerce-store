@@ -27,4 +27,18 @@ class Helpers {
 
         return $totalQuantity;
     }
+
+    public static function checkProductInCart($newCartItem) {
+        $cart = Session::get('cart');
+
+        foreach ($cart as $key => $cartItem) {
+            if ($cartItem['product']['id'] == $newCartItem['product']['id'] 
+                && $cartItem['attributes']['color'] == $newCartItem['attributes']['color']
+                && $cartItem['attributes']['size'] == $newCartItem['attributes']['size']) {
+                return $key;
+            }
+        }
+
+        return -1;
+    }
 }

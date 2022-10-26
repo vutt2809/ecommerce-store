@@ -25,30 +25,27 @@ class CartController extends Controller
 
         $price = $product->discount_price == NULL ? $product->selling_price : $product->discount_price;
 
+        $newCartItem = [
+            'product' => $product,
+            'attributes' => [
+                'price' => $price,
+                'size' => $request->size, 
+                'color' => $request->color,
+                'quantity' => $request->quantity,
+            ]
+        ];
+
         if (isset($cart)) {
-            array_push($cart, [
-                    'product' => $product, 
-                    'attributes' => [
-                        'price' => $price,
-                        'size' => $request->size, 
-                        'color' => $request->color,
-                        'quantity' => $request->quantity,
-                    ]
-                ]
-            );
+            $cartItemIndex = Helpers::checkProductInCart($newCartItem); 
+
+            if ($cartItemIndex >= 0) {
+                $cart[$cartItemIndex]['attributes']['quantity'] += $request->quantity;
+            } else {
+                array_push($cart, $newCartItem);
+            }
         }
         else {
-            $cart = [
-                [
-                    'product' => $product, 
-                    'attributes' => [
-                        'price' => $price,
-                        'size' => $request->size, 
-                        'color' => $request->color,
-                        'quantity' => $request->quantity,
-                    ]
-                ]
-            ];
+            $cart = [ $newCartItem ];
         }
 
         Session::put('cart', $cart);
