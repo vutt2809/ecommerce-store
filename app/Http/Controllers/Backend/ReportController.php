@@ -9,7 +9,6 @@ use App\Models\Product;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use SebastianBergmann\CodeCoverage\Report\Xml\Report;
 
 class ReportController extends Controller
 {
@@ -56,7 +55,9 @@ class ReportController extends Controller
 
         $products = Product::whereIn('id', $ids)->get();
 
-        return view('backend.report.product.product_report_result', compact('products', 'ids'));
+        $listItems = json_decode($ids);
+
+        return view('backend.report.product.product_report_result', compact('products', 'listItems'));
     }
 
     

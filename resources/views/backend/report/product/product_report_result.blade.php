@@ -15,15 +15,16 @@
                             <table id="example1" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th>Image</th>
-                                    <th width="30%">Product Name EN</th>
+                                    <th width="30%">Image</th>
+                                    <th width="50%">Product Name EN</th>
                                     <th>Price</th>
                                     <th>Total Quantity</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach($products as $item)
-                                    
+                                @foreach($listItems as $number => $productId)
+                                    @if ($item->id == $productId)
                                     <tr>
                                         <td class="text-center">
                                             @if ($item->category_id == 2)
@@ -46,10 +47,11 @@
                                         </td>
 
                                         <td>
-                                            
+                                            <span class="badge badge-pill badge-warning">{{ $number }}</span>
                                         </td>
                                     </tr>
-                                    
+                                    @endif
+                                @endforeach
                                 @endforeach
                             </tbody>
                             </table>

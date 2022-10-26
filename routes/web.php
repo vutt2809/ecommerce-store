@@ -149,6 +149,7 @@ Route::prefix('orders')->group(function() {
     Route::get('/processing/picked/{order_id}', [OrderController::class, 'processingToPicked'])->name('processing-picked');
     Route::get('/picked/shipped/{order_id}', [OrderController::class, 'pickedToShipped'])->name('picked-shipped');
     Route::get('/shipped/delivered/{order_id}', [OrderController::class, 'shippedToDelivered'])->name('shipped-delivered');
+    Route::get('/delivered/canceled/{order_id}', [OrderController::class, 'DeliveredToCancel'])->name('delivered-cancel');
     Route::get('/invoice/download/{order_id}', [OrderController::class, 'downloadInvoice'])->name('invoice.download');
     Route::get('/pending/order/details/{order_id}', [OrderController::class, 'pendingOrderDetails'])->name('pending.order.details');
 });
@@ -161,7 +162,6 @@ Route::prefix('reports')->group(function() {
 
     Route::get('/report-product', [ReportController::class, 'productReportView'])->name('manage-product-report');
     Route::post('/best-seller-product', [ReportController::class, 'bestSellerProduct'])->name('top-n-bestseller');
-    
 });
 
 Route::prefix('blog')->group(function () {
