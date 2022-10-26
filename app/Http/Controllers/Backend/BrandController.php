@@ -9,7 +9,7 @@ use Intervention\Image\Facades\Image;
 
 class BrandController extends Controller
 {
-    public function allBrand() {
+    public function index() {
         $brands = Brand::latest()->get();
         
         return view('backend.brand.brand_view', compact('brands'));
