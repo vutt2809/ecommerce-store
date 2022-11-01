@@ -3,6 +3,7 @@
 namespace App\Utils;
 
 use Illuminate\Support\Facades\Session;
+use Intervention\Image\Facades\Image;
 
 class Helpers {
     
@@ -40,5 +41,13 @@ class Helpers {
         }
 
         return -1;
+    }
+
+    public static function saveImage($image, $size = [], $path) {
+        $nameGeneration = hexdec(uniqid()). '.' . $image->getClientOriginalExtension();
+        $saveUrl = $path . $nameGeneration;
+        Image::make($image)->resize($size[0], $size[1])->save($saveUrl);
+
+        return $saveUrl;
     }
 }
