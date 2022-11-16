@@ -33,10 +33,10 @@ return new class extends Migration
             $table->string('product_color_vn');
             $table->string('selling_price');
             $table->string('discount_price')->nullable();
-            $table->string('short_descp_en');
-            $table->string('short_descp_vn');
-            $table->string('long_descp_en');
-            $table->string('long_descp_vn');
+            $table->text('short_descp_en');
+            $table->text('short_descp_vn');
+            $table->text('long_descp_en');
+            $table->text('long_descp_vn');
             $table->string('product_thumbnail');
             $table->integer('hot_deals')->nullable();
             $table->integer('featured')->nullable();
