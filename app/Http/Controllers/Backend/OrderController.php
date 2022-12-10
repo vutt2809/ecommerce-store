@@ -3,65 +3,65 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
-use App\Models\Order;
-use App\Models\OrderItem;
-use Carbon\Carbon;
+
+use App\Repositories\Order\OrderInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
-    public function pendingOrders() {
-        $orders = Order::where('status', 'Pending')->orderBy('id', 'DESC')->get();
 
+    protected $orderRepository;
+
+    public function __construct(OrderInterface $orderRepository){
+        $this->orderRepository = $orderRepository;
+    }
+
+    public function pendingOrders() {
+        $orders = $this->orderRepository->getOrderByStatus('pending');
         return view('backend.orders.pending_orders', compact('orders'));
     }
 
     public function pendingOrderDetails($orderId) {
-        $order = Order::with('division', 'district', 'state')->where('id', $orderId)->first();
-        $orderItem = OrderItem::with('product')->where('order_id', $orderId)->orderBy('id', 'DESC')->get();
+        $order = $this->orderRepository->getOrderAddress($orderId);
+        $orderItem = $this->orderRepository->getProductItemInOrder($orderId);
 
+        
         return view('backend.orders.pending_order_details', compact('order', 'orderItem'));
     }
 
     public function confirmedOrders() {
-        $orders = Order::where('status', 'confirmed')->orderBy('id', 'DESC')->get();
-
+        $orders = $this->orderRepository->getOrderByStatus('confirmed');
         return view('backend.orders.confirmed_orders', compact('orders'));
     }
 
     public function processingOrders() {
-        $orders = Order::where('status', 'processing')->orderBy('id', 'DESC')->get();
-
+        $orders = $this->orderRepository->getOrderByStatus('processing');
         return view('backend.orders.processing_orders', compact('orders'));
     }
 
     public function pickedOrders() {
-        $orders = Order::where('status', 'picked')->orderBy('id', 'DESC')->get();
-
+        $orders = $this->orderRepository->getOrderByStatus('picked');
         return view('backend.orders.picked_orders', compact('orders'));
     }
 
     public function shippedOrders() {
-        $orders = Order::where('status', 'shipped')->orderBy('id', 'DESC')->get();
-
+        $orders = $this->orderRepository->getOrderByStatus('shipped');
         return view('backend.orders.shipped_orders', compact('orders'));
     }
 
     public function deliveredOrders() {
-        $orders = Order::where('status', 'delivered')->orderBy('id', 'DESC')->get();
-
+        $orders = $this->orderRepository->getOrderByStatus('delivered');
         return view('backend.orders.delivered_orders', compact('orders'));
     }
 
     public function cancelOrders() {
-        $orders = Order::where('status', 'cancel')->orderBy('id', 'DESC')->get();
-
+        $orders = $this->orderRepository->getOrderByStatus('cancel');
         return view('backend.orders.cancel_orders', compact('orders'));
     }
 
     public function pendingToConfirm ($orderId) {
-        Order::findOrFail($orderId)->update(['status' => 'Confirmed']);
+        $this->orderRepository->changeStatus($orderId, 'Confirmed');
 
         $notification = [
             'message' => 'The status of the order has been changed to confirmed',
@@ -72,8 +72,8 @@ class OrderController extends Controller
     }
 
     public function confirmToProcessing ($orderId) {
-        Order::findOrFail($orderId)->update(['status' => 'Processing']);
-        
+        $this->orderRepository->changeStatus($orderId, 'Processing');
+
         $notification = [
             'message' => 'The status of the order has been changed to Processing',
             'alert-type' => 'success',
@@ -83,7 +83,7 @@ class OrderController extends Controller
     }
 
     public function processingToPicked ($orderId) {
-        Order::findOrFail($orderId)->update(['status' => 'Picked']);
+        $this->orderRepository->changeStatus($orderId, 'Picked');
 
         $notification = [
             'message' => 'The status of the order has been changed to Picked',
@@ -94,7 +94,7 @@ class OrderController extends Controller
     }
     
     public function pickedToShipped ($orderId) {
-        Order::findOrFail($orderId)->update(['status' => 'Shipped']);
+        $this->orderRepository->changeStatus($orderId, 'Shipped');
 
         $notification = [
             'message' => 'The status of the order has been changed to Shipped',
@@ -105,7 +105,7 @@ class OrderController extends Controller
     }
 
     public function shippedToDelivered ($orderId) {
-        Order::findOrFail($orderId)->update(['status' => 'Delivered']);
+        $this->orderRepository->changeStatus($orderId, 'Delivered');
 
         $notification = [
             'message' => 'The status of the order has been changed to Delivered',
@@ -116,7 +116,7 @@ class OrderController extends Controller
     }
 
     public function deliveredToCancel ($orderId) {
-        Order::findOrFail($orderId)->update(['status' => 'Cancel']);
+        $this->orderRepository->changeStatus($orderId, 'Cancel');
 
         $notification = [
             'message' => 'The status of the order has been changed to Cancel',
@@ -127,18 +127,15 @@ class OrderController extends Controller
     }
 
     public function downloadInvoice ($orderId) {
-        $order = Order::with('division', 'district', 'state', 'user')->where('id', $orderId)->first();
-        $orderItem = OrderItem::with('product')->where('order_id', $orderId)->orderBy('id', 'DESC')->get();
+        $order = $this->orderRepository->getOrderAddressWithUser($orderId);
+        $orderItems = $this->orderRepository->getProductItemInOrder($orderId);
          
         return view('backend.orders.order_invoice', compact('order', 'orderItem'));
     }
     
 
     public function returnOrder(Request $request, $orderId) {
-        Order::findOrFail($orderId)->update([
-            'return_reason' => $request->return_reason,
-            'return_date' => Carbon::now()->format('d F Y'),
-        ]);
+        $this->orderRepository->returnOrder($orderId, $request->return_reason);
 
         $notification = [
             'message' => 'Return request send sucessfully',
@@ -149,14 +146,12 @@ class OrderController extends Controller
     }
 
     public function myOrderReturn() {
-        $orders = Order::where('user_id', Auth::id())->where('return_date', '!=', NULL)->get();
-
+        $orders = $this->orderRepository->getListReturnOrder(Auth::id());
         return view('frontend.user.order.order_return', compact('orders'));
     }
 
     public function myOrderCancel() {
-        $orders = Order::where('user_id', Auth::id())->where('status', 'Cancel')->get();
-        
+        $orders = $this->orderRepository->getListCancelOrder(Auth::id());
         return view('frontend.user.order.order_cancel', compact('orders'));
     }
 }

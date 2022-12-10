@@ -3,18 +3,21 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
-use App\Models\Category;
-use Carbon\Carbon;
+use App\Repositories\Category\CategoryRepository;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    public function allCategory() {
-        $categories = Category::latest()->get();
-        return view('backend.category.category_view', compact('categories'));
+
+    protected $categoryRepository;
+
+    public function __construct(CategoryRepository $categoryRepository) {
+        $this->categoryRepository = $categoryRepository;
     }
 
-    public function store(Request $request) {
+    public function handle(Request $request) {
+        $data = $request->all();
+
         $request->validate([
             'category_name_en' => 'required',
             'category_name_vn' => 'required',
@@ -25,14 +28,20 @@ class CategoryController extends Controller
             'category_icon.required' => 'Category icon is required',
         ]);
 
-        Category::insert([
-            'category_name_en' => $request->category_name_en,
-            'category_name_vn' => $request->category_name_vn,
-            'category_slug_en' => strtolower(str_replace(' ', '-', $request->category_name_en)),
-            'category_slug_vn' => strtolower(str_replace(' ', '-', $request->category_name_vn)),
-            'category_icon' => $request->category_icon,
-            'created_at' => Carbon::now()
-        ]);
+        $data['category_slug_en'] = strtolower(str_replace(' ', '-', $request->category_name_en));
+        $data['category_slug_vn'] = strtolower(str_replace(' ', '-', $request->category_name_vn));
+
+        return $data;
+    }
+
+    public function allCategory() {
+        $categories = $this->categoryRepository->getAll();
+        return view('backend.category.category_view', compact('categories'));
+    }
+
+    public function store(Request $request) {
+        $data = $this->handle($request);
+        $this->categoryRepository->create($data);
 
         $notification = [
             'message' => 'Category inserted successfully',
@@ -43,20 +52,14 @@ class CategoryController extends Controller
     }
 
     public function edit($id) {
-        $category = Category::findOrFail($id);
+        $category = $this->categoryRepository->find($id);
         return view('backend.category.category_edit', compact('category'));
     }
 
     public function update(Request $request) {
         $categoryId = $request->id;
-        
-        Category::findOrFail($categoryId)->update([
-            'category_name_en' => $request->category_name_en,
-            'category_name_vn' => $request->category_name_vn,
-            'category_slug_en' => strtolower(str_replace(' ', '-', $request->category_name_en)),
-            'category_slug_vn' => strtolower(str_replace(' ', '-', $request->category_name_vn)),
-            'category_icon' => $request->category_icon
-        ]);
+        $data = $this->handle($request);
+        $this->categoryRepository->update($categoryId, $data);
 
         $notification = [
             'message' => 'Category updated successfully',
@@ -67,7 +70,7 @@ class CategoryController extends Controller
     }
 
     public function delete($id){
-        Category::findOrFail($id)->delete();
+        $this->categoryRepository->delete($id);
 
         $notification = [
             'message' => 'Category deleted successfully',

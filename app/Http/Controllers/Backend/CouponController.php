@@ -5,18 +5,19 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Coupon;
-use Carbon\Carbon;
-use PHPUnit\Framework\Constraint\Count;
+use App\Repositories\Coupon\CouponInterface;
 
 class CouponController extends Controller
 {
+    protected $couponRepository;
 
-    public function couponView() {
-        $coupons = Coupon::orderBy('id', 'DESC')->get();
-        return view('backend.coupon.coupon_view', compact('coupons'));
+    public function __construct(CouponInterface $couponRepository) {
+        $this->couponRepository = $couponRepository;
     }
+    
+    public function handleRequest(Request $request) {
+        $data = $request->all();
 
-    public function store(Request $request) {
         $request->validate([
             'coupon_name' => 'required',
             'coupon_discount' => 'required',
@@ -27,12 +28,19 @@ class CouponController extends Controller
             'coupon_validity.required' => 'Coupon validity is required'
         ]);
 
-        Coupon::insert([
-            'coupon_name' => strtoupper($request->coupon_name),
-            'coupon_discount' => $request->coupon_discount,
-            'coupon_validity' => $request->coupon_validity,
-            'created_at' => Carbon::now() 
-        ]);
+        $data['coupon_name'] = strtoupper($request->coupon_name);
+
+        return $data;
+    }
+
+    public function couponView() {
+        $coupons = Coupon::orderBy('id', 'DESC')->get();
+        return view('backend.coupon.coupon_view', compact('coupons'));
+    }
+
+    public function store(Request $request) {
+        $data = $this->handleRequest($request);
+        $this->couponRepository->create($data);
 
         $notification = [
             'message' => 'Coupon inserted successfully',
@@ -43,18 +51,14 @@ class CouponController extends Controller
     }
 
     public function edit ($id) {
-        $coupon = Coupon::findOrFail($id);
+        $coupon = $this->couponRepository->find($id);
 
         return view('backend.coupon.coupon_edit', compact('coupon'));
     }
 
     public function update(Request $request, $id) {
-        Coupon::findOrFail($id)->update([
-            'coupon_name' => strtoupper($request->coupon_name),
-            'coupon_discount' => $request->coupon_discount,
-            'coupon_validity' => $request->coupon_validity,
-            'updated_at' => Carbon::now()
-        ]);
+        $data = $this->handleRequest($request);
+        $this->couponRepository->update($id, $data);
 
         $notification = [
             'message' => 'Coupon updated successfully',
@@ -65,7 +69,7 @@ class CouponController extends Controller
     }
 
     public function delete($id){
-        Coupon::findOrFail($id)->delete();
+        $this->couponRepository->delete($id);
         return redirect()->route('manage.coupon');
     }
 }

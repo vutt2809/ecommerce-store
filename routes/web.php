@@ -23,7 +23,6 @@ use App\Http\Controllers\User\CashController;
 use App\Http\Controllers\User\CheckoutController;
 use App\Http\Controllers\User\StripeController;
 use App\Http\Controllers\User\UserController;
-use App\Models\Blog\BlogPost;
 use Illuminate\Support\Facades\Route;
 
 require __DIR__.'/auth.php';
@@ -54,7 +53,7 @@ Route::prefix('seller')->group(function (){
 
 Route::prefix('brand')->group(function() {
     Route::get('/view', [BrandController::class, 'index'])->name('all.brand');
-    Route::post('/store', [BrandController::class, 'create'])->name('brand.store');
+    Route::post('/store', [BrandController::class, 'store'])->name('brand.store');
     Route::get('/edit/{id}', [BrandController::class, 'edit'])->name('brand.edit');
     Route::post('/update', [BrandController::class, 'update'])->name('brand.update');
     Route::get('/delete/{id}', [BrandController::class, 'delete'])->name('brand.delete');

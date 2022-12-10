@@ -13,7 +13,6 @@ class BlogController extends Controller
 {
     public function blogCategory() {
         $blogCategories = BlogPostCategory::latest()->get();
-
         return view('backend.blog.category.category_view', compact('blogCategories'));
     }
 

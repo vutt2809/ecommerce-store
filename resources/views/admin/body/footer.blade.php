@@ -9,5 +9,5 @@
         </li>
         </ul>
     </div>
-    &copy; 2022 <a href="#">VUTT Ecommerce Shop</a>. All Rights Reserved.
+    &copy; 2022 <a href="#">SnowRain Ecommerce Shop</a>. All Rights Reserved.
 </footer>
