@@ -3,49 +3,74 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
-use App\Models\ShipDistrict;
-use App\Models\ShipDivision;
-use App\Models\ShipState;
-use Carbon\Carbon;
+use App\Repositories\ShipDistrict\ShipDistrictInterface;
+use App\Repositories\ShipDivision\ShipDivisionInterface;
+use App\Repositories\ShipState\ShipStateInterface;
 use Illuminate\Http\Request;
 
 class ShippingAreaController extends Controller
 {
-    public function viewDivision() {
-        $divisions = ShipDivision::orderBy('id', 'DESC')->get();
+    protected $divisionRepository;
+    protected $districtRepository;
+    protected $stateRepository;
 
-        return view('backend.ship.division.view_division', compact('divisions'));
+    public function __construct(ShipDivisionInterface $divisionRepository, ShipDistrictInterface $districtRepository, ShipStateInterface $stateRepository) {
+        $this->divisionRepository = $divisionRepository;
+        $this->districtRepository = $districtRepository;
+        $this->stateRepository = $stateRepository;
     }
 
-    public function storeDivision(Request $request){
+    public function handleRequestDivision(Request $request) {
+        $data = $request->all();
         $request->validate([
             'division_name' => 'required'
         ], [
             'division_name.required' => 'Shipping division name is required'
         ]);
 
-        ShipDivision::insert([
-            'division_name' => $request->division_name,
-            'created_at' => Carbon::now(),
+        return $data;
+    }
+
+    public function handleRequestDistrict(Request $request) {
+        $data = $request->all();
+
+        $request->validate([
+            'division_id' => 'required',
+            'district_name' => 'required'
+        ], [
+            'division_id.required' => 'Division Name is required',
+            'district_name.required' => 'District Name is required',
         ]);
+
+        return $data;
+    }
+
+    public function viewDivision() {
+        $divisions = $this->divisionRepository->getAll();
+        return view('backend.ship.division.view_division', compact('divisions'));
+    }
+
+    public function storeDivision(Request $request){
+        $data = $this->handleRequestDivision($request);
+        $this->divisionRepository->create($data);
 
         $notification = [
             'message' => 'Shipping division inserted successfully',
             'alert-type' => 'success'
         ];
+
         return redirect()->back()->with($notification);
     }
 
     public function editDivision($id) {
-        $division = ShipDivision::findOrFail($id);
-
+        $division = $this->divisionRepository->find($id);
         return view('backend.ship.division.edit_division', compact('division'));
     }
 
     public function updateDivision(Request $request, $id) {
-        ShipDivision::findOrFail($id)->update([
-            'division_name' => $request->division_name
-        ]);
+        $data = $this->handleRequestDivision($request);
+
+        $this->divisionRepository->update($id, $data);
 
         $notification = [
             'message' => 'Shipping division updated successfully',
@@ -56,7 +81,7 @@ class ShippingAreaController extends Controller
     }
 
     public function deleteDivision($id) {
-        ShipDivision::findOrFail($id)->delete();
+        $this->divisionRepository->delete($id);
         
         $notification = [
             'message' => 'Shipping division deleted successfully',
@@ -68,25 +93,15 @@ class ShippingAreaController extends Controller
 
     // ================Ship district================
     public function viewDistrict() {
-        $divisions = ShipDivision::orderBy('division_name', 'ASC')->get();
-        $districts = ShipDistrict::with('division')->orderBy('id', 'DESC')->get();    
+        $divisions = $this->divisionRepository->getAll();
+        $districts = $this->districtRepository->getAllWithDivision();   
         return view('backend.ship.district.view_district', compact('districts', 'divisions'));
     }
 
     public function storeDistrict(Request $request) {
-        $request->validate([
-            'division_id' => 'required',
-            'district_name' => 'required'
-        ], [
-            'division_id.required' => 'Division Name is required',
-            'district_name.required' => 'District Name is required',
-        ]);
+        $data = $this->handleRequestDistrict($request);
 
-        ShipDistrict::insert([
-            'division_id' => $request->division_id,
-            'district_name' => $request->district_name,
-            'created_at' => Carbon::now()
-        ]);
+        $this->districtRepository->create($data);
 
         $notification = [
             'message' => 'Shipping district deleted successfully',
@@ -97,18 +112,16 @@ class ShippingAreaController extends Controller
     }
 
     public function editDistrict($id) {
-        $divisions = ShipDivision::orderBy('division_name', 'ASC')->get();
-        $district = ShipDistrict::findOrFail($id);
+        $divisions = $this->divisionRepository->getAll();
+        $district = $this->districtRepository->find($id);
 
         return view('backend.ship.district.edit_district', compact('district', 'divisions'));
     }
 
     public function updateDistrict(Request $request, $id) {
-        ShipDistrict::findOrFail($id)->update([
-            'division_id' => $request->division_id,
-            'district_name' => $request->district_name,
-            'updated_at' => Carbon::now()
-        ]);
+        $data = $this->handleRequestDistrict($request);
+
+        $this->districtRepository->update($id, $data);
 
         $notification = [
             'message' => 'Shipping district updated successfully',
@@ -119,7 +132,7 @@ class ShippingAreaController extends Controller
     }
 
     public function deleteDistrict($id) {
-        ShipDistrict::findOrFail($id)->delete();
+        $this->districtRepository->delete($id);
 
         $notification = [
             'message' => 'Shipping district deleted successfully',
@@ -130,21 +143,9 @@ class ShippingAreaController extends Controller
     }
 
     // Ship State Section
-    public function viewState() {
-        $divisions = ShipDivision::orderBy('division_name', 'ASC')->get();
-        $districts = ShipDistrict::orderBy('district_name', 'ASC')->get();
-        $states = ShipState::with('district', 'division')->orderBy('id', 'DESC')->get();
+    public function handleRequestState(Request $request) {
+        $data = $request->all();
 
-        return view('backend.ship.state.view_state', compact('districts', 'divisions', 'states'));
-    }
-
-    public function getDistrict ($division_id) {
-        $districts = ShipDistrict::where('division_id', $division_id)->orderBy('district_name', 'DESC')->get();
-
-        return json_encode($districts);
-    }
-
-    public function storeState(Request $request) {
         $request->validate([
             'division_id' => 'required',
             'district_id' => 'required',
@@ -155,11 +156,26 @@ class ShippingAreaController extends Controller
             'state_name.required' => 'State name is required',
         ]);
 
-        ShipState::insert([
-            'division_id' => $request->division_id,
-            'district_id' => $request->district_id,
-            'state_name' => $request->state_name,
-        ]);
+        return $data;
+    }
+
+    public function viewState() {
+        $divisions = $this->divisionRepository->getAll();
+        $districts = $this->districtRepository->getAll();
+        $states = $this->stateRepository->getStateWithDivisionAndDistrict();
+
+        return view('backend.ship.state.view_state', compact('districts', 'divisions', 'states'));
+    }
+
+    public function getDistrict ($divisionId) {
+        $districts = $this->districtRepository->getDistrictByDivision($divisionId);
+        return json_encode($districts);
+    }
+
+    public function storeState(Request $request) {
+        $data = $this->handleRequestState($request);
+
+        $this->stateRepository->create($data);
 
         $notification = [
             'message' => 'Shipping state inserted successfully',
@@ -170,18 +186,16 @@ class ShippingAreaController extends Controller
     }
 
     public function editState($id) {
-        $divisions = ShipDivision::orderBy('division_name', 'ASC')->get();
-        $districts = ShipDistrict::orderBy('district_name', 'ASC')->get();
-        $state = ShipState::findOrFail($id);
+        $divisions = $this->divisionRepository->getAll();
+        $districts = $this->districtRepository->getAll();
+        $state = $this->stateRepository->find($id);
         return view('backend.ship.state.edit_state', compact('state', 'divisions', 'districts'));
     }
 
     public function updateState(Request $request, $id){
-        ShipState::findOrFail($id)->update([
-            'division_id' => $request->division_id,
-            'district_id' => $request->district_id,
-            'state_name' => $request->state_name,
-        ]);
+        $data = $this->handleRequestState($request);
+
+        $this->stateRepository->update($id, $data);
 
         $notification = [
             'message' => 'Shipping state updated successfully',
@@ -192,7 +206,7 @@ class ShippingAreaController extends Controller
     }
 
     public function deleteState($id) {
-        ShipState::findOrFail($id)->delete();
+        $this->stateRepository->delete($id);
 
         $notification = [
             'message' => 'Shipping state deleted successfully',

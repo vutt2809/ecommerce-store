@@ -14,8 +14,14 @@ use App\Repositories\MultiImg\MultiImgInterface;
 use App\Repositories\MultiImg\MultiImgRepository;
 use App\Repositories\Order\OrderInterface;
 use App\Repositories\Order\OrderRepository;
+use App\Repositories\ShipDistrict\ShipDistrictInterface;
+use App\Repositories\ShipDistrict\ShipDistrictRepository;
+use App\Repositories\ShipDivision\ShipDivisionRepository;
+use App\Repositories\ShipState\ShipStateRepository;
 use App\Repositories\Product\ProductInterface;
 use App\Repositories\Product\ProductRepository;
+use App\Repositories\ShipDivision\ShipDivisionInterface;
+use App\Repositories\ShipState\ShipStateInterface;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -34,6 +40,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(AuthInterface::class, AuthRepository::class);
         $this->app->singleton(ProductInterface::class, ProductRepository::class);
         $this->app->singleton(MultiImgInterface::class, MultiImgRepository::class);
+        $this->app->singleton(OrderInterface::class, OrderRepository::class);
+        $this->app->singleton(ShipDivisionInterface::class, ShipDivisionRepository::class);
+        $this->app->singleton(ShipDistrictInterface::class, ShipDistrictRepository::class);
+        $this->app->singleton(ShipStateInterface::class, ShipStateRepository::class);
     }
 
     /**
