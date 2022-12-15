@@ -13,7 +13,7 @@
             <div class="box-body">
                 <div class="row">
                     <div class="col">
-                        <form method="post" action="{{ route('admin.update.password') }}">
+                        <form method="post" action="{{ route('admin.update.password', $admin->id) }}">
                             @csrf
                             <div class="row">
                                 <div class="col-md-6 offset-3">

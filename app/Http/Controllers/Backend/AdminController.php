@@ -5,13 +5,19 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
 use App\Models\User;
-use Carbon\Carbon;
+use App\Repositories\Auth\AuthInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
+    protected $authRepository;
+
+    public function __construct(AuthInterface $authRepository) {
+        $this->authRepository = $authRepository;
+    }
+
     public function login() {
         return view('auth.admin_login');
     }
@@ -40,29 +46,27 @@ class AdminController extends Controller
     }
 
     public function registerCreate(Request $request) {
-        Admin::insert([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'created_at' => Carbon::now(),
-        ]);
+        $data = $request->all();
+        $data['password'] = Hash::make($request->password);
+
+        $this->authRepository->create($data);
 
         return redirect()->route('admin.login')->with('message', 'Your account have been created Successfully');
     }
     
     // Profile Section
-    public function profile() {
-        $admin = Admin::find(1);
+    public function profile($adminId) {
+        $admin = Admin::find($adminId);
         return view('admin.admin_profile_view', compact('admin'));
     }
 
-    public function editProfile() {
-        $admin = Admin::find(1);
+    public function editProfile($adminId) {
+        $admin = Admin::find($adminId);
         return view('admin.admin_profile_edit', compact('admin'));
     }
 
-    public function updateProfile(Request $request) { 
-        $admin = Admin::find(1);
+    public function updateProfile(Request $request, $adminId) { 
+        $admin = Admin::find($adminId);
 
         $admin->name = $request->name;
         $admin->email = $request->email;
@@ -84,23 +88,24 @@ class AdminController extends Controller
             'alert-type' => 'success'
         );
 
-        return redirect()->route('admin.profile')->with($notification);  
+        return redirect()->route('admin.profile', $admin->id)->with($notification);  
     }
 
-    public function changePassword() {
-        return view('admin.admin_change_password');
+    public function changePassword($adminId) {
+        $admin = Admin::find($adminId);
+        return view('admin.admin_change_password', compact('admin'));
     }
 
-    public function updatePassword (Request $request) {
+    public function updatePassword (Request $request, $adminId) {
         $request->validate([
             'oldpassword' => 'required',
             'password' => 'required|confirmed',
         ]);
 
-        $hashedPassword = Admin::find(1)->password;
+        $hashedPassword = Admin::find($adminId)->password;
 
         if (Hash::check($request->oldpassword, $hashedPassword)) {
-            $admin = Admin::find(1);
+            $admin = Admin::find($adminId);
             $admin->password = Hash::make($request->password);  
             $admin->save();
             Auth::logout();

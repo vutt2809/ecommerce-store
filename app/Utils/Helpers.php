@@ -43,10 +43,10 @@ class Helpers {
         return -1;
     }
 
-    public static function saveImage($image, $size = [], $path) {
+    public static function saveImage($image, $with, $height, $path) {
         $nameGeneration = hexdec(uniqid()). '.' . $image->getClientOriginalExtension();
         $saveUrl = $path . $nameGeneration;
-        Image::make($image)->resize($size[0], $size[1])->save($saveUrl);
+        Image::make($image)->resize($with, $height)->save($saveUrl);
 
         return $saveUrl;
     }

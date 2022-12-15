@@ -75,7 +75,7 @@ class ProductController extends Controller
         [$imgWidth, $imgHeight] = $this->handleImageSize($request);
        
         $image = $request->file('product_thumbnail');
-        $saveURL = Helpers::saveImage($image, [$imgWidth, $imgHeight], 'upload/product/thumbnail/');
+        $saveURL = Helpers::saveImage($image, $imgWidth, $imgHeight, 'upload/product/thumbnail/');
 
         $data['product_thumbnail'] = $saveURL;
         $data['status'] = 1;
@@ -85,7 +85,7 @@ class ProductController extends Controller
         return $data;
     }
 
-    public function add() {
+    public function create() {
         $categories = $this->categoryRepository->getAll();
         $brands = $this->brandRepository->getAll();
 
@@ -102,10 +102,9 @@ class ProductController extends Controller
         [$imgWidth, $imgHeight] = $this->handleImageSize($request);
 
         foreach ($images as $image) {
-            $uploadPath = Helpers::saveImage($image, [$imgWidth, $imgHeight], 'upload/product/multi-image/');
+            $uploadPath = Helpers::saveImage($image, $imgWidth, $imgHeight, 'upload/product/multi-image/');
             // $this->multiImgRepository->create();
             
-
             MultiImg::insert([
                 'product_id' => $productId,
                 'photo_name' => $uploadPath,
@@ -123,7 +122,6 @@ class ProductController extends Controller
 
     public function manage() {
         $products = Product::latest()->get();
-
         return view('backend.product.product_view', compact('products'));
     }
 

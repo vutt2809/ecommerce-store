@@ -24,7 +24,7 @@
             <div class="box box-widget widget-user">
                 <div class="widget-user-header bg-black" style="background: url('../images/gallery/full/10.jpg') center center;">
                     <h3 class="widget-user-username">Admin Name: {{ $admin->name }}</h3>
-                    <a href="{{ route('admin.profile.edit') }}" class="btn btn-rounded btn-success mb-5" style="float: right;">Edit Profile</a>
+                    <a href="{{ route('admin.profile.edit', $admin->id) }}" class="btn btn-rounded btn-success mb-5" style="float: right;">Edit Profile</a>
                     <h6 class="widget-user-desc">Admin Email: {{ $admin->email }}</h6>
                 </div>
                 <div class="widget-user-image">

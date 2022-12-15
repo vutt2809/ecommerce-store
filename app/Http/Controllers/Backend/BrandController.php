@@ -20,7 +20,7 @@ class BrandController extends Controller
         $data = $request->all();
         $image = $request->file('brand_image');
 
-        $saveUrl = Helpers::saveImage($image, [300, 300], 'upload/brand/');
+        $saveUrl = Helpers::saveImage($image, 300, 300, 'upload/brand/');
         $data['brand_image'] = $saveUrl;
     }
 
@@ -41,13 +41,13 @@ class BrandController extends Controller
             if ($request->file('brand_image')) {
                 $oldImg = $request->old_image;
                 unlink($oldImg);
-                $saveUrl = Helpers::saveImage($image, [300, 300], 'upload/brand/');
+                $saveUrl = Helpers::saveImage($image, 300, 300, 'upload/brand/');
                 $data['brand_image'] = $saveUrl;
             } 
             unset($data['old_image']);
             
         } else {
-            $saveUrl = Helpers::saveImage($image, [300, 300], 'upload/brand/');
+            $saveUrl = Helpers::saveImage($image, 300, 300, 'upload/brand/');
             $data['brand_image'] = $saveUrl;
         }
 

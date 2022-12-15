@@ -27,7 +27,7 @@ use Illuminate\Support\Facades\Route;
 
 require __DIR__.'/auth.php';
 
-Route::prefix('admin')->group(function (){
+Route::prefix('admin')->group(function () {
     Route::get('/login', [AdminController::class, 'login'])->name('admin.login');
     Route::post('/login/owner', [AdminController::class, 'loginOwner'])->name('admin.login.owner');
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard')->middleware('admin');
@@ -35,11 +35,11 @@ Route::prefix('admin')->group(function (){
     Route::get('/register', [AdminController::class, 'register'])->name('admin.register');
     Route::post('/register/create', [AdminController::class, 'registerCreate'])->name('admin.register.create');
 
-    Route::get('/profile', [AdminController::class, 'profile'])->name('admin.profile')->middleware('admin');;
-    Route::get('/profile/edit', [AdminController::class, 'editProfile'])->name('admin.profile.edit')->middleware('admin');;
-    Route::post('/profile/store', [AdminController::class, 'updateProfile'])->name('admin.profile.store')->middleware('admin');;
-    Route::get('/changepassword', [AdminController::class, 'changePassword'])->name('admin.change.password')->middleware('admin');;
-    Route::post('/update/password', [AdminController::class, 'updatePassword'])->name('admin.update.password')->middleware('admin');;
+    Route::get('/profile/{id}', [AdminController::class, 'profile'])->name('admin.profile')->middleware('admin');;
+    Route::get('/profile/edit/{id}', [AdminController::class, 'editProfile'])->name('admin.profile.edit')->middleware('admin');
+    Route::post('/profile/store/{id}', [AdminController::class, 'updateProfile'])->name('admin.profile.store')->middleware('admin');
+    Route::get('/changepassword/{id}', [AdminController::class, 'changePassword'])->name('admin.change.password')->middleware('admin');
+    Route::post('/update/password/{id}', [AdminController::class, 'updatePassword'])->name('admin.update.password')->middleware('admin');
 });
 
 Route::prefix('seller')->group(function (){
@@ -82,7 +82,7 @@ Route::prefix('category')->group(function() {
 });
 
 Route::prefix('product')->group(function() {
-    Route::get('/add', [ProductController::class, 'add'])->name('add.product');
+    Route::get('/add', [ProductController::class, 'create'])->name('add.product');
     Route::post('/store', [ProductController::class, 'store'])->name('product.store');
     Route::get('/manage', [ProductController::class, 'manage'])->name('manage.product');
     Route::get('/edit/{id}', [ProductController::class, 'edit'])->name('product.edit');
