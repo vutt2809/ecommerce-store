@@ -20,4 +20,12 @@ interface OrderInterface extends RepositoryInterface {
     public function getListReturnOrder($userId);
 
     public function getListCancelOrder($userId);
+
+    public function getOrderByDate($date);
+
+    public function getOrderByMonth($month, $year);
+
+    public function getOrderByYear($year);
+
+    public function getTopBestSellerProduct($number);
 }

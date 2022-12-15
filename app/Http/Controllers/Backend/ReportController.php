@@ -6,12 +6,19 @@ use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
+use App\Repositories\Order\OrderInterface;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class ReportController extends Controller
 {
+    protected $orderRepository;
+
+    public function __construct(OrderInterface $orderRepository) {
+        $this->orderRepository = $orderRepository;
+    }
+
     public function allReport() {
         return view('backend.report.report_view');
     }
@@ -19,7 +26,7 @@ class ReportController extends Controller
     public function reportByDate(Request $request) {
         $date = new DateTime($request->date);
         $formatDate = $date->format('d F Y');
-        $orders = Order::where('order_date', $formatDate)->latest()->get();
+        $orders = $this->orderRepository->getOrderByDate($formatDate);
 
         return view('backend.report.report_by_date', compact('orders', 'formatDate'));
     }
@@ -27,16 +34,15 @@ class ReportController extends Controller
     public function reportByMonth(Request $request) {
         $month = $request->month;
         $year = $request->year_name;
-        
-        $orders = Order::where('order_month', $month)->where('order_year', $year)->latest()->get();
+        $orders = $this->orderRepository->getOrderByMonth($month, $year);
 
         return view('backend.report.report_by_month', compact('orders', 'month', 'year'));
     }
 
     public function reportByYear(Request $request) {
         $year = $request->year_name;
-        
-        $orders = Order::where('order_year', $year)->where('order_year', $year)->latest()->get();
+        $orders = $this->orderRepository->getOrderByYear($year);
+
         return view('backend.report.report_by_year', compact('orders', 'year'));
     }
 
@@ -47,18 +53,10 @@ class ReportController extends Controller
     public function bestSellerProduct(Request $request) {
         $number = $request->number;
 
-        $ids = OrderItem::select('product_id', DB::raw('count(qty) as total'))
-                        ->groupBy('product_id')
-                        ->orderByRaw('count(qty) DESC')
-                        ->limit($number)
-                        ->pluck('product_id', 'total');
-
-        $products = Product::whereIn('id', $ids)->get();
-
-        $listItems = json_decode($ids);
+        $data = $this->orderRepository->getTopBestSellerProduct($number);
+        $products = $data['products'];
+        $listItems = $data['listItems'];
 
         return view('backend.report.product.product_report_result', compact('products', 'listItems'));
     }
-
-    
 }
