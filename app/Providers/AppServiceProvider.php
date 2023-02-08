@@ -22,6 +22,10 @@ use App\Repositories\Product\ProductInterface;
 use App\Repositories\Product\ProductRepository;
 use App\Repositories\ShipDivision\ShipDivisionInterface;
 use App\Repositories\ShipState\ShipStateInterface;
+use App\Repositories\Slider\SliderInterface;
+use App\Repositories\Slider\SliderRepository;
+use App\Repositories\SubCategory\SubCategoryInterface;
+use App\Repositories\SubCategory\SubCategoryRepository;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -44,6 +48,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(ShipDivisionInterface::class, ShipDivisionRepository::class);
         $this->app->singleton(ShipDistrictInterface::class, ShipDistrictRepository::class);
         $this->app->singleton(ShipStateInterface::class, ShipStateRepository::class);
+        $this->app->singleton(SliderInterface::class, SliderRepository::class);
+        $this->app->singleton(SubCategoryInterface::class, SubCategoryRepository::class);
     }
 
     /**

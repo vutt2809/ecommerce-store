@@ -6,10 +6,17 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\SubCategory;
 use App\Models\SubSubCategory;
+use App\Repositories\SubCategory\SubCategoryInterface;
 use Illuminate\Http\Request;
 
 class SubCategoryController extends Controller
 {
+    protected $subCategoryRepository;
+
+    public function __construct(SubCategoryInterface $subCategoryRepository) {
+        $this->subCategoryRepository = $subCategoryRepository;
+    }
+
     public function allSubCategory() {
         $subCategories = SubCategory::latest()->get();
         $categories = Category::orderBy('category_name_en', 'ASC')->get();

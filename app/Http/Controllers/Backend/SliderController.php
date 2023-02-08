@@ -4,36 +4,45 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Slider;
+use App\Repositories\Slider\SliderInterface;
+use App\Utils\Helpers;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Intervention\Image\Facades\Image;
 
 class SliderController extends Controller
 {
-    public function allSlider() {
-        $sliders = Slider::latest()->get();
+    protected $sliderRepository;
 
-        return view('backend.slider.slider_view', compact('sliders'));
+    public function __construct(SliderInterface $sliderRepository) {
+        $this->sliderRepository = $sliderRepository;
     }
 
-    public function store(Request $request) {
+    public function handleRequest(Request $request) {
         $request->validate([
             'slider_img' => 'required'
         ],[
             'slider_img.required' => 'Slider image is required',
         ]);
 
-        $image = $request->file('slider_img');
-        $make_name = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
-        Image::make($image)->resize(870,370)->save('upload/slider/'.$make_name);
-        $save_url = 'upload/slider/'.$make_name;
+        $data = $request->all();
 
-        Slider::insert([
-            'title' => $request->title,
-            'description' => $request->description,
-            'slider_img' => $save_url,
-            'created_at' => Carbon::now()
-        ]); 
+        if ($request->file('slider_img')) {
+            unlink($request->old_img);
+            $saveUrl = Helpers::saveImage($request->file('slider_img'), 870, 370, 'upload/slider');
+            $data['slider_img'] = $saveUrl;
+        }
+        return $data;
+    }
+
+    public function allSlider() {
+        $sliders = $this->sliderRepository->getAll();
+        return view('backend.slider.slider_view', compact('sliders'));
+    }
+
+    public function store(Request $request) {
+        $data = $this->handleRequest($request);
+
+        $this->sliderRepository->create($data);
 
         $notification = [
             'message' => 'Slider inserted successfully',
@@ -44,8 +53,7 @@ class SliderController extends Controller
     }
 
     public function edit($id) {
-        $slider = Slider::findOrFail($id);
-
+        $slider = $this->sliderRepository->find($id);
         return view('backend.slider.slider_edit', compact('slider'));
     }
 
@@ -53,25 +61,11 @@ class SliderController extends Controller
         $sliderId = $request->id;
 
         if ($request->file('slider_img')){
-            unlink($request->old_img);
+            unlink($request->old_img); 
+        } 
 
-            $image = $request->file('slider_img');
-            $make_name = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
-            Image::make($image)->resize(870,370)->save('upload/slider/'.$make_name);
-            $save_url = 'upload/slider/'.$make_name;
-
-            Slider::findOrFail($sliderId)->update([
-                'title' => $request->title,
-                'description' => $request->title,
-                'slider_img' => $save_url
-            ]);
-        } else {
-            Slider::findOrFail($sliderId)->update([
-                'title' => $request->title,
-                'description' => $request->description,
-                'updated_at' => Carbon::now()
-            ]);
-        }
+        $data = $this->handleRequest($request);
+        $this->sliderRepository->update($data, $sliderId);
 
         $notification = [
             'message' => 'Slider updated successfully',
@@ -97,7 +91,8 @@ class SliderController extends Controller
     }
 
     public function active($id) {
-        Slider::findOrFail($id)->update(['status' => 1]);
+        $this->sliderRepository->active($id);
+
         $notification = [
             'message' => 'Slider is actived successfully',
             'alert-type' => 'info'
@@ -107,7 +102,8 @@ class SliderController extends Controller
     }
 
     public function inactive($id) {
-        Slider::findOrFail($id)->update(['status' => 0]);
+        $this->sliderRepository->inActive($id);
+
         $notification = [
             'message' => 'Slider is inactived successfully',
             'alert-type' => 'info'

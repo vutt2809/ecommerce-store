@@ -84,7 +84,7 @@ Route::prefix('category')->group(function() {
 Route::prefix('product')->group(function() {
     Route::get('/add', [ProductController::class, 'create'])->name('add.product');
     Route::post('/store', [ProductController::class, 'store'])->name('product.store');
-    Route::get('/manage', [ProductController::class, 'manage'])->name('manage.product');
+    Route::get('/manage', [ProductController::class, 'index'])->name('manage.product');
     Route::get('/edit/{id}', [ProductController::class, 'edit'])->name('product.edit');
     Route::get('/delete/{id}', [ProductController::class, 'deleteProductData'])->name('product.delete');
     Route::post('/data/update', [ProductController::class, 'update'])->name('product.update');
