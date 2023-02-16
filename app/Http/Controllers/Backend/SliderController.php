@@ -27,7 +27,7 @@ class SliderController extends Controller
         $data = $request->all();
 
         if ($request->file('slider_img')) {
-            unlink($request->old_img);
+            if ($request->old_img) unlink($request->old_img);
             $saveUrl = Helpers::saveImage($request->file('slider_img'), 870, 370, 'upload/slider');
             $data['slider_img'] = $saveUrl;
         }

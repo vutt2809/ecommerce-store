@@ -111,66 +111,66 @@
     
     <div class="header-nav animate-dropdown">
         <div class="container">
-        <div class="yamm navbar navbar-default" role="navigation">
-            <div class="navbar-header">
-        <button data-target="#mc-horizontal-menu-collapse" data-toggle="collapse" class="navbar-toggle collapsed" type="button"> 
-        <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
-            </div>
-            <div class="nav-bg-class">
-            <div class="navbar-collapse collapse" id="mc-horizontal-menu-collapse">
-                <div class="nav-outer">
-                <ul class="nav navbar-nav">
-                    <li class="active dropdown yamm-fw"> <a href="{{ url('/') }}" data-hover="dropdown" class="dropdown-toggle" data-toggle="dropdown">
-                        @if (session()->get('language') == 'vietnam') Trang chủ @else Home @endif
-                        </a>
-                    </li>
+            <div class="yamm navbar navbar-default" role="navigation">
+                <div class="navbar-header">
+                    <button data-target="#mc-horizontal-menu-collapse" data-toggle="collapse" class="navbar-toggle collapsed" type="button"> 
+                    <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+                        </div>
+                        <div class="nav-bg-class">
+                        <div class="navbar-collapse collapse" id="mc-horizontal-menu-collapse">
+                            <div class="nav-outer">
+                            <ul class="nav navbar-nav">
+                                <li class="active dropdown yamm-fw"> <a href="{{ url('/') }}" data-hover="dropdown" class="dropdown-toggle" data-toggle="dropdown">
+                                    @if (session()->get('language') == 'vietnam') Trang chủ @else Home @endif
+                                    </a>
+                                </li>
 
-                    @php
-                    $categories = App\Models\Category::orderBy('category_name_en', 'ASC')->get();
-                    @endphp 
+                                @php
+                                $categories = App\Models\Category::orderBy('category_name_en', 'ASC')->get();
+                                @endphp 
 
-                    @foreach($categories as $category)
-                    <li class="dropdown yamm mega-menu"> <a href="home.html" data-hover="dropdown" class="dropdown-toggle" data-toggle="dropdown">@if (session()->get('language') == 'vietnam') {{ $category->category_name_vn }} @else {{ $category->category_name_en }} @endif</a>
-                        <ul class="dropdown-menu container">
-                            <li>
-                                <div class="yamm-content ">
-                                    <div class="row">
-                                    @php
-                                    $subCategories = App\Models\SubCategory::where('category_id', $category->id)->orderBy('subcategory_name_en', 'ASC')->get();
-                                    @endphp
+                                @foreach($categories as $category)
+                                <li class="dropdown yamm mega-menu"> <a href="home.html" data-hover="dropdown" class="dropdown-toggle" data-toggle="dropdown">@if (session()->get('language') == 'vietnam') {{ $category->category_name_vn }} @else {{ $category->category_name_en }} @endif</a>
+                                    <ul class="dropdown-menu container">
+                                        <li>
+                                            <div class="yamm-content ">
+                                                <div class="row">
+                                                @php
+                                                $subCategories = App\Models\SubCategory::where('category_id', $category->id)->orderBy('subcategory_name_en', 'ASC')->get();
+                                                @endphp
 
-                                    @foreach($subCategories as $subCategory)
-                                    <div class="col-xs-12 col-sm-6 col-md-2 col-menu">
-                                        <a href="{{ url('subcategory/product/'.$subCategory->id.'/'.$subCategory->subcategory_slug_en )}}">
-                                            <h2 class="title">@if (session()->get('language') == 'vietnam') {{$subCategory->subcategory_name_vn}} @else {{$subCategory->subcategory_name_en}} @endif</h2>                                    
-                                        </a>
-                                        @php
-                                        $Subsubcategories = App\Models\SubSubCategory::where('subcategory_id', $subCategory->id)->orderBy('subsubcategory_name_en', 'ASC')->get();
-                                        @endphp
+                                                @foreach($subCategories as $subCategory)
+                                                <div class="col-xs-12 col-sm-6 col-md-2 col-menu">
+                                                    <a href="{{ url('subcategory/product/'.$subCategory->id.'/'.$subCategory->subcategory_slug_en )}}">
+                                                        <h2 class="title">@if (session()->get('language') == 'vietnam') {{$subCategory->subcategory_name_vn}} @else {{$subCategory->subcategory_name_en}} @endif</h2>                                    
+                                                    </a>
+                                                    @php
+                                                    $Subsubcategories = App\Models\SubSubCategory::where('subcategory_id', $subCategory->id)->orderBy('subsubcategory_name_en', 'ASC')->get();
+                                                    @endphp
 
-                                        @foreach($Subsubcategories as $subSubCategory)
-                                        <ul class="links">
-                                        <li><a href="{{url('subsubcategory/product/'.$subSubCategory->id.'/'.$subSubCategory->subsubcategory_slug_en )}}">@if (session()->get('language') == 'vietnam') {{$subSubCategory->subsubcategory_name_vn}} @else {{$subSubCategory->subsubcategory_name_en}} @endif</a></li>
-                                        </ul>
-                                        @endforeach
-                                    </div>
-                                    @endforeach
+                                                    @foreach($Subsubcategories as $subSubCategory)
+                                                    <ul class="links">
+                                                    <li><a href="{{url('subsubcategory/product/'.$subSubCategory->id.'/'.$subSubCategory->subsubcategory_slug_en )}}">@if (session()->get('language') == 'vietnam') {{$subSubCategory->subsubcategory_name_vn}} @else {{$subSubCategory->subsubcategory_name_en}} @endif</a></li>
+                                                    </ul>
+                                                    @endforeach
+                                                </div>
+                                                @endforeach
 
-                                    <div class="col-xs-12 col-sm-6 col-md-4 col-menu banner-image"> <img class="img-responsive" src="{{ asset('frontend/assets/images/banners/top-menu-banner.jpg') }}" alt=""> </div>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </li>
-                    @endforeach
-                    <li class="dropdown  navbar-right special-menu"> <a href="#">@if (session()->get('language') == 'vietnam') Hot Deals hôm nay @else Todays offer @endif</a> </li>
-                    <li class="dropdown  navbar-right special-menu"> <a href="{{ route('home.blog') }}">Blog</a> </li>
-                </ul>
-                <div class="clearfix"></div>
+                                                <div class="col-xs-12 col-sm-6 col-md-4 col-menu banner-image"> <img class="img-responsive" src="{{ asset('frontend/assets/images/banners/top-menu-banner.jpg') }}" alt=""> </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </li>
+                                @endforeach
+                                <li class="dropdown  navbar-right special-menu"> <a href="#">@if (session()->get('language') == 'vietnam') Hot Deals hôm nay @else Todays offer @endif</a> </li>
+                                <li class="dropdown  navbar-right special-menu"> <a href="{{ route('home.blog') }}">Blog</a> </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            </div>
-        </div>
         </div>
     </div>
 </header>
