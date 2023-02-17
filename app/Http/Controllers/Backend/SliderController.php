@@ -41,15 +41,10 @@ class SliderController extends Controller
 
     public function store(Request $request) {
         $data = $this->handleRequest($request);
-
         $this->sliderRepository->create($data);
 
-        $notification = [
-            'message' => 'Slider inserted successfully',
-            'alert-type' => 'success'
-        ];
-
-        return redirect()->back()->with($notification);
+        $notify = Helpers::notification('Slider was created successfully', 'success');
+        return redirect()->back()->with($notify);
     }
 
     public function edit($id) {
@@ -61,18 +56,14 @@ class SliderController extends Controller
         $sliderId = $request->id;
 
         if ($request->file('slider_img')){
-            unlink($request->old_img); 
-        } 
+            unlink($request->old_img);
+        }
 
         $data = $this->handleRequest($request);
         $this->sliderRepository->update($data, $sliderId);
 
-        $notification = [
-            'message' => 'Slider updated successfully',
-            'alert-type' => 'success'
-        ];
-
-        return redirect()->route('manage.slider')->with($notification);
+        $notify = Helpers::notification('Slider was updated successfully', 'success');
+        return redirect()->route('manage.slider')->with($notify);
     }
 
     public function delete($id) {
@@ -82,33 +73,21 @@ class SliderController extends Controller
 
         $slider->delete();
 
-        $notification = [
-            'message' => 'Slider deleted successfully',
-            'alert-type' => 'info'
-        ];
-
-        return redirect()->back()->with($notification);
+        $notify = Helpers::notification('Slider was deleted successfully', 'success');
+        return redirect()->back()->with($notify);
     }
 
     public function active($id) {
         $this->sliderRepository->active($id);
 
-        $notification = [
-            'message' => 'Slider is actived successfully',
-            'alert-type' => 'info'
-        ];
-
-        return redirect()->back()->with($notification);
+        $notify = Helpers::notification('Slider was actived successfully', 'info');
+        return redirect()->back()->with($notify);
     }
 
     public function inactive($id) {
         $this->sliderRepository->inActive($id);
 
-        $notification = [
-            'message' => 'Slider is inactived successfully',
-            'alert-type' => 'info'
-        ];
-
-        return redirect()->back()->with($notification);
+        $notify = Helpers::notification('Slider was inactived successfully', 'info');
+        return redirect()->back()->with($notify);
     }
 }

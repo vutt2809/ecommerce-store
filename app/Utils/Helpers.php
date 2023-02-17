@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Session;
 use Intervention\Image\Facades\Image;
 
 class Helpers {
-    
+
     public static function getTotal() {
         $cart = Session::get('cart');
         $total = 0;
@@ -33,7 +33,7 @@ class Helpers {
         $cart = Session::get('cart');
 
         foreach ($cart as $key => $cartItem) {
-            if ($cartItem['product']['id'] == $newCartItem['product']['id'] 
+            if ($cartItem['product']['id'] == $newCartItem['product']['id']
                 && $cartItem['attributes']['color'] == $newCartItem['attributes']['color']
                 && $cartItem['attributes']['size'] == $newCartItem['attributes']['size']) {
                 return $key;
@@ -49,5 +49,14 @@ class Helpers {
         Image::make($image)->resize($with, $height)->save($saveUrl);
 
         return $saveUrl;
+    }
+
+    //notification
+    public static function notification($message, $alertType) {
+        $notify = [
+            'message' => $message,
+            'alert-type' => $alertType
+        ];
+        return $notify;
     }
 }
