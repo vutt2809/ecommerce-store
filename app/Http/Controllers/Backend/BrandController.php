@@ -43,9 +43,9 @@ class BrandController extends Controller
                 unlink($oldImg);
                 $saveUrl = Helpers::saveImage($image, 300, 300, 'upload/brand/');
                 $data['brand_image'] = $saveUrl;
-            } 
+            }
             unset($data['old_image']);
-            
+
         } else {
             $saveUrl = Helpers::saveImage($image, 300, 300, 'upload/brand/');
             $data['brand_image'] = $saveUrl;
@@ -66,12 +66,8 @@ class BrandController extends Controller
         $data = $this->preHandleRequest($request);
         $this->brandRepository->create($data);
 
-        $notification = [
-            'message' => 'Brand inserted successfully',
-            'alert-type' => 'success'
-        ];
-
-        return redirect()->back()->with($notification);
+        $notify = Helpers::notification('Brand was created successfully', 'success');
+        return redirect()->back()->with($notify);
     }
 
     public function edit($id) {
@@ -81,17 +77,11 @@ class BrandController extends Controller
 
     public function update(Request $request){
         $brandId = $request->id;
-
         $data = $this->preHandleRequest($request);
-
         $this->brandRepository->update($brandId, $data);
-       
-        $notification = [
-            'message' => 'Brand updated successfully',
-            'alert-type' => 'info',
-        ];
-        
-        return redirect()->route('all.brand')->with($notification);
+
+        $notify = Helpers::notification('Brand was updated successfully', 'info');
+        return redirect()->route('all.brand')->with($notify);
     }
 
     public function delete($id) {

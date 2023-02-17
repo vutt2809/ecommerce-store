@@ -50,10 +50,9 @@ class AdminController extends Controller
         $data['password'] = Hash::make($request->password);
 
         $this->authRepository->create($data);
-
         return redirect()->route('admin.login')->with('message', 'Your account have been created Successfully');
     }
-    
+
     // Profile Section
     public function profile($adminId) {
         $admin = Admin::find($adminId);
@@ -65,7 +64,7 @@ class AdminController extends Controller
         return view('admin.admin_profile_edit', compact('admin'));
     }
 
-    public function updateProfile(Request $request, $adminId) { 
+    public function updateProfile(Request $request, $adminId) {
         $admin = Admin::find($adminId);
 
         $admin->name = $request->name;
@@ -88,7 +87,7 @@ class AdminController extends Controller
             'alert-type' => 'success'
         );
 
-        return redirect()->route('admin.profile', $admin->id)->with($notification);  
+        return redirect()->route('admin.profile', $admin->id)->with($notification);
     }
 
     public function changePassword($adminId) {
@@ -106,7 +105,7 @@ class AdminController extends Controller
 
         if (Hash::check($request->oldpassword, $hashedPassword)) {
             $admin = Admin::find($adminId);
-            $admin->password = Hash::make($request->password);  
+            $admin->password = Hash::make($request->password);
             $admin->save();
             Auth::logout();
 
@@ -122,7 +121,7 @@ class AdminController extends Controller
                 'message' => 'Invalid Password',
                 'alert-type' => 'danger'
             );
-            
+
             return redirect()->back()->with($notification);
         }
     }

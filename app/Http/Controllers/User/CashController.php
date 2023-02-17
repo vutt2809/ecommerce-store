@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Mail\OrderMail;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Repositories\Order\OrderInterface;
+use App\Repositories\OrderItem\OrderItemInterface;
 use App\Utils\Helpers;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -15,10 +17,16 @@ use Illuminate\Support\Facades\Session;
 
 class CashController extends Controller
 {
+    protected $orderRepository, $orderItemRepository;
+
+    public function __construct(OrderInterface $orderRepository, OrderItemInterface $orderItemRepository) {
+        $this->orderRepository = $orderRepository;
+        $this->orderItemRepository = $orderItemRepository;
+    }
+
     public function cashOrder (Request $request)
     {
         $cart = Session::get('cart');
-
         $totalAmount = isset($coupon) ? $coupon['total_amount'] : Helpers::getTotal();
 
         $orderId = Order::insertGetId([
@@ -45,7 +53,7 @@ class CashController extends Controller
             'created_at' => Carbon::now()
         ]);
 
-        // Send Email 
+        // Send Email
         $invoice = Order::findOrFail($orderId);
 
         $data = [
@@ -58,7 +66,7 @@ class CashController extends Controller
         Mail::to($request->email)->send(new OrderMail($data));
 
         foreach ($cart as $cartItem) {
-            OrderItem::insert([
+            $data = [
                 'order_id' => $orderId,
                 'product_id' => $cartItem['product']['id'],
                 'color' => $cartItem['attributes']['color'],
@@ -66,7 +74,17 @@ class CashController extends Controller
                 'qty' => $cartItem['attributes']['quantity'],
                 'price' => $cartItem['attributes']['price'],
                 'created_at' => Carbon::now()
-            ]);
+            ];
+
+            // OrderItem::insert([
+            //     'order_id' => $orderId,
+            //     'product_id' => $cartItem['product']['id'],
+            //     'color' => $cartItem['attributes']['color'],
+            //     'size' => $cartItem['attributes']['size'],
+            //     'qty' => $cartItem['attributes']['quantity'],
+            //     'price' => $cartItem['attributes']['price'],
+            //     'created_at' => Carbon::now()
+            // ]);
         }
 
         if (Session::get('coupon')) {

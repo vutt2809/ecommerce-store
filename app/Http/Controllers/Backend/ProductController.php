@@ -13,7 +13,6 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
 
-
 class ProductController extends Controller
 {
     public function index() {
@@ -45,7 +44,7 @@ class ProductController extends Controller
             'long_descp_en' => 'required',
             'long_descp_vn' => 'required',
             'image_size' => 'required'
-        ]); 
+        ]);
 
         $image_size = $request->image_size;
         if ($image_size == '1200x800'){
@@ -76,7 +75,7 @@ class ProductController extends Controller
 
             'product_qty' => $request->product_qty,
             'product_tags_en' => $request->product_tags_en,
-            'product_tags_vn' => $request->product_tags_vn, 
+            'product_tags_vn' => $request->product_tags_vn,
             'product_size_en' => $request->product_size_en,
             'product_size_vn' => $request->product_size_vn,
             'product_color_en' => $request->product_color_en,
@@ -154,7 +153,7 @@ class ProductController extends Controller
 
             'product_qty' => $request->product_qty,
             'product_tags_en' => $request->product_tags_en,
-            'product_tags_vn' => $request->product_tags_vn, 
+            'product_tags_vn' => $request->product_tags_vn,
             'product_size_en' => $request->product_size_en,
             'product_size_vn' => $request->product_size_vn,
             'product_color_en' => $request->product_color_en,
@@ -225,7 +224,7 @@ class ProductController extends Controller
     public function updateThumbnailImage(Request $request) {
         $productId = $request->id;
         $existProduct = Product::findOrFail($productId);
-        unlink($existProduct->product_thumbnail); 
+        unlink($existProduct->product_thumbnail);
 
         $image_size = $request->image_size;
         if ($image_size == '1200x800'){
@@ -296,7 +295,7 @@ class ProductController extends Controller
         $product = Product::findOrFail($id);
 
         unlink($product->product_thumbnail);
-        
+
         $multiImgs = MultiImg::where('product_id', $id)->get();
         foreach($multiImgs as $img){
             unlink($img->photo_name);
