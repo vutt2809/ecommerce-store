@@ -109,17 +109,17 @@
                                         <tr>
                                             <th></th>
                                             <td>
-                                                @if ($order->status == 'Pending')
+                                                @if ($order->status == 'pending')
                                                 <a href="{{ route('pending-confirm', $order->id) }}" class="btn btn-block btn-success" id="confirmed_order">Confirmed Order</a>
-                                                @elseif ($order->status == 'Confirmed')
+                                                @elseif ($order->status == 'confirmed')
                                                 <a href="{{ route('confirm-processing', $order->id) }}" class="btn btn-block btn-success" id="confirmed_order">Processing Order</a>
-                                                @elseif ($order->status == 'Processing')
+                                                @elseif ($order->status == 'processing')
                                                 <a href="{{ route('processing-picked', $order->id) }}" class="btn btn-block btn-success" id="confirmed_order">Picked Order</a>
-                                                @elseif ($order->status == 'Picked')
+                                                @elseif ($order->status == 'picked')
                                                 <a href="{{ route('picked-shipped', $order->id) }}" class="btn btn-block btn-success" id="confirmed_order">Shipped Order</a>
-                                                @elseif ($order->status == 'Shipped')
+                                                @elseif ($order->status == 'shipped')
                                                 <a href="{{ route('shipped-delivered', $order->id) }}" class="btn btn-block btn-success" id="confirmed_order">Delivered Order</a>
-                                                @elseif ($order->status == 'Delivered')
+                                                @elseif ($order->status == 'delivered')
                                                 <a href="{{ route('delivered-cancel', $order->id) }}" class="btn btn-block btn-success" id="confirmed_order">Cancel Order</a>
                                                 @endif
                                             </td>
@@ -192,7 +192,7 @@
                                                         <label for=""><span class="text-success"><b>$ {{ $item->price * $item->qty }}</b></span></label>
                                                     </td>
                                                 </tr>
-                                                @endforeach 
+                                                @endforeach
                                             </tbody>
                                         </table>
                                     </div>

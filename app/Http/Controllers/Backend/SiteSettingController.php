@@ -65,7 +65,6 @@ class SiteSettingController extends Controller
 
     public function seoSetting() {
         $seo = Seos::find(1);
-
         return view('backend.setting.seo_setting', compact('seo'));
     }
 

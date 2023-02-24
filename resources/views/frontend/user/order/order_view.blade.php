@@ -8,7 +8,6 @@
     }
 </style>
 
-
 <div class="body-content">
     <div class="container">
         <div class="row">
@@ -21,6 +20,7 @@
         </div>
         <div class="row">
             @include('frontend.user.sidebar')
+
             <div class="col-md-1"></div>
             <div class="col-md-9">
                 <h2>Order History</h2>
@@ -53,7 +53,7 @@
                             <tr>
                                 <td class="col-md-2">
                                     <label for="">{{ $order->order_date }}</label>
-                                </td> 
+                                </td>
                                 <td class="col-md-2">
                                     <label for="">$ {{ $order->amount }}</label>
                                 </td>
@@ -64,21 +64,51 @@
                                     <label for="">{{ $order->invoice_no }}</label>
                                 </td>
                                 <td class="col-md-1">
+                                    {{-- <label for="">
+                                        <span class="badge badge-pill" style="background: #418BD9;">{{ $order->status }}</span>
+                                    </label> --}}
+
                                     <label for="">
-                                        <span class="badge badge-pill" style="background: #418BD9;">{{ $order->status }}</span>    
+                                        @if($order->status == 'pending')
+                                        <span class="badge badge-pill badge-warning" style="background: #800080;"> Pending </span>
+
+                                        @elseif($order->status == 'confirm')
+                                        <span class="badge badge-pill badge-warning" style="background: #0000FF;"> Confirm </span>
+
+                                        @elseif($order->status == 'processing')
+                                        <span class="badge badge-pill badge-warning" style="background: #FFA500;"> Processing </span>
+
+                                        @elseif($order->status == 'picked')
+                                        <span class="badge badge-pill badge-warning" style="background: #808000;"> Picked </span>
+
+                                        @elseif($order->status == 'shipped')
+                                        <span class="badge badge-pill badge-warning" style="background: #808080;"> Shipped </span>
+
+                                        @elseif($order->status == 'delivered')
+                                        <span class="badge badge-pill badge-warning" style="background: #008000;"> Delivered </span>
+
+                                        @if ($order->return_order == 1)
+                                        <span class="badge badge-pill badge-warning" style="background:red;">Return Requested </span>
+                                        @endif
+
+                                        @else
+                                        <span class="badge badge-pill badge-warning" style="background: #FF0000;"> Cancel </span>
+                                        @endif
                                     </label>
+
+
                                 </td>
                                 <td class="col-md-3">
                                     <a href="{{ url('user/order-details/'.$order->id ) }}" class="btn btn-sm btn-info" title="View Detail"><i class="fas fa-eye"></i></a>
                                     <a target="_blank" href="{{ url('user/invoice-download/'.$order->id ) }}" class="btn btn-sm btn-success" title="Download Invoice"><i class="fas fa-download"></i></a>
                                 </td>
                             </tr>
-                            @endforeach 
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
             </div>
-        </div>  
+        </div>
     </div>
 </div>
 

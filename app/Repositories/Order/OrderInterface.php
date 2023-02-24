@@ -28,4 +28,6 @@ interface OrderInterface extends RepositoryInterface {
     public function getOrderByYear($year);
 
     public function getTopBestSellerProduct($number);
+
+    public function getReturnOrders();
 }

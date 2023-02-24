@@ -4,25 +4,25 @@
 @endphp
 
 <aside class="main-sidebar">
-    <section class="sidebar">	
+    <section class="sidebar">
         <div class="user-profile">
             <div class="ulogo">
                 <a href="{{ url('admin/dashboard') }}">
-                    <div class="d-flex align-items-center justify-content-center">					 	
+                    <div class="d-flex align-items-center justify-content-center">
                         <img src="{{ asset('backend/images/logo-dark.png') }}" alt="">
                         <h2><b>SnowRain</b></h2>
                     </div>
                 </a>
             </div>
         </div>
-        <ul class="sidebar-menu" data-widget="tree">   
+        <ul class="sidebar-menu" data-widget="tree">
             <li class="{{ $route == 'dashboard' ? 'active' : '' }}">
                 <a href="{{ url('/admin/dashboard')}}">
                     <i data-feather="pie-chart"></i>
                     <span>Dashboard</span>
                 </a>
-            </li>  
-            
+            </li>
+
             <li class="treeview {{ $prefix == '/brand' ? 'active' : '' }}">
                 <a href="#">
                     <i data-feather="codepen"></i>
@@ -35,7 +35,7 @@
                     <li class="{{ $route == 'all.brand' ? 'active' : '' }}"><a href="{{ route('all.brand') }}"><i class="ti-more"></i>All Brand</a></li>
                     <li><a href="calendar.html"><i class="ti-more"></i>Calendar</a></li>
                 </ul>
-            </li> 
+            </li>
 
             <li class="treeview {{ $prefix == '/category' ? 'active' : '' }}">
                 <a href="#">
@@ -63,7 +63,7 @@
                     <li class="{{ $route == 'add.product' ? 'active' : '' }}"><a href="{{ route('add.product') }}"><i class="ti-more"></i>Add Products</a></li>
                     <li class="{{ $route == 'manage.product' ? 'active' : ''}}"><a href="{{ route('manage.product') }}"><i class="ti-more"></i>Manage Products</a></li>
                 </ul>
-            </li> 		
+            </li>
 
             <li class="treeview {{ $prefix == '/slider' ? 'active' : '' }}">
                 <a href="#">
@@ -78,7 +78,7 @@
                     <li class="{{ $route == 'manage.slider' ? 'active' : ''}}"><a href="{{ route('manage.slider') }}"><i class="ti-more"></i>Manage Slider</a></li>
                 </ul>
             </li>
-            
+
             <li class="treeview {{ $prefix == '/coupons' ? 'active' : '' }}">
                 <a href="#">
                     <i data-feather="wind"></i>
@@ -116,13 +116,14 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li class="{{ $route == 'pending.orders' ? 'active' : ''}}"><a href="{{ route('pending.orders') }}"><i class="ti-more"></i>Pending Orders</a></li> 
-                    <li class="{{ $route == 'confirmed.orders' ? 'active' : ''}}"><a href="{{ route('confirmed.orders') }}"><i class="ti-more"></i>Confirmed Orders</a></li> 
-                    <li class="{{ $route == 'processing.orders' ? 'active' : ''}}"><a href="{{ route('processing.orders') }}"><i class="ti-more"></i>Processing Orders</a></li> 
-                    <li class="{{ $route == 'picked.orders' ? 'active' : ''}}"><a href="{{ route('picked.orders') }}"><i class="ti-more"></i>Picked Orders</a></li> 
-                    <li class="{{ $route == 'shipped.orders' ? 'active' : ''}}"><a href="{{ route('shipped.orders') }}"><i class="ti-more"></i>Shipped Orders</a></li> 
-                    <li class="{{ $route == 'delivered.orders' ? 'active' : ''}}"><a href="{{ route('delivered.orders') }}"><i class="ti-more"></i>Delivered Orders</a></li> 
-                    <li class="{{ $route == 'cancel.orders' ? 'active' : ''}}"><a href="{{ route('cancel.orders') }}"><i class="ti-more"></i>Cancel Orders</a></li> 
+                    <li class="{{ $route == 'pending.orders' ? 'active' : ''}}"><a href="{{ route('pending.orders') }}"><i class="ti-more"></i>Pending Orders</a></li>
+                    <li class="{{ $route == 'confirmed.orders' ? 'active' : ''}}"><a href="{{ route('confirmed.orders') }}"><i class="ti-more"></i>Confirmed Orders</a></li>
+                    <li class="{{ $route == 'processing.orders' ? 'active' : ''}}"><a href="{{ route('processing.orders') }}"><i class="ti-more"></i>Processing Orders</a></li>
+                    <li class="{{ $route == 'picked.orders' ? 'active' : ''}}"><a href="{{ route('picked.orders') }}"><i class="ti-more"></i>Picked Orders</a></li>
+                    <li class="{{ $route == 'shipped.orders' ? 'active' : ''}}"><a href="{{ route('shipped.orders') }}"><i class="ti-more"></i>Shipped Orders</a></li>
+                    <li class="{{ $route == 'delivered.orders' ? 'active' : ''}}"><a href="{{ route('delivered.orders') }}"><i class="ti-more"></i>Delivered Orders</a></li>
+                    <li class="{{ $route == 'cancel.orders' ? 'active' : ''}}"><a href="{{ route('cancel.orders') }}"><i class="ti-more"></i>Cancel Orders</a></li>
+                    <li class="{{ $route == 'return.orders' ? 'active' : ''}}"><a href="{{ route('return.orders') }}"><i class="ti-more"></i>Return Orders</a></li>
                 </ul>
             </li>
 
@@ -185,7 +186,7 @@
         </ul>
 
     </section>
-    
+
     <div class="sidebar-footer">
         <!-- item-->
         <a href="javascript:void(0)" class="link" data-toggle="tooltip" title="" data-original-title="Settings" aria-describedby="tooltip92529"><i class="ti-settings"></i></a>
