@@ -72,8 +72,8 @@
                                         @if($order->status == 'pending')
                                         <span class="badge badge-pill badge-warning" style="background: #800080;"> Pending </span>
 
-                                        @elseif($order->status == 'confirm')
-                                        <span class="badge badge-pill badge-warning" style="background: #0000FF;"> Confirm </span>
+                                        @elseif($order->status == 'confirmed')
+                                        <span class="badge badge-pill badge-warning" style="background: #0000FF;"> Confirmed </span>
 
                                         @elseif($order->status == 'processing')
                                         <span class="badge badge-pill badge-warning" style="background: #FFA500;"> Processing </span>
