@@ -1,5 +1,3 @@
-
-
 @section('title')
     {{$product->product_name_en}} Product Details
 @endsection
@@ -7,7 +5,6 @@
 
 @section('content')
 
-<!-- ===== ======== HEADER : END ============================================== -->
 <div class="breadcrumb">
 	<div class="container">
 		<div class="breadcrumb-inner">
@@ -16,9 +13,9 @@
 				<li><a href="#">Clothing</a></li>
 				<li class='active'>Floral Print Buttoned</li>
 			</ul>
-		</div><!-- /.breadcrumb-inner -->
-	</div><!-- /.container -->
-</div><!-- /.breadcrumb -->
+		</div>
+	</div>
+</div>
 
 
 <div class="body-content outer-top-xs">
@@ -28,10 +25,10 @@
 				<div class="sidebar-module-container">
 				<div class="home-banner outer-top-n">
                     <img src="{{ asset('frontend/assets/images/banners/LHS-banner.jpg') }}" alt="Image">
-                </div>		
+                </div>
     	        <!-- ============================================== HOT DEALS ============================================== -->
                 @include ('frontend.common.hot_deals')
-                <!-- ============================================== HOT DEALS: END ============================================== -->					
+                <!-- ============================================== HOT DEALS: END ============================================== -->
 
                 <!-- ============================================== NEWSLETTER ============================================== -->
                 <div class="sidebar-widget newsletter wow fadeInUp outer-bottom-small outer-top-vs">
@@ -61,7 +58,7 @@
                         <div class="item">
                             <div class="avatar"><img src="{{ asset('frontend/assets/images/testimonials/member3.png') }}" alt="Image"></div>
                         <div class="testimonials"><em>"</em>Vtae sodales aliq uam morbi non sem lacus port mollis. Nunc condime tum metus eud molest sed consectetuer.<em>"</em></div>
-                        <div class="clients_author">Stephen Doe	<span>Xperia Designs</span>	</div>    
+                        <div class="clients_author">Stephen Doe	<span>Xperia Designs</span>	</div>
                         </div><!-- /.item -->
 
                         <div class="item">
@@ -103,11 +100,11 @@
                                 </div><!-- /.gallery-thumbs -->
 
                             </div><!-- /.single-product-gallery -->
-                        </div><!-- /.gallery-holder -->        			
+                        </div><!-- /.gallery-holder -->
                     <div class='col-sm-6 col-md-7 product-info-block'>
                         <div class="product-info">
                             <h1 class="name" id="p_name">{{ $product->product_name_en }}</h1>
-                            
+
                             <div class="rating-reviews m-t-20">
                                 <div class="row">
                                     <div class="col-sm-3">
@@ -118,7 +115,7 @@
                                             <a href="#" class="lnk">(13 Reviews)</a>
                                         </div>
                                     </div>
-                                </div><!-- /.row -->		
+                                </div><!-- /.row -->
                             </div><!-- /.rating-reviews -->
 
                             <div class="stock-container info-container m-t-10">
@@ -126,14 +123,14 @@
                                     <div class="col-sm-2">
                                         <div class="stock-box">
                                             <span class="label">Availability :</span>
-                                        </div>	
+                                        </div>
                                     </div>
                                     <div class="col-sm-9">
                                         <div class="stock-box">
                                             <span class="value">In Stock</span>
-                                        </div>	
+                                        </div>
                                     </div>
-                                </div><!-- /.row -->	
+                                </div><!-- /.row -->
                             </div><!-- /.stock-container -->
 
                             <div class="description-container m-t-20">
@@ -184,7 +181,7 @@
                                 </div>
                                 <div class="col-sm-6">
                                     @if ($product->product_size_en == NULL)
-                                    @else 
+                                    @else
                                     <div class="form-group">
                                         <label class="info-title control-label">Choose Size <span>*</span></label>
                                         <select class="form-control unicase-form-control selectpicker" style="display: none;">
@@ -201,11 +198,11 @@
 
                             <div class="quantity-container info-container">
                                 <div class="row">
-                                    
+
                                     <div class="col-sm-2">
                                         <span class="label">Qty :</span>
                                     </div>
-                                    
+
                                     <div class="col-sm-2">
                                         <div class="cart-quantity">
                                             <div class="quant-input">
@@ -223,7 +220,7 @@
                                         <button type="submit" onclick="addToCart()" class="btn btn-primary"><i class="fa fa-shopping-cart inner-right-vs"></i> ADD TO CART</button>
                                     </div>
 
-                                    
+
                                 </div><!-- /.row -->
                             </div><!-- /.quantity-container -->
 
@@ -231,7 +228,7 @@
                 </div><!-- /.col-sm-7 -->
             </div><!-- /.row -->
         </div>
-				
+
         <div class="product-tabs inner-bottom-xs  wow fadeInUp">
             <div class="row">
                 <div class="col-sm-3">
@@ -239,116 +236,90 @@
                         <li class="active"><a data-toggle="tab" href="#description">DESCRIPTION</a></li>
                         <li><a data-toggle="tab" href="#review">REVIEW</a></li>
                         <li><a data-toggle="tab" href="#tags">TAGS</a></li>
-                    </ul><!-- /.nav-tabs #product-tabs -->
+                    </ul>
                 </div>
                 <div class="col-sm-9">
-
                     <div class="tab-content">
-                        
                         <div id="description" class="tab-pane in active">
                             <div class="product-tab">
                                 <p class="text">@if (session()->get('language') == 'vietnam') {!! $product->long_descp_vn !!} @else {!! $product->long_descp_en !!} @endif</p>
-                            </div>	
-                        </div><!-- /.tab-pane -->
+                            </div>
+                        </div>
 
                         <div id="review" class="tab-pane">
                             <div class="product-tab">
-                                                                        
                                 <div class="product-reviews">
                                     <h4 class="title">Customer Reviews</h4>
 
-                                    <div class="reviews">
-                                        <div class="review">
-                                            <div class="review-title"><span class="summary">We love this product</span><span class="date"><i class="fa fa-calendar"></i><span>1 days ago</span></span></div>
-                                            <div class="text">"Lorem ipsum dolor sit amet, consectetur adipiscing elit.Aliquam suscipit."</div>
-                                                                                                </div>
-                                    
-                                    </div><!-- /.reviews -->
-                                </div><!-- /.product-reviews -->
-                                
+                                    @php
+                                        $reviews = App\Models\Review::where('product_id', $product->id)->with('user')->latest()->limit(5)->get();
+                                    @endphp
 
-                                
+                                    <div class="reviews">
+                                        @foreach($reviews as $item)
+                                            @if ($item->status != 0)
+
+                                            @else
+                                            <div class="review">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <img style="border-radius: 50%" src="{{ (!empty($item->user->profile_photo_path)) ? url('upload/user_images/'.$item->user->profile_photo_path):url('upload/no_image.jpg') }}" width="40px;" height="40px;"/>
+                                                        <b> {{ $item->user->name }}</b>
+                                                    </div>
+                                                    <div class="col-md-6"></div>
+                                                </div>
+                                            </div>
+
+                                            <div class="review-title">
+                                                <span class="summary" style="font-size: 16px; font-weight: 600; margin-right: 12px;">{{ $item->summary }}</span>
+                                                <span class="date"><i class="fa fa-calendar"></i></span>
+                                                {{Carbon\Carbon::parse($item->created_at)->diffForHumans() }}
+                                                <div class="text" style="margin: 14px 0; font-style: italic;">"{{ $item->comment }}"</div>
+                                            </div>
+                                            @endif
+                                        @endforeach
+                                    </div>
+                                </div>
+
                                 <div class="product-add-review">
                                     <h4 class="title">Write your own review</h4>
                                     <div class="review-table">
-                                        <div class="table-responsive">
-                                            <table class="table">	
-                                                <thead>
-                                                    <tr>
-                                                        <th class="cell-label">&nbsp;</th>
-                                                        <th>1 star</th>
-                                                        <th>2 stars</th>
-                                                        <th>3 stars</th>
-                                                        <th>4 stars</th>
-                                                        <th>5 stars</th>
-                                                    </tr>
-                                                </thead>	
-                                                <tbody>
-                                                    <tr>
-                                                        <td class="cell-label">Quality</td>
-                                                        <td><input type="radio" name="quality" class="radio" value="1"></td>
-                                                        <td><input type="radio" name="quality" class="radio" value="2"></td>
-                                                        <td><input type="radio" name="quality" class="radio" value="3"></td>
-                                                        <td><input type="radio" name="quality" class="radio" value="4"></td>
-                                                        <td><input type="radio" name="quality" class="radio" value="5"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="cell-label">Price</td>
-                                                        <td><input type="radio" name="quality" class="radio" value="1"></td>
-                                                        <td><input type="radio" name="quality" class="radio" value="2"></td>
-                                                        <td><input type="radio" name="quality" class="radio" value="3"></td>
-                                                        <td><input type="radio" name="quality" class="radio" value="4"></td>
-                                                        <td><input type="radio" name="quality" class="radio" value="5"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="cell-label">Value</td>
-                                                        <td><input type="radio" name="quality" class="radio" value="1"></td>
-                                                        <td><input type="radio" name="quality" class="radio" value="2"></td>
-                                                        <td><input type="radio" name="quality" class="radio" value="3"></td>
-                                                        <td><input type="radio" name="quality" class="radio" value="4"></td>
-                                                        <td><input type="radio" name="quality" class="radio" value="5"></td>
-                                                    </tr>
-                                                </tbody>
-                                            </table><!-- /.table .table-bordered -->
-                                        </div><!-- /.table-responsive -->
-                                    </div><!-- /.review-table -->
-                                    
+                                    </div>
                                     <div class="review-form">
+                                        @guest
+                                        <p> <b> For Add Product Review. You Need to Login First <a href="{{ route('login') }}">Login Here</a> </b> </p>
+                                        @else
                                         <div class="form-container">
-                                            <form role="form" class="cnt-form">
-                                                
+                                            <form role="form" class="cnt-form" method="post" action="{{ route('review.create') }}">
+                                                @csrf
+                                                <input type="hidden" name="product_id" value="{{ $product->id }}">
                                                 <div class="row">
                                                     <div class="col-sm-6">
                                                         <div class="form-group">
-                                                            <label for="exampleInputName">Your Name <span class="astk">*</span></label>
-                                                            <input type="text" class="form-control txt" id="exampleInputName" placeholder="">
-                                                        </div><!-- /.form-group -->
-                                                        <div class="form-group">
-                                                            <label for="exampleInputSummary">Summary <span class="astk">*</span></label>
-                                                            <input type="text" class="form-control txt" id="exampleInputSummary" placeholder="">
-                                                        </div><!-- /.form-group -->
+                                                            <label for="summary">Summary <span class="astk">*</span></label>
+                                                            <input type="text" name="summary" class="form-control txt" id="summary" placeholder="">
+                                                        </div>
                                                     </div>
 
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <label for="exampleInputReview">Review <span class="astk">*</span></label>
-                                                            <textarea class="form-control txt txt-review" id="exampleInputReview" rows="4" placeholder=""></textarea>
-                                                        </div><!-- /.form-group -->
+                                                            <label for="comment">Review <span class="astk">*</span></label>
+                                                            <textarea class="form-control txt txt-review" name="comment" id="comment" rows="4" placeholder=""></textarea>
+                                                        </div>
                                                     </div>
-                                                </div><!-- /.row -->
-                                                
+                                                </div>
+
                                                 <div class="action text-right">
                                                     <button class="btn btn-primary btn-upper">SUBMIT REVIEW</button>
-                                                </div><!-- /.action -->
+                                                </div>
+                                            </form>
+                                        </div>
 
-                                            </form><!-- /.cnt-form -->
-                                        </div><!-- /.form-container -->
-                                    </div><!-- /.review-form -->
-
-                                </div><!-- /.product-add-review -->										
-                                
-                            </div><!-- /.product-tab -->
-                        </div><!-- /.tab-pane -->
+                                        @endguest
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
                         <div id="tags" class="tab-pane">
                             <div class="product-tag">
@@ -360,23 +331,21 @@
                                             <input type="email" id="exampleInputTag" class="form-control txt">
                                         </div>
                                         <button class="btn btn-upper btn-primary" type="submit">ADD TAGS</button>
-                                    </div><!-- /.form-container -->
-                                </form><!-- /.form-cnt -->
+                                    </div>
+                                </form>
 
                                 <form role="form" class="form-inline form-cnt">
                                     <div class="form-group">
                                         <label>&nbsp;</label>
                                         <span class="text col-md-offset-3">Use spaces to separate tags. Use single quotes (') for phrases.</span>
                                     </div>
-                                </form><!-- /.form-cnt -->
-
-                            </div><!-- /.product-tab -->
-                        </div><!-- /.tab-pane -->
-
-                    </div><!-- /.tab-content -->
-                </div><!-- /.col -->
-            </div><!-- /.row -->
-        </div><!-- /.product-tabs -->
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- ============================================== UPSELL PRODUCTS ============================================== -->
         <section class="section featured-product wow fadeInUp">
@@ -384,14 +353,14 @@
             <div class="owl-carousel home-owl-carousel upsell-product custom-carousel owl-theme outer-top-xs">
                 @foreach($relatedProduct as $product)
                 <div class="item item-carousel">
-                    <div class="products">       
-                        <div class="product">		
+                    <div class="products">
+                        <div class="product">
                             <div class="product-image">
                                 <div class="image">
                                     <a href="{{ url('product/details/'.$product->id.'/'.$product->product_slug_en ) }}"><img  src="{{ asset($product->product_thumbnail) }}" alt=""></a>
-                                </div>		
+                                </div>
 
-                                <div class="tag sale"><span>sale</span></div>            		   
+                                <div class="tag sale"><span>sale</span></div>
                             </div><!-- /.product-image -->
 
                             <div class="product-info text-left">
@@ -412,12 +381,12 @@
                                     <ul class="list-unstyled">
                                         <li class="add-cart-button btn-group">
                                             <button class="btn btn-primary icon" data-toggle="dropdown" type="button">
-                                                <i class="fa fa-shopping-cart"></i>													
+                                                <i class="fa fa-shopping-cart"></i>
                                             </button>
                                             <button class="btn btn-primary cart-btn" type="button">Add to cart</button>
-                                                                    
+
                                         </li>
-                                    
+
                                         <li class="lnk wishlist">
                                             <a class="add-to-cart" href="detail.html" title="Wishlist">
                                                 <i class="icon fa fa-heart"></i>
@@ -447,70 +416,70 @@
 		<!-- ==== ================== BRANDS CAROUSEL ============================================== -->
 <div id="brands-carousel" class="logo-slider wow fadeInUp">
 
-		<div class="logo-slider-inner">	
+		<div class="logo-slider-inner">
 			<div id="brand-slider" class="owl-carousel brand-slider custom-carousel owl-theme">
 				<div class="item m-t-15">
 					<a href="#" class="image">
 						<img data-echo="{{ asset('frontend/assets/images/brands/brand1.png') }}" src="{{ asset('frontend/assets/images/blank.gif') }}" alt="">
-					</a>	
+					</a>
 				</div><!--/.item-->
 
 				<div class="item m-t-10">
 					<a href="#" class="image">
 						<img data-echo="{{ asset('frontend/assets/images/brands/brand2.png') }}" src="{{ asset('frontend/assets/images/blank.gif') }}" alt="">
-					</a>	
+					</a>
 				</div><!--/.item-->
 
 				<div class="item">
 					<a href="#" class="image">
 						<img data-echo="{{ asset('frontend/assets/images/brands/brand3.png') }}" src="{{ asset('frontend/assets/images/blank.gif') }}" alt="">
-					</a>	
+					</a>
 				</div><!--/.item-->
 
 				<div class="item">
 					<a href="#" class="image">
 						<img data-echo="{{ asset('frontend/assets/images/brands/brand4.png') }}" src="{{ asset('frontend/assets/images/blank.gif') }}" alt="">
-					</a>	
+					</a>
 				</div><!--/.item-->
 
 				<div class="item">
 					<a href="#" class="image">
 						<img data-echo="{{ asset('frontend/assets/images/brands/brand5.png') }}" src="{{ asset('frontend/assets/images/blank.gif') }}" alt="">
-					</a>	
+					</a>
 				</div><!--/.item-->
 
 				<div class="item">
 					<a href="#" class="image">
 						<img data-echo="{{ asset('frontend/assets/images/brands/brand6.png') }}" src="{{ asset('frontend/assets/images/blank.gif') }}" alt="">
-					</a>	
+					</a>
 				</div><!--/.item-->
 
 				<div class="item">
 					<a href="#" class="image">
 						<img data-echo="{{ asset('frontend/assets/images/brands/brand2.png') }}" src="{{ asset('frontend/assets/images/blank.gif') }}" alt="">
-					</a>	
+					</a>
 				</div><!--/.item-->
 
 				<div class="item">
 					<a href="#" class="image">
 						<img data-echo="{{ asset('frontend/assets/images/brands/brand4.png') }}" src="{{ asset('frontend/assets/images/blank.gif') }}" alt="">
-					</a>	
+					</a>
 				</div><!--/.item-->
 
 				<div class="item">
 					<a href="#" class="image">
 						<img data-echo="{{ asset('frontend/assets/images/brands/brand1.png') }}" src="{{ asset('frontend/assets/images/blank.gif') }}" alt="">
-					</a>	
+					</a>
 				</div><!--/.item-->
 
 				<div class="item">
 					<a href="#" class="image">
 						<img data-echo="{{ asset('frontend/assets/images/brands/brand5.png') }}" src="{{ asset('frontend/assets/images/blank.gif') }}" alt="">
-					</a>	
+					</a>
 				</div><!--/.item-->
 		    </div><!-- /.owl-carousel #logo-slider -->
 		</div><!-- /.logo-slider-inner -->
-	
+
 </div><!-- /.logo-slider -->
 <!-- == = BRANDS CAROUSEL : END = -->	</div><!-- /.container -->
 </div><!-- /.body-content -->

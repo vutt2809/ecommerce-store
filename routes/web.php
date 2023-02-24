@@ -21,6 +21,7 @@ use App\Http\Controllers\User\WishlistController;
 use App\Http\Controllers\User\CartPageController;
 use App\Http\Controllers\User\CashController;
 use App\Http\Controllers\User\CheckoutController;
+use App\Http\Controllers\User\ReviewController;
 use App\Http\Controllers\User\StripeController;
 use App\Http\Controllers\User\UserController;
 use Illuminate\Support\Facades\Route;
@@ -257,3 +258,5 @@ Route::get('/blog/home', [HomeBlogController::class, 'list'])->name('home.blog')
 Route::get('/blog/detail/{id}', [HomeBlogController::class, 'detail'])->name('blog.detail');
 Route::get('/blog/category/post/{category_id}', [HomeBlogController::class, 'homeBlogCategoryPost']);
 
+Route::post('/review/create', [ReviewController::class, 'create'])->name('review.create');
+Route::get('/review/pending', [ReviewController::class, 'pendingReview']);
