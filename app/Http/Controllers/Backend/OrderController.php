@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 
 use App\Repositories\Order\OrderInterface;
+use App\Utils\Helpers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -141,6 +142,7 @@ class OrderController extends Controller
         ];
 
         return redirect()->route('my.orders')->with($notification);
+
     }
 
     public function myOrderReturn() {

@@ -5,10 +5,10 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Repositories\Category\CategoryRepository;
 use Illuminate\Http\Request;
+use App\Utils\Helpers;
 
 class CategoryController extends Controller
 {
-
     protected $categoryRepository;
 
     public function __construct(CategoryRepository $categoryRepository) {
@@ -43,12 +43,8 @@ class CategoryController extends Controller
         $data = $this->handle($request);
         $this->categoryRepository->create($data);
 
-        $notification = [
-            'message' => 'Category inserted successfully',
-            'alert-type' => 'success'
-        ];
-
-        return redirect()->back()->with($notification);
+        $notify = Helpers::notification('Category was created successfully', 'success');
+        return redirect()->back()->with($notify);
     }
 
     public function edit($id) {
@@ -61,22 +57,14 @@ class CategoryController extends Controller
         $data = $this->handle($request);
         $this->categoryRepository->update($categoryId, $data);
 
-        $notification = [
-            'message' => 'Category updated successfully',
-            'alert-type' => 'success'
-        ];
-
-        return redirect()->route('all.category')->with($notification);
+        $notify = Helpers::notification('Category was updated successfully', 'success');
+        return redirect()->route('all.category')->with($notify);
     }
 
     public function delete($id){
         $this->categoryRepository->delete($id);
 
-        $notification = [
-            'message' => 'Category deleted successfully',
-            'alert-type' => 'success'
-        ];
-
-        return redirect()->back()->with($notification);
+        $notify = Helpers::notification('Category was deleted successfully', 'success');
+        return redirect()->back()->with($notify);
     }
 }

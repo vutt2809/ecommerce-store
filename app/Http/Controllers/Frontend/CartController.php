@@ -29,14 +29,14 @@ class CartController extends Controller
             'product' => $product,
             'attributes' => [
                 'price' => $price,
-                'size' => $request->size, 
+                'size' => $request->size,
                 'color' => $request->color,
                 'quantity' => $request->quantity,
             ]
         ];
 
         if (isset($cart)) {
-            $cartItemIndex = Helpers::checkProductInCart($newCartItem); 
+            $cartItemIndex = Helpers::checkProductInCart($newCartItem);
 
             if ($cartItemIndex >= 0) {
                 $cart[$cartItemIndex]['attributes']['quantity'] += $request->quantity;
@@ -63,7 +63,7 @@ class CartController extends Controller
                 'cart' => $cart,
                 'cartQuantity' => $cartQuantity,
                 'cartTotal' => $cartTotal,
-            ]);   
+            ]);
         }
     }
 
@@ -74,12 +74,12 @@ class CartController extends Controller
             if ($cartItem['product']['id'] == $productId) {
                 unset($cart[$key]);
             }
-        }        
+        }
 
         Session::put('cart', $cart);
         return response()->json(['success' => 'Product remove from cart']);
     }
-    
+
     public function addToWishlist(Request $request, $productId) {
         if (Auth::check()) {
             $exists = Wishlist::where('user_id', Auth::id())->where('product_id', $productId)->first();
@@ -93,7 +93,7 @@ class CartController extends Controller
 
                 return response()->json(['success' => 'Successfully added on your wishlist']);
             }else {
-                return response()->json(['error' => 'This product has already on your wishlist']);            
+                return response()->json(['error' => 'This product has already on your wishlist']);
             }
         }else {
             return response()->json(['error' => 'At first login your account']);
@@ -139,12 +139,11 @@ class CartController extends Controller
 
     public function removeCoupon() {
         Session::forget('coupon');
-
         return response()->json(['success' => 'Coupon removed successfully']);
     }
 
     public function checkout() {
-        if (Auth::check()) { 
+        if (Auth::check()) {
             if (Helpers::getTotal() > 0) {
                 $cart = Session::get('cart');
                 $cartQuantity = Helpers::getTotalQuantity();
@@ -155,20 +154,12 @@ class CartController extends Controller
 
                 return view('frontend.checkout.checkout_view', compact('cart', 'cartQuantity', 'cartTotal', 'divisions', 'districts'));
             }else {
-                $notification = [
-                    'message' => 'Shoppping at least one product',
-                    'alert-type' => 'warning'
-                ];
-
-                return redirect()->to('/')->with($notification);
+                $notify = Helpers::notification('Shoppping at least one product', 'warning');
+                return redirect()->to('/')->with($notify);
             }
         }else {
-            $notification = [
-                'message' => 'You need to login first',
-                'alert-type' => 'warning'
-            ];
-
-            return redirect()->route('login')->with($notification);
+            $notify = Helpers::notification('You need to login first', 'warning');
+            return redirect()->route('login')->with($notify);
         }
     }
 }

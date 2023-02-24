@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Repositories\ShipDistrict\ShipDistrictInterface;
 use App\Repositories\ShipDivision\ShipDivisionInterface;
 use App\Repositories\ShipState\ShipStateInterface;
+use App\Utils\Helpers;
 use Illuminate\Http\Request;
 
 class ShippingAreaController extends Controller
@@ -54,12 +55,8 @@ class ShippingAreaController extends Controller
         $data = $this->handleRequestDivision($request);
         $this->divisionRepository->create($data);
 
-        $notification = [
-            'message' => 'Shipping division inserted successfully',
-            'alert-type' => 'success'
-        ];
-
-        return redirect()->back()->with($notification);
+        $notify = Helpers::notification('Shipping division was created successfully', 'success');
+        return redirect()->back()->with($notify);
     }
 
     public function editDivision($id) {
@@ -69,46 +66,32 @@ class ShippingAreaController extends Controller
 
     public function updateDivision(Request $request, $id) {
         $data = $this->handleRequestDivision($request);
-
         $this->divisionRepository->update($id, $data);
 
-        $notification = [
-            'message' => 'Shipping division updated successfully',
-            'alert-type' => 'success'
-        ];
-
-        return redirect()->route('manage.division')->with($notification);
+        $notify = Helpers::notification('Shipping division was updated successfully', 'success');
+        return redirect()->route('manage.division')->with($notify);
     }
 
     public function deleteDivision($id) {
         $this->divisionRepository->delete($id);
-        
-        $notification = [
-            'message' => 'Shipping division deleted successfully',
-            'alert-type' => 'success'
-        ];
 
-        return redirect()->back()->with($notification);
+        $notify = Helpers::notification('Shipping division was deleted successfully', 'success');
+        return redirect()->back()->with($notify);
     }
 
     // ================Ship district================
     public function viewDistrict() {
         $divisions = $this->divisionRepository->getAll();
-        $districts = $this->districtRepository->getAllWithDivision();   
+        $districts = $this->districtRepository->getAllWithDivision();
         return view('backend.ship.district.view_district', compact('districts', 'divisions'));
     }
 
     public function storeDistrict(Request $request) {
         $data = $this->handleRequestDistrict($request);
-
         $this->districtRepository->create($data);
 
-        $notification = [
-            'message' => 'Shipping district deleted successfully',
-            'alert-type' => 'success'
-        ];
-
-        return redirect()->back()->with($notification);
+        $notify = Helpers::notification('Shipping district was created successfully', 'success');
+        return redirect()->back()->with($notify);
     }
 
     public function editDistrict($id) {
@@ -120,26 +103,17 @@ class ShippingAreaController extends Controller
 
     public function updateDistrict(Request $request, $id) {
         $data = $this->handleRequestDistrict($request);
-
         $this->districtRepository->update($id, $data);
 
-        $notification = [
-            'message' => 'Shipping district updated successfully',
-            'alert-type' => 'success'
-        ];
-
-        return redirect()->route('manage.district')->with($notification);
+        $notify = Helpers::notification('Shipping district was updated successfully', 'success');
+        return redirect()->route('manage.district')->with($notify);
     }
 
     public function deleteDistrict($id) {
         $this->districtRepository->delete($id);
 
-        $notification = [
-            'message' => 'Shipping district deleted successfully',
-            'alert-type' => 'success'
-        ];
-
-        return redirect()->back()->with($notification);
+        $notify = Helpers::notification('Shipping district was deleted successfully', 'success');
+        return redirect()->back()->with($notify);
     }
 
     // Ship State Section
@@ -174,46 +148,33 @@ class ShippingAreaController extends Controller
 
     public function storeState(Request $request) {
         $data = $this->handleRequestState($request);
-
         $this->stateRepository->create($data);
 
-        $notification = [
-            'message' => 'Shipping state inserted successfully',
-            'alert-type' => 'success'
-        ];
-
-        return redirect()->back()->with($notification);
+        $notify = Helpers::notification('Shipping state was created successfully', 'success');
+        return redirect()->back()->with($notify);
     }
 
     public function editState($id) {
         $divisions = $this->divisionRepository->getAll();
         $districts = $this->districtRepository->getAll();
         $state = $this->stateRepository->find($id);
+
         return view('backend.ship.state.edit_state', compact('state', 'divisions', 'districts'));
     }
 
     public function updateState(Request $request, $id){
         $data = $this->handleRequestState($request);
-
         $this->stateRepository->update($id, $data);
 
-        $notification = [
-            'message' => 'Shipping state updated successfully',
-            'alert-type' => 'success'
-        ];
-
-        return redirect()->route('manage.state')->with($notification);
+        $notify = Helpers::notification('Shipping state was updated successfully', 'success');
+        return redirect()->route('manage.state')->with($notify);
     }
 
     public function deleteState($id) {
         $this->stateRepository->delete($id);
 
-        $notification = [
-            'message' => 'Shipping state deleted successfully',
-            'alert-type' => 'success'
-        ];
-        
-        return redirect()->route('manage.state')->with($notification);
+        $notify = Helpers::notification('Shipping state was deleted successfully', 'success');
+        return redirect()->route('manage.state')->with($notify);
     }
 
 

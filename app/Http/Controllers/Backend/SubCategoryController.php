@@ -17,6 +17,20 @@ class SubCategoryController extends Controller
         $this->subCategoryRepository = $subCategoryRepository;
     }
 
+    public function handleRequest(Request $request) {
+        $request->validate([
+            'subcategory_name_en' => 'required',
+            'subcategory_name_vn' => 'required',
+            'category_id' => 'required'
+        ],[
+            'subcategory_name_en.required' => 'SubCategory name English is required',
+            'subcategory_name_vn.required' => 'SubCategory name VietNam is required',
+            'subcategory_icon.required' => 'Parent category is required',
+        ]);
+        $data = $request->all();
+
+    }
+
     public function allSubCategory() {
         $subCategories = SubCategory::latest()->get();
         $categories = Category::orderBy('category_name_en', 'ASC')->get();
@@ -95,7 +109,7 @@ class SubCategoryController extends Controller
 
         return view('backend.category.sub_subcategory_view', compact('subSubCategories', 'categories', 'subCategories'));
     }
- 
+
     public function getSubCategory($categoryId) {
         $subcategory = SubCategory::where('category_id', $categoryId)->orderBy('subcategory_name_en', 'ASC')->get();
 
@@ -104,7 +118,7 @@ class SubCategoryController extends Controller
 
     public function getSubSubCategory($subcategory_id) {
         $subSubCategories = SubSubCategory::where('subcategory_id', $subcategory_id)->orderBy('subsubcategory_name_en', 'ASC')->get();
-        
+
         return json_encode($subSubCategories);
     }
 
@@ -161,7 +175,7 @@ class SubCategoryController extends Controller
             'message' => 'Sub-SubCategory updated successfully',
             'alert-type' => 'info'
         ];
-        
+
         return redirect()->route('all.subsubcategory')->with($notification);
     }
 

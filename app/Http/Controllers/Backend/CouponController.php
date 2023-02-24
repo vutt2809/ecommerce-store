@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Coupon;
 use App\Repositories\Coupon\CouponInterface;
+use App\Utils\Helpers;
 
 class CouponController extends Controller
 {
@@ -14,7 +15,7 @@ class CouponController extends Controller
     public function __construct(CouponInterface $couponRepository) {
         $this->couponRepository = $couponRepository;
     }
-    
+
     public function handleRequest(Request $request) {
         $data = $request->all();
 
@@ -42,17 +43,12 @@ class CouponController extends Controller
         $data = $this->handleRequest($request);
         $this->couponRepository->create($data);
 
-        $notification = [
-            'message' => 'Coupon inserted successfully',
-            'alert-type' => 'success'
-        ];
-
-        return redirect()->back()->with($notification);
+        $notify = Helpers::notification('Coupon was created successfully', 'success');
+        return redirect()->back()->with($notify);
     }
 
     public function edit ($id) {
         $coupon = $this->couponRepository->find($id);
-
         return view('backend.coupon.coupon_edit', compact('coupon'));
     }
 
@@ -60,12 +56,8 @@ class CouponController extends Controller
         $data = $this->handleRequest($request);
         $this->couponRepository->update($id, $data);
 
-        $notification = [
-            'message' => 'Coupon updated successfully',
-            'alert-type' => 'success'
-        ];
-        
-        return redirect()->route('manage.coupon')->with($notification);
+        $notify = Helpers::notification('Coupon was updated successfully', 'success');
+        return redirect()->route('manage.coupon')->with($notify);
     }
 
     public function delete($id){
