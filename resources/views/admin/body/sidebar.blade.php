@@ -123,7 +123,20 @@
                     <li class="{{ $route == 'shipped.orders' ? 'active' : ''}}"><a href="{{ route('shipped.orders') }}"><i class="ti-more"></i>Shipped Orders</a></li>
                     <li class="{{ $route == 'delivered.orders' ? 'active' : ''}}"><a href="{{ route('delivered.orders') }}"><i class="ti-more"></i>Delivered Orders</a></li>
                     <li class="{{ $route == 'cancel.orders' ? 'active' : ''}}"><a href="{{ route('cancel.orders') }}"><i class="ti-more"></i>Cancel Orders</a></li>
-                    <li class="{{ $route == 'return.orders' ? 'active' : ''}}"><a href="{{ route('return.orders') }}"><i class="ti-more"></i>Return Orders</a></li>
+                </ul>
+            </li>
+
+            <li class="treeview {{ $prefix == '/return/list' ? 'active' : '' }}">
+                <a href="#">
+                    <i data-feather="shopping-bag"></i>
+                    <span>Return Order</span>
+                    <span class="pull-right-container">
+                    <i class="fa fa-angle-right pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="{{ $route == 'return.request' ? 'active' : ''}}"><a href="{{ route('return.request') }}"><i class="ti-more"></i>Return Request</a></li>
+                    <li class="{{ $route == 'all.return.request' ? 'active' : ''}}"><a href="{{ route('all.return.request') }}"><i class="ti-more"></i>All Request</a></li>
                 </ul>
             </li>
 

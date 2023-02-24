@@ -93,4 +93,13 @@ class OrderRepository extends EloquentRepository implements OrderInterface
         $orders = Order::where('return_order', 1)->orderBy('id', 'DESC')->get();
         return $orders;
     }
+
+    public function updateReturnOrderStatus($orderId) {
+        Order::findOrFail($orderId)->update(['return_order' => 2]);
+    }
+
+    public function getListRequestReturnOrder() {
+        $orders = Order::where('return_order', 2)->orderBy('id', 'DESC')->get();
+        return $orders;
+    }
 }

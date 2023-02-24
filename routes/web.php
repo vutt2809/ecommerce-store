@@ -152,7 +152,9 @@ Route::prefix('orders')->group(function() {
     Route::get('/invoice/download/{order_id}', [OrderController::class, 'downloadInvoice'])->name('invoice.download');
     Route::get('/pending/order/details/{order_id}', [OrderController::class, 'pendingOrderDetails'])->name('pending.order.details');
 
-    Route::get('/return/request', [OrderController::class, 'requestReturnOrder'])->name('return.orders');
+    Route::get('/return/request', [OrderController::class, 'requestReturnOrder'])->name('return.request');
+    Route::get('/return/request/approve/${id}', [OrderController::class, 'approveRequestReturnOrder'])->name('return.approve');
+    Route::get('/return/list/request/', [OrderController::class, 'allReturnOrder'])->name('all.return.request');
 });
 
 Route::prefix('reports')->group(function() {

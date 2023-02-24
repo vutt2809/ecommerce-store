@@ -13,7 +13,9 @@ use App\Repositories\Coupon\CouponRepository;
 use App\Repositories\MultiImg\MultiImgInterface;
 use App\Repositories\MultiImg\MultiImgRepository;
 use App\Repositories\Order\OrderInterface;
+use App\Repositories\OrderItem\OrderItemRepository;
 use App\Repositories\Order\OrderRepository;
+use App\Repositories\OrderItem\OrderItemInterface;
 use App\Repositories\ShipDistrict\ShipDistrictInterface;
 use App\Repositories\ShipDistrict\ShipDistrictRepository;
 use App\Repositories\ShipDivision\ShipDivisionRepository;
@@ -50,6 +52,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(ShipStateInterface::class, ShipStateRepository::class);
         $this->app->singleton(SliderInterface::class, SliderRepository::class);
         $this->app->singleton(SubCategoryInterface::class, SubCategoryRepository::class);
+        $this->app->singleton(OrderItemInterface::class, OrderItemRepository::class);
     }
 
     /**

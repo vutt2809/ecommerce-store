@@ -30,4 +30,9 @@ interface OrderInterface extends RepositoryInterface {
     public function getTopBestSellerProduct($number);
 
     public function getReturnOrders();
+
+    public function updateReturnOrderStatus($orderId);
+
+    public function getListRequestReturnOrder();
+
 }

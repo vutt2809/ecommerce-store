@@ -53,7 +53,7 @@
                             <tr>
                                 <td class="col-md-2">
                                     <label for="">{{ $order->return_date }}</label>
-                                </td> 
+                                </td>
                                 <td class="col-md-2">
                                     <label for="">$ {{ $order->amount }}</label>
                                 </td>
@@ -65,8 +65,8 @@
                                 </td>
                                 <td class="col-md-1">
                                     <label for="">
-                                        <span class="badge badge-pill" style="background: #418BD9;">{{ $order->status }}</span>    
-                                        <span class="badge badge-pill" style="background: red;">Return Requested</span>    
+                                        <span class="badge badge-pill" style="background: #418BD9;">{{ $order->status }}</span>
+                                        <span class="badge badge-pill" style="background: red;">Return Requested</span>
                                     </label>
                                 </td>
                                 <td class="col-md-3">
@@ -74,12 +74,12 @@
                                     <a target="_blank" href="{{ url('user/invoice-download/'.$order->id ) }}" class="btn btn-sm btn-success" title="Download Invoice"><i class="fas fa-download"></i></a>
                                 </td>
                             </tr>
-                            @endforeach 
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
             </div>
-        </div>  
+        </div>
     </div>
 </div>
 
