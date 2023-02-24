@@ -55,7 +55,7 @@ class OrderRepository extends EloquentRepository implements OrderInterface
         return $data;
     }
 
-    // Report 
+    // Report
     public function getOrderByDate($date) {
         $orders = Order::where('order_date', $date)->latest()->get();
         return $orders;
@@ -86,5 +86,11 @@ class OrderRepository extends EloquentRepository implements OrderInterface
             'products' => $products,
             'listItems' => $listItems
         ];
+    }
+
+    // Return Order
+    public function getReturnOrders() {
+        $orders = Order::where('return_order', 1)->orderBy('id', 'DESC')->get();
+        return $orders;
     }
 }

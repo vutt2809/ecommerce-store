@@ -8,7 +8,6 @@
     }
 </style>
 
-
 <div class="body-content">
     <div class="container">
         <div class="row">
@@ -21,6 +20,7 @@
         </div>
         <div class="row">
             @include('frontend.user.sidebar')
+
             <div class="col-md-1"></div>
             <div class="col-md-4">
                 <div class="card">
@@ -105,7 +105,6 @@
                         </table>
                     </div>
                 </div>
-
             </div>
 
             <div class="row col-md-12">
@@ -171,15 +170,14 @@
                                             <label for=""><span class="text-success"><b>{{ $item->price * $item->qty }}</b></span></label>
                                         </td>
                                     </tr>
-                                    @endforeach 
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
                     </div>
-                    
-                    @if ($order->status !== "Delivered")
+
+                    @if ($order->status !== "delivered")
                     @else
-                    
                         @php
                         $order = App\Models\Order::where('id', $order->id)->where('return_reason', '=', NULL)->first();
                         @endphp
@@ -193,7 +191,7 @@
                                     <textarea name="return_reason" id="" rows="5" class="form-control">{{ $order->return_reason }}</textarea>
                                 </div>
                                 <div class="form-group">
-                                    <button type="submit" class="btn btn-danger">Submit</button>
+                                    <button type="submit" class="btn btn-danger">Order Return</button>
                                 </div>
                             </div>
                         </form>
@@ -205,9 +203,9 @@
             </div>
 
 
-            
 
-        </div> 
+
+        </div>
     </div>
 </div>
 

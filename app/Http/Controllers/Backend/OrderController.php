@@ -26,6 +26,7 @@ class OrderController extends Controller
     public function pendingOrderDetails($orderId) {
         $order = $this->orderRepository->getOrderAddress($orderId);
         $orderItem = $this->orderRepository->getProductItemInOrder($orderId);
+
         return view('backend.orders.pending_order_details', compact('order', 'orderItem'));
     }
 
@@ -59,52 +60,89 @@ class OrderController extends Controller
         return view('backend.orders.cancel_orders', compact('orders'));
     }
 
-    public function pendingToConfirm ($orderId) {
-        $this->orderRepository->changeStatus($orderId, 'Confirmed');
-        $notify = Helpers::notification('The status of the order has been changed to confirmed', 'success');
-        return redirect()->route('pending.orders')->with($notify);
+    public function pendingToConfirm($orderId) {
+        $this->orderRepository->changeStatus($orderId, 'confirmed');
+
+        $notification = [
+            'message' => 'The status of the order has been changed to confirmed',
+            'alert-type' => 'success',
+        ];
+
+        return redirect()->route('pending.orders')->with($notification);
     }
 
-    public function confirmToProcessing ($orderId) {
-        $this->orderRepository->changeStatus($orderId, 'Processing');
-        $notify = Helpers::notification('The status of the order has been changed to Processing', 'success');
-        return redirect()->route('pending.orders')->with($notify);
+    public function confirmToProcessing($orderId) {
+        $this->orderRepository->changeStatus($orderId, 'processing');
+
+        $notification = [
+            'message' => 'The status of the order has been changed to Processing',
+            'alert-type' => 'success',
+        ];
+
+        return redirect()->route('pending.orders')->with($notification);
     }
 
-    public function processingToPicked ($orderId) {
-        $this->orderRepository->changeStatus($orderId, 'Picked');
-        $notify = Helpers::notification('The status of the order has been changed to Picked', 'success');
-        return redirect()->route('pending.orders')->with($notify);
+    public function processingToPicked($orderId) {
+        $this->orderRepository->changeStatus($orderId, 'picked');
+
+        $notification = [
+            'message' => 'The status of the order has been changed to Picked',
+            'alert-type' => 'success',
+        ];
+
+        return redirect()->route('pending.orders')->with($notification);
     }
 
-    public function pickedToShipped ($orderId) {
-        $this->orderRepository->changeStatus($orderId, 'Shipped');
-        $notify = Helpers::notification('The status of the order has been changed to Shipped', 'success');
-        return redirect()->route('pending.orders')->with($notify);
+    public function pickedToShipped($orderId) {
+        $this->orderRepository->changeStatus($orderId, 'shipped');
+
+        $notification = [
+            'message' => 'The status of the order has been changed to Shipped',
+            'alert-type' => 'success',
+        ];
+
+        return redirect()->route('pending.orders')->with($notification);
     }
 
-    public function shippedToDelivered ($orderId) {
-        $this->orderRepository->changeStatus($orderId, 'Delivered');
-        $notify = Helpers::notification('The status of the order has been changed to Delivered', 'success');
-        return redirect()->route('pending.orders')->with($notify);
+    public function shippedToDelivered($orderId) {
+        $this->orderRepository->changeStatus($orderId, 'delivered');
+
+        $notification = [
+            'message' => 'The status of the order has been changed to Delivered',
+            'alert-type' => 'success',
+        ];
+
+        return redirect()->route('pending.orders')->with($notification);
     }
 
-    public function deliveredToCancel ($orderId) {
-        $this->orderRepository->changeStatus($orderId, 'Cancel');
-        $notify = Helpers::notification('The status of the order has been changed to Cancel', 'success');
-        return redirect()->route('pending.orders')->with($notify);
+    public function deliveredToCancel($orderId) {
+        $this->orderRepository->changeStatus($orderId, 'cancel');
+
+        $notification = [
+            'message' => 'The status of the order has been changed to Cancel',
+            'alert-type' => 'success',
+        ];
+
+        return redirect()->route('pending.orders')->with($notification);
     }
 
-    public function downloadInvoice ($orderId) {
+    public function downloadInvoice($orderId) {
         $order = $this->orderRepository->getOrderAddressWithUser($orderId);
         $orderItems = $this->orderRepository->getProductItemInOrder($orderId);
+
         return view('backend.orders.order_invoice', compact('order', 'orderItem'));
     }
 
     public function returnOrder(Request $request, $orderId) {
         $this->orderRepository->returnOrder($orderId, $request->return_reason);
-        $notify = Helpers::notification('Return request send sucessfully', 'success');
-        return redirect()->route('my.orders')->with($notify);
+
+        $notification = [
+            'message' => 'Return request send sucessfully',
+            'alert-type' => 'success',
+        ];
+
+        return redirect()->route('my.orders')->with($notification);
+
     }
 
     public function myOrderReturn() {
@@ -115,5 +153,11 @@ class OrderController extends Controller
     public function myOrderCancel() {
         $orders = $this->orderRepository->getListCancelOrder(Auth::id());
         return view('frontend.user.order.order_cancel', compact('orders'));
+    }
+
+    // Return order
+    public function requestReturnOrder() {
+        $orders = $this->orderRepository->getReturnOrders();
+        return view('backend.order.return_order', compact('orders'));
     }
 }

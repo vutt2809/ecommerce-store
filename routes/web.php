@@ -70,7 +70,7 @@ Route::prefix('category')->group(function() {
     Route::post('/sub/store', [SubCategoryController::class, 'store'])->name('subcategory.store');
     Route::get('/sub/edit/{id}', [SubCategoryController::class, 'edit'])->name('subcategory.edit');
     Route::post('/sub/update', [SubCategoryController::class, 'update'])->name('subcategory.update');
-    Route::get('/sub/delete/{id}', [SubCategoryController::class, 'delete'])->name('subcategory.delete');   
+    Route::get('/sub/delete/{id}', [SubCategoryController::class, 'delete'])->name('subcategory.delete');
 
     Route::get('/sub/sub/view', [SubCategoryController::class, 'allSubSubCategory'])->name('all.subsubcategory');
     Route::get('/subcategory/ajax/{category_id}', [SubCategoryController::class, 'getSubCategory']);
@@ -78,7 +78,7 @@ Route::prefix('category')->group(function() {
     Route::post('/sub/sub/store', [SubCategoryController::class, 'storeSubSubCategory'])->name('subsubcategory.store');
     Route::get('/sub/sub/edit/{edit}', [SubCategoryController::class, 'editSubSubCategory'])->name('subsubcategory.edit');
     Route::post('/sub/sub/update', [SubCategoryController::class, 'updateSubSubCategory'])->name('subsubcategory.update');
-    Route::get('/sub/sub/delete/{id}', [SubCategoryController::class, 'deleteSubSubCategory'])->name('subsubcategory.delete');          
+    Route::get('/sub/sub/delete/{id}', [SubCategoryController::class, 'deleteSubSubCategory'])->name('subsubcategory.delete');
 });
 
 Route::prefix('product')->group(function() {
@@ -151,6 +151,8 @@ Route::prefix('orders')->group(function() {
     Route::get('/delivered/canceled/{order_id}', [OrderController::class, 'DeliveredToCancel'])->name('delivered-cancel');
     Route::get('/invoice/download/{order_id}', [OrderController::class, 'downloadInvoice'])->name('invoice.download');
     Route::get('/pending/order/details/{order_id}', [OrderController::class, 'pendingOrderDetails'])->name('pending.order.details');
+
+    Route::get('/return/request', [OrderController::class, 'requestReturnOrder'])->name('return.orders');
 });
 
 Route::prefix('reports')->group(function() {
@@ -233,7 +235,7 @@ Route::prefix('user')->group(function(){
     Route::get('/my-orders/return', [OrderController::class, 'myOrderReturn'])->name('my.orders.return');
     Route::get('/my-orders/cancel', [OrderController::class, 'myOrderCancel'])->name('my.orders.cancel');
 });
- 
+
 Route::get('/mycart', [CartPageController::class, 'myCart'])->name('mycart');
 Route::get('/user/get-cart-product', [CartPageController::class, 'getCartProduct']);
 Route::get('/user/cart-remove/{id}', [CartPageController::class, 'removeProductFromCart']);
