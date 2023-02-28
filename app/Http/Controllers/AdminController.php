@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Admin;
+use App\Repositories\Auth\AuthInterface;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -10,6 +11,12 @@ use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
+    protected $authRepository;
+
+    public function __construct(AuthInterface $authRepository) {
+        $this->authRepository = $authRepository;
+    }
+
     public function login() {
         return view('auth.admin_login');
     }
@@ -29,7 +36,6 @@ class AdminController extends Controller
 
     public function logout() {
         Auth::guard('admin')->logout();
-        
         return redirect()->route('admin.login')->with('message', 'Admin Logout Successfully');
     }
 
@@ -38,15 +44,10 @@ class AdminController extends Controller
     }
 
     public function registerCreate(Request $request){
-        Admin::insert([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'created_at' => Carbon::now(),
-        ]);
+        $data = $request->all();
+        $data['password'] = Hash::make($data['password']);
 
+        $this->authRepository->create($data);
         return redirect()->route('admin.login')->with('message', 'Your account have been created Successfully');
     }
-
-
 }
