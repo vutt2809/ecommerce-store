@@ -11,7 +11,7 @@
                     <nav>
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="#"><i class="mdi mdi-home-outline"></i></a></li>
-                            <li class="breadcrumb-item" aria-current="page">Pending Review</li>
+                            <li class="breadcrumb-item" aria-current="page">Publish Review</li>
                             <li class="breadcrumb-item active" aria-current="page">All</li>
                         </ol>
                     </nav>
@@ -49,8 +49,7 @@
                                         <td>{{ $review->product->product_name_en }}</td>
                                         <td>{{ $review->status }}</td>
                                         <td>
-                                            <a href="{{ route('review.approve', $review->id) }}" class="btn btn-sm btn-success" title="Approve"><i class="fa fa-pencil"></i></a>
-                                            <a href="{{ route('review.delete', $review->id) }}" class="btn btn-sm btn-danger" id="delete"><i class="fa fa-trash"></i></a>
+                                            <a href="{{ route('review.approve', $review->id) }}" class="btn btn-sm btn-info"><i class="fa fa-pencil"></i></a>
                                         </td>
                                     </tr>
                                 @endforeach

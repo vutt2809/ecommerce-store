@@ -183,6 +183,20 @@
                 </ul>
             </li>
 
+            <li class="treeview {{ $prefix == '/review' ? 'active' : '' }}">
+                <a href="#">
+                    <i data-feather="book-open"></i>
+                    <span>Review</span>
+                    <span class="pull-right-container">
+                    <i class="fa fa-angle-right pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="{{ $route == 'review.pending' ? 'active' : ''}}"><a href="{{ route('review.pending') }}"><i class="ti-more"></i>Pending Review</a></li>
+                    <li class="{{ $route == 'review.publish' ? 'active' : ''}}"><a href="{{ route('review.publish') }}"><i class="ti-more"></i>Publish Review</a></li>
+                </ul>
+            </li>
+
             <li class="treeview {{ $prefix == '/setting' ? 'active' : '' }}">
                 <a href="#">
                     <i data-feather="book-open"></i>
