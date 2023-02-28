@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Backend\AdminController;
+use App\Http\Controllers\Backend\BlogCategoryController;
 use App\Http\Controllers\Backend\BlogController;
 use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Backend\CategoryController;
@@ -168,17 +169,17 @@ Route::prefix('admin')->group(function () {
     });
 
     Route::prefix('blog')->group(function () {
-        Route::get('/category', [BlogController::class, 'blogCategory'])->name('blog.category');
-        Route::post('/store', [BlogController::class, 'saveBlogCategory'])->name('blogcategory.store');
-        Route::get('/category/edit/{id}', [BlogController::class, 'editBlogCategory'])->name('blogcategory.edit');
-        Route::post('/update', [BlogController::class, 'updateBlogCategory'])->name('blogcategory.update');
+        Route::get('/category', [BlogCategoryController::class, 'index'])->name('blog.category');
+        Route::post('/store', [BlogCategoryController::class, 'create'])->name('blogcategory.store');
+        Route::get('/category/edit/{id}', [BlogCategoryController::class, 'edit'])->name('blogcategory.edit');
+        Route::post('/update', [BlogCategoryController::class, 'update'])->name('blogcategory.update');
 
-        Route::get('/post/list', [BlogController::class, 'listBlogPost'])->name('list.post');
-        Route::get('/post/add', [BlogController::class, 'createBlogPost'])->name('add.post');
-        Route::post('/post/save', [BlogController::class, 'saveBlogPost'])->name('save.post');
-        Route::get('/post/edit/{id}', [BlogController::class, 'editBlogPost'])->name('post.edit');
-        Route::post('/post/update/{id}', [BlogController::class, 'updateBlogPost'])->name('post.update');
-        Route::get('/post/delete/{id}', [BlogController::class, 'deleteBlogPost'])->name('post.delete');
+        Route::get('/post/list', [BlogController::class, 'index'])->name('list.post');
+        Route::get('/post/add', [BlogController::class, 'add'])->name('add.post');
+        Route::post('/post/save', [BlogController::class, 'save'])->name('save.post');
+        Route::get('/post/edit/{id}', [BlogController::class, 'edit'])->name('post.edit');
+        Route::post('/post/update/{id}', [BlogController::class, 'update'])->name('post.update');
+        Route::get('/post/delete/{id}', [BlogController::class, 'delete'])->name('post.delete');
     });
 
     Route::prefix('setting')->group(function () {

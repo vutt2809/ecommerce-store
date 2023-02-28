@@ -4,6 +4,10 @@ namespace App\Providers;
 
 use App\Repositories\Auth\AuthInterface;
 use App\Repositories\Auth\AuthRepository;
+use App\Repositories\BlogPost\BlogPostInterface;
+use App\Repositories\BlogPost\BlogPostRepository;
+use App\Repositories\BlogPostCategory\BlogPostCategoryInterface;
+use App\Repositories\BlogPostCategory\BlogPostCategoryRepository;
 use App\Repositories\Brand\BrandInterface;
 use App\Repositories\Brand\BrandRepository;
 use App\Repositories\Category\CategoryInterface;
@@ -56,6 +60,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(SubCategoryInterface::class, SubCategoryRepository::class);
         $this->app->singleton(OrderItemInterface::class, OrderItemRepository::class);
         $this->app->singleton(ReviewInterface::class, ReviewRepository::class);
+        $this->app->singleton(BlogPostCategoryInterface::class, BlogPostCategoryRepository::class);
+        $this->app->singleton(BlogPostInterface::class, BlogPostRepository::class);
     }
 
     /**

@@ -40,7 +40,7 @@
                                             <div class="form-group">
                                                 <h5>Post Title English <span class="text-danger">*</span></h5>
                                                 <div class="controls">
-                                                    <input type="text" name="post_title_en" id="post_title_en" class="form-control"> 
+                                                    <input type="text" name="post_title_en" id="post_title_en" class="form-control">
                                                     @error('post_title_en')
                                                     <span class="text-danger">{{ $message }}</span>
                                                     @enderror
@@ -52,7 +52,7 @@
                                             <div class="form-group">
                                                 <h5>Post Title VietNam <span class="text-danger">*</span></h5>
                                                 <div class="controls">
-                                                    <input type="text" name="post_title_vn" id="post_title_vn" class="form-control"> 
+                                                    <input type="text" name="post_title_vn" id="post_title_vn" class="form-control">
                                                     @error('post_title_vn')
                                                     <span class="text-danger">{{ $message }}</span>
                                                     @enderror
@@ -60,13 +60,13 @@
                                             </div>
                                         </div>
                                     </div>
-                                
+
                                     <div class="row">
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <h5>Main Thumnail <span class="text-danger">*</span></h5>
                                                 <div class="controls">
-                                                    <input type="file" name="post_image" id="post_image" class="form-control"> 
+                                                    <input type="file" name="post_image" id="post_image" class="form-control">
                                                     @error('post_image')
                                                     <span class="text-danger">{{ $message }}</span>
                                                     @enderror
@@ -81,7 +81,7 @@
                                             <div class="form-group">
                                                 <h5>Post Details English <span class="text-danger">*</span></h5>
                                                 <div class="controls">
-                                                    <textarea name="post_details_en" id="editor1"></textarea> 
+                                                    <textarea name="post_details_en" id="editor1"></textarea>
                                                     @error('post_details_en')
                                                     <span class="text-danger">{{ $message }}</span>
                                                     @enderror
@@ -95,7 +95,7 @@
                                             <div class="form-group">
                                                 <h5>Post Details VietNamese <span class="text-danger">*</span></h5>
                                                 <div class="controls">
-                                                    <textarea name="post_details_vn" id="editor2" rows="10" cols="80"></textarea> 
+                                                    <textarea name="post_details_vn" id="editor2" rows="10" cols="80"></textarea>
                                                     @error('post_details_vn')
                                                     <span class="text-danger">{{ $message }}</span>
                                                     @enderror
@@ -126,7 +126,7 @@
             reader.onload = function(e){
                 $('#mainThumb').attr('src', e.target.result).width(80).height(80);
             };
-            
+
             reader.readAsDataURL(input.files[0]);
         }
         console.log($('#mainThumb')attr('src'));
