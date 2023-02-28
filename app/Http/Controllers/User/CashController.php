@@ -76,15 +76,15 @@ class CashController extends Controller
                 'created_at' => Carbon::now()
             ];
 
-            // OrderItem::insert([
-            //     'order_id' => $orderId,
-            //     'product_id' => $cartItem['product']['id'],
-            //     'color' => $cartItem['attributes']['color'],
-            //     'size' => $cartItem['attributes']['size'],
-            //     'qty' => $cartItem['attributes']['quantity'],
-            //     'price' => $cartItem['attributes']['price'],
-            //     'created_at' => Carbon::now()
-            // ]);
+            OrderItem::insert([
+                'order_id' => $orderId,
+                'product_id' => $cartItem['product']['id'],
+                'color' => $cartItem['attributes']['color'],
+                'size' => $cartItem['attributes']['size'],
+                'qty' => $cartItem['attributes']['quantity'],
+                'price' => $cartItem['attributes']['price'],
+                'created_at' => Carbon::now()
+            ]);
         }
 
         if (Session::get('coupon')) {

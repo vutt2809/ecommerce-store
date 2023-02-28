@@ -30,28 +30,15 @@ class ReviewController extends Controller
         return $data;
     }
 
-    public function create(Request $request) {
+    public function create() {
+        return view('frontend.review.create_review');
+    }
+
+    public function send(Request $request) {
         $data = $this->handleRequest($request);
         $this->reviewRepository->create($data);
 
         $notify = Helpers::notification('Your feedback has been send to admin', 'success');
-        return redirect()->back()->with($notify);
-    }
-
-    public function pendingList() {
-        $reviews = $this->reviewRepository->getListPendingReview();
-        return view('backend.review.pending_review', compact('reviews'));
-    }
-
-    public function publishList() {
-        $reviews = $this->reviewRepository->getListPublishReview();
-        return view('backend.review.publish_review', compact('reviews'));
-    }
-
-    public function adminApprove($id) {
-        $this->reviewRepository->updateStatus($id);
-        
-        $notify = Helpers::notification('Review approved sucessfully', 'success');
         return redirect()->back()->with($notify);
     }
 }

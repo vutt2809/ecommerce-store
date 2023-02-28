@@ -10,4 +10,6 @@ interface ReviewInterface extends RepositoryInterface {
     public function getListPublishReview();
 
     public function updateStatus($id);
+
+    public function checkReview($productId, $userId);
 }

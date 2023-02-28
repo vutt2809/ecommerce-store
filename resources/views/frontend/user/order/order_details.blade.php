@@ -119,10 +119,10 @@
                                         <td class="col-md-1">
                                             <label for="">Image</label>
                                         </td>
-                                        <td class="col-md-3">
+                                        <td class="col-md-2">
                                             <label for="">Product Name</label>
                                         </td>
-                                        <td class="col-md-2">
+                                        <td class="col-md-1">
                                             <label for="">Product Code</label>
                                         </td>
                                         <td class="col-md-2">
@@ -139,6 +139,9 @@
                                         </td>
                                         <td class="col-md-1">
                                             <label for="">Subtotal</label>
+                                        </td>
+                                        <td class="col-md-2">
+                                            <label for="">Review</label>
                                         </td>
                                     </tr>
                                 </thead>
@@ -168,6 +171,9 @@
                                         </td>
                                         <td class="col-md-1">
                                             <label for=""><span class="text-success"><b>{{ $item->price * $item->qty }}</b></span></label>
+                                        </td>
+                                        <td class="col-md-1">
+                                            <a href="{{ route('review.create', $item->product->product_id, $item->user->user_id) }}" class="btn btn-info">Review</a>
                                         </td>
                                     </tr>
                                     @endforeach

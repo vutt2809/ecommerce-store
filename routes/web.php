@@ -9,6 +9,7 @@ use App\Http\Controllers\Backend\CouponController;
 use App\Http\Controllers\Backend\OrderController;
 use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\ReportController;
+use App\Http\Controllers\Backend\ReviewController as BackendReviewController;
 use App\Http\Controllers\Backend\ShippingAreaController;
 use App\Http\Controllers\Backend\SiteSettingController;
 use App\Http\Controllers\Backend\SliderController;
@@ -195,10 +196,10 @@ Route::prefix('admin')->group(function () {
 
 
     Route::prefix('review')->group(function() {
-        Route::get('/pending', [ReviewController::class, 'pendingList'])->name('review.pending');
-        Route::get('/publish', [ReviewController::class, 'publishList'])->name('review.publish');
-        Route::get('/approve/{id}', [ReviewController::class, 'adminApprove'])->name('review.approve');
-        Route::get('/delete/{id}', [ReviewController::class, 'delete'])->name('review.delete');
+        Route::get('/pending', [BackendReviewController::class, 'pendingList'])->name('review.pending');
+        Route::get('/publish', [BackendReviewController::class, 'publishList'])->name('review.publish');
+        Route::get('/approve/{id}', [BackendReviewController::class, 'adminApprove'])->name('review.approve');
+        Route::get('/delete/{id}', [BackendReviewController::class, 'delete'])->name('review.delete');
     });
 });
 
@@ -266,5 +267,6 @@ Route::get('/blog/home', [HomeBlogController::class, 'list'])->name('home.blog')
 Route::get('/blog/detail/{id}', [HomeBlogController::class, 'detail'])->name('blog.detail');
 Route::get('/blog/category/post/{category_id}', [HomeBlogController::class, 'homeBlogCategoryPost']);
 
-Route::post('/review/create', [ReviewController::class, 'create'])->name('review.create');
-Route::get('/review/pending', [ReviewController::class, 'pendingReview']);
+Route::get('/review/create', [ReviewController::class, 'create'])->name('review.create');
+Route::post('/review/send', [ReviewController::class, 'send'])->name('review.send');
+
